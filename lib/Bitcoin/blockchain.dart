@@ -5,8 +5,8 @@ class Blockchain{
 
   static String baseUrl = "https://blockchain.info/balance?cors=true&active=";
 
-  Future<http.Response> request(String address) 
-  {
+  static Future<http.Response> request(String address) async
+  {    
     return http.get(Uri.parse(baseUrl + address));
   }
 }

@@ -29,7 +29,7 @@ class _BitcoinWalletDetailState extends State<BitcoinWalletDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("0 BTC", style: TextStyle(color: balanceColor, fontSize: 35, fontWeight: FontWeight.bold),),
+            Text(widget.wallet.balance.toString() + " BTC", style: const TextStyle(color: balanceColor, fontSize: 35, fontWeight: FontWeight.bold),),
             const SizedBox(height:20),
             KeyBanner(title : "Private key", content : widget.wallet.privateKey),
             KeyBanner(title : "Public key", content : widget.wallet.publicKey),

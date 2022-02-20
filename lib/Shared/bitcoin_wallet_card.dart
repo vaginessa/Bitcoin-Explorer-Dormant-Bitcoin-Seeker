@@ -45,7 +45,7 @@ class _BitcoinWalletCardState extends State<BitcoinWalletCard> {
                   ),
                 ),
               ),
-              const Text("0 BTC", style: TextStyle(color:balanceColor, fontSize: 20, fontWeight: FontWeight.bold),),
+              Text(widget.wallet.balance.toString() + " BTC", style: const TextStyle(color:balanceColor, fontSize: 20, fontWeight: FontWeight.bold),),
             ],
           ),
         ),

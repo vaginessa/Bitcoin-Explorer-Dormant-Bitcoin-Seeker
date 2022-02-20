@@ -1,11 +1,25 @@
+import 'dart:convert';
+import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/blockchain.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
+
 class BitcoinWallet{
   String privateKey;
   String publicKey;
   String address;
+  double balance = 0;
+  Map<String,dynamic> json = {};
+  int? cardIndex;
 
   BitcoinWallet({
     required this.privateKey,
     required this.publicKey,
     required this.address
   });
+
+  Future<void> request() async{
+    await Blockchain.request(address).then((response) => {
+      json = jsonDecode(response.body),
+      balance = json[address]["final_balance"],
+    });
+  }
 }

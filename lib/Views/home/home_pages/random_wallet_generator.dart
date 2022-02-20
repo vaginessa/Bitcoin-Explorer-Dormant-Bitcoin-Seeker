@@ -14,15 +14,18 @@ class RandomWalletGenerator extends StatefulWidget {
 class _RandomWalletGeneratorState extends State<RandomWalletGenerator> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Random wallet generator", style: TextStyle(color:Colors.white, fontSize: 20),),
-        Column(
-          children: widget.wallets,
-        )
-      ]
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Random wallet generator", style: TextStyle(color:Colors.white, fontSize: 20),textAlign:TextAlign.left ,),
+          Column(
+            children: widget.wallets,
+          )
+        ]
+      ),
     );
   }
 }

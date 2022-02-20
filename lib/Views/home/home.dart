@@ -16,7 +16,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: SizedBox(
+      body: Container(
+        margin: const EdgeInsets.only(top:50),
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -56,10 +57,10 @@ class _HomeState extends State<Home> {
   }
 
   bool isPlaying = false;
-  void togglePlay(){
+  void togglePlay() async{
+    await WalletGeneratorState.generate();
     setState(() {
       isPlaying = !isPlaying;
-      WalletGeneratorState.generate();
     });
   }
 }
