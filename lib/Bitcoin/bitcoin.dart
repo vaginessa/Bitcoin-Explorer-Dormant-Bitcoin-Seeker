@@ -3,32 +3,33 @@ import 'dart:typed_data';
 import 'package:bitbox/bitbox.dart' as Bitbox;
 import 'package:bip39/src/bip39_base.dart' as bip39;
 import 'package:convert/convert.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
 
 class Bitcoin{
-  static Map<String,String> generateWallet(){
+  static BitcoinWallet generateWallet(){
     Bitbox.ECPair keyPair = Bitbox.ECPair.makeRandom(compressed: true);
 
-    return {
-      "private key" : hex.encode(keyPair.privateKey),
-      "public key" : hex.encode(keyPair.publicKey),
-      "address" : keyPair.address
-    };
+    return BitcoinWallet(
+        privateKey : hex.encode(keyPair.privateKey),
+        publicKey : hex.encode(keyPair.publicKey),
+        address : keyPair.address
+    );
   }
 
-  static List<Map<String,String>> generateWallets(int totalWallets){
+  static List<BitcoinWallet> generateWallets(int totalWallets){
 
-    List<Map<String,String>> response = [];
+    List<BitcoinWallet> response = [];
 
     Bitbox.ECPair keyPair;
 
     for(int i=0;i<totalWallets;i++){
       keyPair = Bitbox.ECPair.makeRandom(compressed: true);
 
-      response.add({
-        "private key" : hex.encode(keyPair.privateKey),
-        "public key" : hex.encode(keyPair.publicKey),
-        "address" : keyPair.address
-      });
+      response.add(BitcoinWallet(
+        privateKey : hex.encode(keyPair.privateKey),
+        publicKey : hex.encode(keyPair.publicKey),
+        address : keyPair.address
+      ));
     }
 
     return response;

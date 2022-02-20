@@ -1,3 +1,4 @@
+import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Shared/card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/random_wallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
@@ -36,8 +37,8 @@ class _HomeState extends State<Home> {
             Container(
               margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:30),
               child: Column(
-                children: const [
-                  RandomWalletGenerator()
+                children: [
+                  RandomWalletGenerator(wallets: WalletGeneratorState.wallets,)
                 ],
               ),
             )
@@ -58,6 +59,7 @@ class _HomeState extends State<Home> {
   void togglePlay(){
     setState(() {
       isPlaying = !isPlaying;
+      WalletGeneratorState.generate();
     });
   }
 }
