@@ -7,7 +7,18 @@ import '../Models/bitcoin_wallet.dart';
 
 class WalletGeneratorState
 {
-  static List<BitcoinWalletCard> wallets = [];
+  //test data
+  static List<BitcoinWalletCard> wallets = List.generate(
+    2, 
+    (index) => BitcoinWalletCard(
+      wallet: BitcoinWallet(
+        privateKey: "test", 
+        publicKey: "test",
+        address:"test"
+        )
+      )
+    );
+  // static List<BitcoinWalletCard> wallets = [];
 
   static void generate(){
     BitcoinWallet wallet = Bitcoin.generateWallet();

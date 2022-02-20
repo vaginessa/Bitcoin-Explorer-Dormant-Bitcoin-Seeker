@@ -17,9 +17,7 @@ class Bitcoin{
   }
 
   static List<BitcoinWallet> generateWallets(int totalWallets){
-
     List<BitcoinWallet> response = [];
-
     Bitbox.ECPair keyPair;
 
     for(int i=0;i<totalWallets;i++){

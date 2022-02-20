@@ -28,12 +28,12 @@ class PreviewCard extends StatelessWidget {
             child: icon
           ),
           const SizedBox(height: 30,),
-          Text(title, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-          Text(subtitle, style: const TextStyle(color: Colors.white, fontSize: 15),)
+          Text(title, style: const TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.bold),),
+          Text(subtitle, style: const TextStyle(color: Colors.white, fontSize: 14),)
         ],
       ),
-      width: 225,
-      height: 150,
+      width: 210,
+      height: 140,
     );
   }
 }

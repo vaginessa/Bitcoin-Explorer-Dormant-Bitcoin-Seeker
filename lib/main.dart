@@ -31,10 +31,10 @@ class _MyAppState extends State<MyApp> {
           unselectedItemColor: unfocusIconColor,
           selectedItemColor: focusIconColor,
           items: const [
-            BottomNavigationBarItem(icon: Icon (Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon (Icons.trending_up_sharp), label: "Market"),
-            BottomNavigationBarItem(icon: Icon (Icons.history), label: "History"),
-            BottomNavigationBarItem(icon: Icon (Icons.settings), label: "Settings")
+            BottomNavigationBarItem(icon: Icon (Icons.home), label: "Home",tooltip: ""),
+            BottomNavigationBarItem(icon: Icon (Icons.trending_up_sharp), label: "Market",tooltip: ""),
+            BottomNavigationBarItem(icon: Icon (Icons.history), label: "History",tooltip: ""),
+            BottomNavigationBarItem(icon: Icon (Icons.settings), label: "Settings",tooltip: "")
           ],
         ),
       )
