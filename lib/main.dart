@@ -1,3 +1,4 @@
+import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 
@@ -17,22 +18,28 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int pageIndex = 0;
 
+  List<Widget> pages = [
+    const Home(),
+    const Search()
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: backgroundColor,
-        body: const Home(),
+        body: pages[pageIndex],
         bottomNavigationBar: BottomNavigationBar(
           type : BottomNavigationBarType.fixed,
           backgroundColor: navbarBackgroundColor,
           currentIndex: pageIndex,
           unselectedItemColor: unfocusIconColor,
           selectedItemColor: focusIconColor,
+          onTap: onChangePage,
           items: const [
             BottomNavigationBarItem(icon: Icon (Icons.home), label: "Home",tooltip: ""),
-            BottomNavigationBarItem(icon: Icon (Icons.trending_up_sharp), label: "Market",tooltip: ""),
+            BottomNavigationBarItem(icon: Icon (Icons.search), label: "Search",tooltip: ""),
             BottomNavigationBarItem(icon: Icon (Icons.history), label: "History",tooltip: ""),
             BottomNavigationBarItem(icon: Icon (Icons.settings), label: "Settings",tooltip: "")
           ],

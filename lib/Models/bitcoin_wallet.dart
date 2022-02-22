@@ -3,6 +3,7 @@ import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/blockchain.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 
 class BitcoinWallet{
+  String? seed;
   String privateKey;
   String publicKey;
   String address;
@@ -11,6 +12,7 @@ class BitcoinWallet{
   int? cardIndex;
 
   BitcoinWallet({
+    this.seed,
     required this.privateKey,
     required this.publicKey,
     required this.address

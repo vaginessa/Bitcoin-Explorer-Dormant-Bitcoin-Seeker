@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Shared/Dialogs/bitcoin_wallet_detail.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
@@ -39,7 +37,7 @@ class _BitcoinWalletCardState extends State<BitcoinWalletCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.wallet.privateKey,overflow: TextOverflow.ellipsis, style: const TextStyle(color:unfocusIconColor, fontSize: 17.5),),
+                      Text(widget.wallet.seed == null ? widget.wallet.privateKey : widget.wallet.seed!,overflow: TextOverflow.ellipsis, style: const TextStyle(color:unfocusIconColor, fontSize: 17.5),),
                       Text(widget.wallet.address,overflow: TextOverflow.ellipsis, style:const TextStyle(color:unfocusIconColor, fontSize: 12.5),),
                     ],
                   ),

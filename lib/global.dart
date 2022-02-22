@@ -6,10 +6,12 @@ const backgroundColor = Color.fromRGBO(12, 12, 12, 1);
 const navbarBackgroundColor = Color.fromRGBO(14, 14, 14, 1);
 const caveColor = Color.fromRGBO(16, 16, 16, 1);
 const walletCardBackground = LinearGradient(colors: [
-    Color.fromARGB(255, 8, 66, 114), 
-    Color.fromARGB(255, 40, 96, 143)
-  ]);
-const appBarBackgroundColor =Color.fromARGB(255, 13, 55, 88);
+  Color.fromARGB(255, 8, 66, 114), 
+  Color.fromARGB(255, 40, 96, 143)
+]);
+const dialogAppBarBackgroundColor =Color.fromARGB(255, 13, 55, 88);
+const appBarBackgroundColor = Color.fromARGB(255, 16, 16, 16);
+const inputColor = Color.fromARGB(255, 22, 22, 22);
 
 //Icons
 const unfocusIconColor = Color.fromRGBO(233, 233, 233, 1);

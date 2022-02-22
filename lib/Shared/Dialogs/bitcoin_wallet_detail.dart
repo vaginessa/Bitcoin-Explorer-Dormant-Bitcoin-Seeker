@@ -13,12 +13,26 @@ class BitcoinWalletDetail extends StatefulWidget {
 }
 
 class _BitcoinWalletDetailState extends State<BitcoinWalletDetail> {
+
+  bool isFavourite = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bitcoin Wallet", style : TextStyle(color:Colors.white)),
-        backgroundColor: appBarBackgroundColor,
+        backgroundColor: dialogAppBarBackgroundColor,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right:16),
+            child: GestureDetector(
+              child: Icon(isFavourite == false ? Icons.favorite_outline : Icons.favorite, color:Colors.red),
+              onTap: (){
+                addToFavourites();
+              },
+            )
+          )
+        ],
       ),
       body: Container(
         padding: dialogContentMargins,
@@ -31,13 +45,19 @@ class _BitcoinWalletDetailState extends State<BitcoinWalletDetail> {
           children: [
             Text(widget.wallet.balance.toString() + " BTC", style: const TextStyle(color: balanceColor, fontSize: 35, fontWeight: FontWeight.bold),),
             const SizedBox(height:20),
-            KeyBanner(title : "Private key", content : widget.wallet.privateKey),
+            KeyBanner(title : widget.wallet.seed == null ? "Private key" : "12 phrases seed", content : widget.wallet.seed == null ? widget.wallet.privateKey : widget.wallet.seed!),
             KeyBanner(title : "Public key", content : widget.wallet.publicKey),
             KeyBanner(title : "Address", content : widget.wallet.address),
           ],
         ),
       ),
     );
+  }
+
+  addToFavourites(){
+    setState(() {
+      isFavourite = !isFavourite;
+    });
   }
 }
 
