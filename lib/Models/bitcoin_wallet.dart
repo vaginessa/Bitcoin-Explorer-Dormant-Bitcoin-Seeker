@@ -7,7 +7,7 @@ class BitcoinWallet{
   String privateKey;
   String publicKey;
   String address;
-  double balance = 0;
+  int balance = 0;
   Map<String,dynamic> json = {};
   int? cardIndex;
 
