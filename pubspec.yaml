@@ -26,7 +26,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   bitbox: ^0.0.5
   convert: ^2.1.1
-  starflut:
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:

@@ -10,7 +10,7 @@ class WalletGeneratorState
   static List<BitcoinWalletCard> cardsQueue = [];
 
   static Future<void> generate() async{
-    BitcoinWallet wallet = Bitcoin.generateWallet();
+    BitcoinWallet wallet = await Bitcoin.generateWallet();
     BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
     await wallet.request();
     wallets.add(card);

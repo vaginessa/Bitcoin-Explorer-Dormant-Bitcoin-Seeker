@@ -6,19 +6,28 @@ import 'package:bitbox/bitbox.dart' as Bitbox;
 import 'package:bip39/src/bip39_base.dart' as bip39;
 import 'package:convert/convert.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
+import 'package:flutter/foundation.dart';
 
 class Bitcoin {
   static Random rd = Random();
-  static BitcoinWallet generateWallet() {
-    // Bitbox.ECPair keyPair = Bitbox.ECPair.makeRandom(compressed: true);
 
-    Bitbox.ECPair keyPair = Bitbox.ECPair.fromPrivateKey(randomPrivateKey(), compressed : true);
+  static Future<BitcoinWallet> generateWallet() async {
+    Map map = Map();
+    map["private key"] = randomPrivateKey();
+    map["compressed"] = true;
+
+
+    Bitbox.ECPair keyPair = await compute(computedGenerateWallet,map);
 
     return BitcoinWallet(
       privateKey: hex.encode(keyPair.privateKey),
       publicKey: /*hex.encode(keyPair.publicKey)*/ "",
       address: keyPair.address
     );
+  }
+
+  static Bitbox.ECPair computedGenerateWallet(dynamic map) {
+    return Bitbox.ECPair.fromPrivateKey(map["private key"], compressed : map["compressed"]);
   }
 
   static BitcoinWallet generateBrainWallet() {

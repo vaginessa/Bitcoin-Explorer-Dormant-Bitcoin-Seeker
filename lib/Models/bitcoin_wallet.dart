@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/blockchain.dart';
-import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 
 class BitcoinWallet{
   String? seed;
@@ -19,9 +18,9 @@ class BitcoinWallet{
   });
 
   Future<void> request() async{
-    await Blockchain.request(address).then((response) => {
-      json = jsonDecode(response.body),
-      balance = json[address]["final_balance"],
-    });
+    // await Blockchain.request(address).then((response) => {
+    //   json = jsonDecode(response.body),
+    //   balance = json[address]["final_balance"],
+    // });
   }
 }

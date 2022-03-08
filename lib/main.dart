@@ -1,5 +1,4 @@
 import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
-import 'package:dormant_bitcoin_seeker_flutter/backend.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +9,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key) {
-    
-  }
+  MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -22,13 +19,6 @@ class _MyAppState extends State<MyApp> {
   int pageIndex = 0;
 
   List<Widget> pages = [const Home(), const Search()];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    //Backend.initPlatformState();
-  }
 
   @override
   Widget build(BuildContext context) {

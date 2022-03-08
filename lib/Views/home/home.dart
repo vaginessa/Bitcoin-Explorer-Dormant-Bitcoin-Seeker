@@ -1,9 +1,26 @@
+import 'dart:async';
+import 'dart:isolate';
+import 'dart:typed_data';
+import 'package:bitbox/bitbox.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/bitcoinlib.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Shared/card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/brainwallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/random_wallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../../Models/bitcoin_wallet.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'dart:typed_data';
+import 'package:bitbox/bitbox.dart' as Bitbox;
+import 'package:bip39/src/bip39_base.dart' as bip39;
+import 'package:convert/convert.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
+import 'package:flutter/foundation.dart';
+
+import '../../Shared/bitcoin_wallet_card.dart';
 
 class Home extends StatefulWidget {
   const Home({ Key? key }) : super(key: key);
@@ -20,11 +37,12 @@ class _HomeState extends State<Home> {
   ];
 
   int selectedContent = 0;
+  Random rd = Random();
 
   @override
   Widget build(BuildContext context) {
     content = [
-      RandomWalletGenerator(wallets: WalletGeneratorState.wallets,),
+      RandomWalletGenerator(wallets: WalletGeneratorState.wallets.reversed.toList(),),
       BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets)
     ];
     
@@ -62,12 +80,16 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:30),
-              child: Column(
-                children: [
-                  content[selectedContent]
-                ],
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:30),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      content[selectedContent]
+                    ],
+                  ),
+                ),
               ),
             )
           ]
@@ -84,9 +106,23 @@ class _HomeState extends State<Home> {
   }
 
   bool isPlaying = false;
-  void togglePlay() async{
+  Isolate? randomWalletsThread;
+  Future<void> togglePlay() async{
     if(selectedContent == 0){
-      await WalletGeneratorState.generate();
+
+      if(isPlaying){
+        randomWalletsThread?.kill();
+      }
+      else{
+        BitcoinLib bitcoin = BitcoinLib();
+
+        final receivePort = ReceivePort();
+        randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,receivePort.sendPort);
+        receivePort.listen((response) {
+          WalletGeneratorState.wallets.add(response);
+          setState(() {});
+        });
+      }
     }
     else if(selectedContent == 1){
       await WalletGeneratorState.generateBrainWallet();
