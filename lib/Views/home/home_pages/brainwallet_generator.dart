@@ -20,7 +20,6 @@ class _BrainwalletGeneratorState extends State<BrainwalletGenerator> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Brainwallet generator", style: TextStyle(color:Colors.white, fontSize: 20),textAlign:TextAlign.left ,),
           Column(
             children: widget.wallets,
           )

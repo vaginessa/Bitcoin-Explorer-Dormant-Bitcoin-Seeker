@@ -1,4 +1,3 @@
-import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Shared/bitcoin_wallet_card.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +19,6 @@ class _RandomWalletGeneratorState extends State<RandomWalletGenerator> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Random wallet generator", style: TextStyle(color:Colors.white, fontSize: 20),textAlign:TextAlign.left ,),
           Column(
             children: widget.wallets,
           )

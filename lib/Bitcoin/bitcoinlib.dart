@@ -13,6 +13,7 @@ import 'package:pointycastle/src/utils.dart';
 import 'package:bs58check/bs58check.dart' as bs58check;
 import "package:pointycastle/digests/ripemd160.dart";
 import '../Shared/bitcoin_wallet_card.dart';
+import 'package:bip39/src/bip39_base.dart' as bip39;
 
 class BitcoinLib{
 
@@ -28,7 +29,7 @@ class BitcoinLib{
     BitcoinWallet wallet;
     BitcoinWalletCard card;
 
-    for(int i=0;i<20;i++){
+    while(true){
       //Private key
       privateKey = randomPrivateKey();
 
@@ -54,11 +55,45 @@ class BitcoinLib{
 
       await Future.delayed(const Duration(seconds: 1));
     }
+  }
 
-    // for(int n=0;n<30;n++){
-    //   await Future.delayed(const Duration(milliseconds: 200));
-    //   print(n);
-    // }
+  void generateBrainWallet(SendPort sendPort) async{ 
+    Uint8List privateKey;
+    Uint8List publicKey;
+    String address;
+    List<BitcoinWallet> wallets = [];
+    BitcoinWallet wallet;
+    BitcoinWalletCard card;
+
+    while(true){
+      String phrases = generateMnemonic();
+
+      //Private key
+      privateKey = mnemonicToSeed(phrases);
+
+      //Public key
+      publicKey = privateKeyToPublicKey(privateKey, true);
+
+      //Address
+      address = publicKeyToAddress(hash160(publicKey), network.pubKeyHash);
+
+      //Wallet
+      wallet = BitcoinWallet(
+        seed: phrases,
+        privateKey: hex.encode(privateKey),
+        publicKey: hex.encode(publicKey),
+        address: address
+      );
+
+      wallets.add(wallet);
+
+      card = BitcoinWalletCard(wallet: wallet);
+      wallet.request();
+      WalletGeneratorState.brainWallets.add(card);
+      sendPort.send(card);
+
+      await Future.delayed(const Duration(seconds: 1));
+    }
   }
 
   Uint8List randomPrivateKey(){
@@ -87,6 +122,9 @@ class BitcoinLib{
 
   Uint8List getEncoded(ECPoint P, compressed) { return P.getEncoded(compressed); }
   BigInt fromBuffer(Uint8List d) { return decodeBigInt(d); }
+
+  String generateMnemonic({int strength = 128}) => bip39.generateMnemonic(strength: strength);
+  Uint8List mnemonicToSeed(String mnemonic) => bip39.mnemonicToSeed(mnemonic);
 }
 
 class Network {
@@ -106,10 +144,8 @@ class Network {
   Network(this.bip32Private, this.bip32Public, this.testnet, this.pubKeyHash,
       this.private, this.public);
 
-  factory Network.bitcoinCash() =>
-      Network(0x0488ade4, 0x0488b21e, false, 0x00, bchPrivate, bchPublic);
-  factory Network.bitcoinCashTest() => Network(
-      0x04358394, 0x043587cf, true, 0x6f, bchTestnetPrivate, bchTestnetPublic);
+  factory Network.bitcoinCash() => Network(0x0488ade4, 0x0488b21e, false, 0x00, bchPrivate, bchPublic);
+  factory Network.bitcoinCashTest() => Network(0x04358394, 0x043587cf, true, 0x6f, bchTestnetPrivate, bchTestnetPublic);
 
   String get prefix => this.testnet ? "bchtest" : "bitcoincash";
 }
