@@ -113,8 +113,16 @@ class BitcoinLib{
   }
 
   void searchByPrivateKey(Map<String,Object> params) async{
-    Uint8List privateKey = Uint8List.fromList(hex.decode(params["privateKey"] as String));
-    Uint8List publicKey = privateKeyToPublicKey(privateKey, true);;
+    Uint8List privateKey = Uint8List(0);
+    try{
+      privateKey = Uint8List.fromList(hex.decode(params["privateKey"] as String));
+    }
+    on Exception {
+      (params["sendPort"] as SendPort).send(null);
+      return;
+    }
+
+    Uint8List publicKey = privateKeyToPublicKey(privateKey, true);
     String address = publicKeyToAddress(hash160(publicKey), network.pubKeyHash);
     BitcoinWallet wallet = BitcoinWallet(
         privateKey: hex.encode(privateKey),
@@ -123,6 +131,32 @@ class BitcoinLib{
       );
     BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
     WalletGeneratorState.searchResultByPrivateKey = card;
+
+    bool isValid = await wallet.request();
+
+    if(isValid){
+      BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
+      WalletGeneratorState.searchResultByPrivateKey = card;
+      (params["sendPort"] as SendPort).send(card);
+    }
+    else{
+      (params["sendPort"] as SendPort).send(null);
+    }
+  }
+
+  void searchBySeedPhrase(Map<String,Object> params) async{
+    String phrases = params["seedPhrase"] as String;
+    Uint8List privateKey = mnemonicToSeed(phrases);
+    Uint8List publicKey = privateKeyToPublicKey(privateKey, true);
+    String address = publicKeyToAddress(hash160(publicKey), network.pubKeyHash);
+    BitcoinWallet wallet = BitcoinWallet(
+      seed: phrases,
+      privateKey: hex.encode(privateKey),
+      publicKey: hex.encode(publicKey),
+      address: address
+    );
+    BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
+    WalletGeneratorState.searchResultBySeedPhrase = card;
 
     bool isValid = await wallet.request();
 

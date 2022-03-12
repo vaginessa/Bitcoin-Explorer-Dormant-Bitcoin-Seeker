@@ -14,6 +14,9 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+
+  int currentTabIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -41,18 +44,20 @@ class _SearchState extends State<Search> {
               ),
             ),
           ),
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            tabs: const [
               TabButton(title: "ADDRESS",),
               TabButton(title: "PRIVATE KEY",),
               TabButton(title: "SEED PHRASE",),
             ],
+            onTap: onChangeTab,
           ),
         ),
         body: Container(
           margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:5),
           child: TabBarView(
             children: [
+              //TAB ADDRESS
               if(WalletGeneratorState.searchResultByAddress != null)
                 Column(
                   children : [
@@ -60,8 +65,20 @@ class _SearchState extends State<Search> {
                   ]
                 )
               else
-                const Icon(Icons.car_rental),
-              const Icon(Icons.directions_transit),
+                const Center(
+                  child: Text("Invalid address", style: TextStyle(color: Colors.white, fontSize: 22.5),)
+                ),
+              // TAB PRIVATE KEY
+              if(WalletGeneratorState.searchResultByPrivateKey != null)
+                Column(
+                  children : [
+                    WalletGeneratorState.searchResultByPrivateKey!
+                  ]
+                )
+              else
+                const Center(
+                  child: Text("Invalid private key", style: TextStyle(color: Colors.white, fontSize: 22.5),)
+                ),
               const Icon(Icons.directions_bike),
             ],
           ),
@@ -77,19 +94,43 @@ class _SearchState extends State<Search> {
     final receivePort = ReceivePort();
 
     Map<String, Object> params = {};
-    params["address"] = search;
     params["sendPort"] = receivePort.sendPort;
 
-    randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByAddress,params);
-    receivePort.listen((response) {
-      if(response != null){
-        WalletGeneratorState.searchResultByAddress = response;
-      }
-      else{
-        WalletGeneratorState.searchResultByAddress = null;
-      }
-      setState(() {});
-    });
+    if(currentTabIndex == 0){
+      params["address"] = search;
+      randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByAddress,params);
+
+      receivePort.listen((response) {
+        if(response != null){
+          WalletGeneratorState.searchResultByAddress = response;
+        }
+        else{
+          WalletGeneratorState.searchResultByAddress = null;
+        }
+        setState(() {});
+      });
+    }
+    else if(currentTabIndex == 1){
+      params["privateKey"] = search;
+      randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
+
+      receivePort.listen((response) {
+        if(response != null){
+          WalletGeneratorState.searchResultByPrivateKey = response;
+        }
+        else{
+          WalletGeneratorState.searchResultByPrivateKey = null;
+        }
+        setState(() {});
+      });
+    }
+    else if(currentTabIndex == 2){
+      params["seedPhrase"] = search;
+    }
+  }
+
+  void onChangeTab(int index){
+    currentTabIndex = index;
   }
 }
 
