@@ -14,6 +14,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
 
   int currentTabIndex = 0;
+  TextEditingController inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,8 @@ class _SearchState extends State<Search> {
           title : Container(
             margin: const EdgeInsets.only(top:30),
             child: TextFormField(
+              controller: inputController,
               onChanged: onSearch,
-              initialValue: "",
               style: const TextStyle(color:Colors.white),
               decoration: InputDecoration(
                 fillColor: inputColor,
@@ -90,6 +91,13 @@ class _SearchState extends State<Search> {
                 ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.search),
+          backgroundColor:Colors.blue,
+          onPressed: () { 
+            print(inputController.text);
+          },
         ),
       )
     );
