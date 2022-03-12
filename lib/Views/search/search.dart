@@ -1,6 +1,9 @@
-import 'package:bitbox/bitbox.dart';
+import 'dart:isolate';
+
+import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:flutter/material.dart';
 
+import '../../Bitcoin/bitcoinlib.dart';
 import '../../global.dart';
 
 class Search extends StatefulWidget {
@@ -23,6 +26,7 @@ class _SearchState extends State<Search> {
           title : Container(
             margin: const EdgeInsets.only(top:30),
             child: TextFormField(
+              onChanged: onSearch,
               initialValue: "",
               style: const TextStyle(color:Colors.white),
               decoration: InputDecoration(
@@ -45,15 +49,42 @@ class _SearchState extends State<Search> {
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [
-            Icon(Icons.directions_car),
-            Icon(Icons.directions_transit),
-            Icon(Icons.directions_bike),
-          ],
+        body: Container(
+          margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:5),
+          child: TabBarView(
+            children: [
+              if(WalletGeneratorState.searchResultByAddress != null)
+                Column(
+                  children : [
+                    WalletGeneratorState.searchResultByAddress!
+                  ]
+                )
+              else
+                const Icon(Icons.car_rental),
+              const Icon(Icons.directions_transit),
+              const Icon(Icons.directions_bike),
+            ],
+          ),
         ),
       )
     );
+  }
+
+  Isolate? randomBrainWalletsThread;
+  void onSearch(String search) async{
+    BitcoinLib bitcoin = BitcoinLib();
+
+    final receivePort = ReceivePort();
+
+    Map<String, Object> params = {};
+    params["address"] = search;
+    params["sendPort"] = receivePort.sendPort;
+
+    randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByAddress,params);
+    receivePort.listen((response) {
+      WalletGeneratorState.searchResultByAddress = response;
+      setState(() {});
+    });
   }
 }
 

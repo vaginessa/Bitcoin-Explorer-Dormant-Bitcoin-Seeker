@@ -37,8 +37,13 @@ class _BitcoinWalletCardState extends State<BitcoinWalletCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.wallet.seed == null ? widget.wallet.privateKey : widget.wallet.seed!,overflow: TextOverflow.ellipsis, style: const TextStyle(color:unfocusIconColor, fontSize: 17.5),),
-                      Text(widget.wallet.address,overflow: TextOverflow.ellipsis, style:const TextStyle(color:unfocusIconColor, fontSize: 12.5),),
+                      if(widget.wallet.seed == null && widget.wallet.privateKey == null)
+                        Text(widget.wallet.address,overflow: TextOverflow.ellipsis, style:const TextStyle(color:unfocusIconColor, fontSize: 17.5),)
+                      else if(widget.wallet.seed != null || widget.wallet.privateKey != null)
+                        ...[
+                          Text(widget.wallet.seed != null ? widget.wallet.seed! : widget.wallet.privateKey!, overflow: TextOverflow.ellipsis, style: const TextStyle(color:unfocusIconColor, fontSize: 17.5),),
+                          Text(widget.wallet.address,overflow: TextOverflow.ellipsis, style:const TextStyle(color:unfocusIconColor, fontSize: 12.5))
+                        ]
                     ],
                   ),
                 ),

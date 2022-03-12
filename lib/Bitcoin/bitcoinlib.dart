@@ -61,7 +61,6 @@ class BitcoinLib{
     Uint8List privateKey;
     Uint8List publicKey;
     String address;
-    List<BitcoinWallet> wallets = [];
     BitcoinWallet wallet;
     BitcoinWalletCard card;
 
@@ -85,8 +84,6 @@ class BitcoinLib{
         address: address
       );
 
-      wallets.add(wallet);
-
       card = BitcoinWalletCard(wallet: wallet);
       wallet.request();
       WalletGeneratorState.brainWallets.add(card);
@@ -96,6 +93,21 @@ class BitcoinLib{
     }
   }
 
+  void searchByAddress(Map<String,Object> params) async{
+    //Wallet
+    BitcoinWallet wallet = BitcoinWallet(
+      address: params["address"] as String
+    );
+
+    BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
+    wallet.request();
+    WalletGeneratorState.searchResultByAddress = card;
+    (params["sendPort"] as SendPort).send(card);
+
+    await Future.delayed(const Duration(seconds: 1));
+  }
+
+  // UTILITIES
   Uint8List randomPrivateKey(){
     List<int> bytes = List.generate(32, (index) => rd.nextInt(256));
     return Uint8List.fromList(bytes);

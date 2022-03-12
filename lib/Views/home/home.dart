@@ -49,6 +49,9 @@ class _HomeState extends State<Home> {
                   GestureDetector(
                     child: const PreviewCard(icon: Icon(Icons.account_balance_wallet),title: "Random wallets", subtitle: "Standard Bitcoin wallet",),
                     onTap: (){
+                      if(isPlaying){
+                        togglePlay();
+                      }
                       setState(() {
                         selectedContent = 0;
                       });
@@ -58,6 +61,9 @@ class _HomeState extends State<Home> {
                   GestureDetector(
                     child: const PreviewCard(icon: Icon(Icons.text_snippet), title: "12 Phrases", subtitle: "Brainwallet",),
                     onTap: (){
+                      if(isPlaying){
+                        togglePlay();
+                      }
                       setState(() {
                         selectedContent = 1;
                       });

@@ -3,8 +3,8 @@ import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/blockchain.dart';
 
 class BitcoinWallet{
   String? seed;
-  String privateKey;
-  String publicKey;
+  String? privateKey;
+  String? publicKey;
   String address;
   int balance = 0;
   Map<String,dynamic> json = {};
@@ -12,8 +12,8 @@ class BitcoinWallet{
 
   BitcoinWallet({
     this.seed,
-    required this.privateKey,
-    required this.publicKey,
+    this.privateKey,
+    this.publicKey,
     required this.address
   });
 

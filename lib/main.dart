@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int pageIndex = 0;
 
-  List<Widget> pages = [const Home(), const Search()];
+  List<Widget> pages = [const Home(), const Home(), const Search(), const Home(), const Home()];
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +35,11 @@ class _MyAppState extends State<MyApp> {
             selectedItemColor: focusIconColor,
             onTap: onChangePage,
             items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: "Home", tooltip: ""),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.search), label: "Search", tooltip: ""),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.history), label: "History", tooltip: ""),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: "Settings", tooltip: "")
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home", tooltip: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: "Boost", tooltip: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search", tooltip: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.history), label: "History", tooltip: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings", tooltip: "")
             ],
           ),
         ));
