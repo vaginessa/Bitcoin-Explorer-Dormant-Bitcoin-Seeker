@@ -25,7 +25,6 @@ class BitcoinWallet{
       if(result){
         json = jsonDecode(response.body),
         balance = json[address]["final_balance"],
-        print(balance),
       }
     });
     return result;

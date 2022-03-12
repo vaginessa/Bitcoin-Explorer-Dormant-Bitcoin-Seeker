@@ -1,6 +1,4 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe, implementation_imports
-
-import 'dart:ffi';
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
@@ -222,5 +220,5 @@ class Network {
   factory Network.bitcoinCash() => Network(0x0488ade4, 0x0488b21e, false, 0x00, bchPrivate, bchPublic);
   factory Network.bitcoinCashTest() => Network(0x04358394, 0x043587cf, true, 0x6f, bchTestnetPrivate, bchTestnetPublic);
 
-  String get prefix => this.testnet ? "bchtest" : "bitcoincash";
+  String get prefix => testnet ? "bchtest" : "bitcoincash";
 }

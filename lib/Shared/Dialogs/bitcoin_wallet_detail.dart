@@ -1,6 +1,5 @@
 import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
 import 'package:flutter/material.dart';
-
 import '../../global.dart';
 
 class BitcoinWalletDetail extends StatefulWidget {
