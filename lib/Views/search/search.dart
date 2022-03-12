@@ -1,8 +1,6 @@
 import 'dart:isolate';
-
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:flutter/material.dart';
-
 import '../../Bitcoin/bitcoinlib.dart';
 import '../../global.dart';
 
@@ -36,7 +34,7 @@ class _SearchState extends State<Search> {
                 fillColor: inputColor,
                 filled: true,
                 suffixIcon:const Icon(Icons.search),
-                border:OutlineInputBorder(
+                border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 hintText: "Search",
@@ -79,7 +77,17 @@ class _SearchState extends State<Search> {
                 const Center(
                   child: Text("Invalid private key", style: TextStyle(color: Colors.white, fontSize: 22.5),)
                 ),
-              const Icon(Icons.directions_bike),
+              // TAB SEED PHRASE
+              if(WalletGeneratorState.searchResultBySeedPhrase != null)
+                Column(
+                  children : [
+                    WalletGeneratorState.searchResultBySeedPhrase!
+                  ]
+                )
+              else
+                const Center(
+                  child: Text("Invalid seed phrase", style: TextStyle(color: Colors.white, fontSize: 22.5),)
+                ),
             ],
           ),
         ),
@@ -87,7 +95,7 @@ class _SearchState extends State<Search> {
     );
   }
 
-  Isolate? randomBrainWalletsThread;
+  Isolate? searchThread;
   void onSearch(String search) async{
     BitcoinLib bitcoin = BitcoinLib();
 
@@ -98,7 +106,7 @@ class _SearchState extends State<Search> {
 
     if(currentTabIndex == 0){
       params["address"] = search;
-      randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByAddress,params);
+      searchThread = await Isolate.spawn(bitcoin.searchByAddress,params);
 
       receivePort.listen((response) {
         if(response != null){
@@ -112,7 +120,7 @@ class _SearchState extends State<Search> {
     }
     else if(currentTabIndex == 1){
       params["privateKey"] = search;
-      randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
+      searchThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
 
       receivePort.listen((response) {
         if(response != null){
@@ -121,11 +129,22 @@ class _SearchState extends State<Search> {
         else{
           WalletGeneratorState.searchResultByPrivateKey = null;
         }
-        setState(() {});
+        setState((){});
       });
     }
     else if(currentTabIndex == 2){
       params["seedPhrase"] = search;
+      searchThread = await Isolate.spawn(bitcoin.searchBySeedPhrase,params);
+
+      receivePort.listen((response) {
+        if(response != null){
+          WalletGeneratorState.searchResultBySeedPhrase = response;
+        }
+        else{
+          WalletGeneratorState.searchResultBySeedPhrase = null;
+        }
+        setState((){});
+      });
     }
   }
 
@@ -144,7 +163,7 @@ class TabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 45,
       child: Center(
         child: Text(title)
