@@ -1,5 +1,6 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe, implementation_imports
 
+import 'dart:ffi';
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
@@ -49,7 +50,7 @@ class BitcoinLib{
       wallets.add(wallet);
 
       card = BitcoinWalletCard(wallet: wallet);
-      wallet.request();
+      // wallet.request();
       WalletGeneratorState.wallets.add(card);
       sendPort.send(card);
 
@@ -85,7 +86,7 @@ class BitcoinLib{
       );
 
       card = BitcoinWalletCard(wallet: wallet);
-      wallet.request();
+      // wallet.request();
       WalletGeneratorState.brainWallets.add(card);
       sendPort.send(card);
 
@@ -99,12 +100,40 @@ class BitcoinLib{
       address: params["address"] as String
     );
 
-    BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
-    wallet.request();
-    WalletGeneratorState.searchResultByAddress = card;
-    (params["sendPort"] as SendPort).send(card);
+    bool isValid = await wallet.request();
 
-    await Future.delayed(const Duration(seconds: 1));
+    if(isValid){
+      BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
+      WalletGeneratorState.searchResultByAddress = card;
+      (params["sendPort"] as SendPort).send(card);
+    }
+    else{
+      (params["sendPort"] as SendPort).send(null);
+    }
+  }
+
+  void searchByPrivateKey(Map<String,Object> params) async{
+    Uint8List privateKey = Uint8List.fromList(hex.decode(params["privateKey"] as String));
+    Uint8List publicKey = privateKeyToPublicKey(privateKey, true);;
+    String address = publicKeyToAddress(hash160(publicKey), network.pubKeyHash);
+    BitcoinWallet wallet = BitcoinWallet(
+        privateKey: hex.encode(privateKey),
+        publicKey: hex.encode(publicKey),
+        address: address
+      );
+    BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
+    WalletGeneratorState.searchResultByPrivateKey = card;
+
+    bool isValid = await wallet.request();
+
+    if(isValid){
+      BitcoinWalletCard card = BitcoinWalletCard(wallet: wallet);
+      WalletGeneratorState.searchResultByPrivateKey = card;
+      (params["sendPort"] as SendPort).send(card);
+    }
+    else{
+      (params["sendPort"] as SendPort).send(null);
+    }
   }
 
   // UTILITIES

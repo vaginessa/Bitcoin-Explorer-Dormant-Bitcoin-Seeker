@@ -17,10 +17,17 @@ class BitcoinWallet{
     required this.address
   });
 
-  Future<void> request() async{
-    // await Blockchain.request(address).then((response) => {
-    //   json = jsonDecode(response.body),
-    //   balance = json[address]["final_balance"],
-    // });
+  Future<bool> request() async{
+    bool result = false;
+    await Blockchain.request(address).then((response) => {
+      
+      result = !(response.statusCode >= 400),
+      if(result){
+        json = jsonDecode(response.body),
+        balance = json[address]["final_balance"],
+        print(balance),
+      }
+    });
+    return result;
   }
 }

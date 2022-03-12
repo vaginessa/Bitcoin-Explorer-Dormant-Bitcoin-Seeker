@@ -82,7 +82,12 @@ class _SearchState extends State<Search> {
 
     randomBrainWalletsThread = await Isolate.spawn(bitcoin.searchByAddress,params);
     receivePort.listen((response) {
-      WalletGeneratorState.searchResultByAddress = response;
+      if(response != null){
+        WalletGeneratorState.searchResultByAddress = response;
+      }
+      else{
+        WalletGeneratorState.searchResultByAddress = null;
+      }
       setState(() {});
     });
   }
