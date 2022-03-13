@@ -1,9 +1,23 @@
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 
-class BoostCard extends StatelessWidget {
-  const BoostCard({ Key? key }) : super(key: key);
+class BoostCard extends StatefulWidget {
+  const BoostCard({ 
+    Key? key, 
+    required this.title, 
+    required this.description,
+    required this.actionName
+  }) : super(key: key);
 
+  final String title;
+  final String description;
+  final String actionName;
+
+  @override
+  State<BoostCard> createState() => _BoostCardState();
+}
+
+class _BoostCardState extends State<BoostCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,17 +33,21 @@ class BoostCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Text("Title", style: TextStyle(color: Colors.white, fontSize: 20),),
-                Text("description", style: TextStyle(color: descriptionColor, fontSize: 15),),
-              ],
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(right:15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(widget.title, style: const TextStyle(color: Colors.white, fontSize: 16),),
+                  ],
+                ),
+              ),
             ),
             ElevatedButton(
               onPressed: (){}, 
-              child: const Text("BUY", style: TextStyle(color: Colors.white, letterSpacing: 1),),
+              child: Text(widget.actionName, style: const TextStyle(color: Colors.white, letterSpacing: 1),),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.purple)
               ),
