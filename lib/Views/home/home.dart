@@ -41,36 +41,42 @@ class _HomeState extends State<Home> {
         height: double.infinity,
         child: Column(
           children: [
-            SingleChildScrollView(
-              scrollDirection:Axis.horizontal,
-              child: Row(
-                children: [
-                  SizedBox(width: lateralContentMargins.right,),
-                  GestureDetector(
-                    child: const PreviewCard(icon: Icon(Icons.account_balance_wallet),title: "Random wallets", subtitle: "Standard Bitcoin wallet",),
-                    onTap: (){
-                      if(isPlaying){
-                        togglePlay();
-                      }
-                      setState(() {
-                        selectedContent = 0;
-                      });
-                    },
-                  ),
-                  const SizedBox(width:30),
-                  GestureDetector(
-                    child: const PreviewCard(icon: Icon(Icons.text_snippet), title: "12 Phrases", subtitle: "Brainwallet",),
-                    onTap: (){
-                      if(isPlaying){
-                        togglePlay();
-                      }
-                      setState(() {
-                        selectedContent = 1;
-                      });
-                    },
-                  ),
-                  const SizedBox(width:30),
-                ],
+            NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification overscroll) {
+                overscroll.disallowIndicator();
+                return true;
+              },
+              child: SingleChildScrollView(
+                scrollDirection:Axis.horizontal,
+                child: Row(
+                  children: [
+                    SizedBox(width: lateralContentMargins.right,),
+                    GestureDetector(
+                      child: const PreviewCard(icon: Icon(Icons.account_balance_wallet),title: "Random wallets", subtitle: "Standard Bitcoin wallet",),
+                      onTap: (){
+                        if(isPlaying){
+                          togglePlay();
+                        }
+                        setState(() {
+                          selectedContent = 0;
+                        });
+                      },
+                    ),
+                    const SizedBox(width:30),
+                    GestureDetector(
+                      child: const PreviewCard(icon: Icon(Icons.text_snippet), title: "12 Phrases", subtitle: "Brainwallet",),
+                      onTap: (){
+                        if(isPlaying){
+                          togglePlay();
+                        }
+                        setState(() {
+                          selectedContent = 1;
+                        });
+                      },
+                    ),
+                    const SizedBox(width:30),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -114,16 +120,22 @@ class _HomeState extends State<Home> {
 
   bool isPlaying = false;
   Isolate? randomWalletsThread;
+  bool onRandomWalletsThread = false;
   Isolate? randomBrainWalletsThread;
+  bool onRandomBrainWalletsThread = false;
+
   Future<void> togglePlay() async{
     if(selectedContent == 0){
-      if(isPlaying){
+      if(isPlaying && onRandomWalletsThread){
+        onRandomWalletsThread = false;
         randomWalletsThread?.kill();
+        randomWalletsThread = null;
       }
-      else{
+      else if(isPlaying == false && onRandomWalletsThread == false){
         BitcoinLib bitcoin = BitcoinLib();
 
         final receivePort = ReceivePort();
+        onRandomWalletsThread = true;
         randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,receivePort.sendPort);
         receivePort.listen((response) {
           WalletGeneratorState.wallets.add(response);
@@ -132,13 +144,16 @@ class _HomeState extends State<Home> {
       }
     }
     else if(selectedContent == 1){
-      if(isPlaying){
+      if(isPlaying && onRandomBrainWalletsThread){
+        onRandomBrainWalletsThread = false;
         randomBrainWalletsThread?.kill();
+        randomBrainWalletsThread = null;
       }
-      else{
+      else if(isPlaying == false && onRandomBrainWalletsThread == false){
         BitcoinLib bitcoin = BitcoinLib();
 
         final receivePort = ReceivePort();
+        onRandomBrainWalletsThread = true;
         randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,receivePort.sendPort);
         receivePort.listen((response) {
           WalletGeneratorState.brainWallets.add(response);
@@ -147,8 +162,8 @@ class _HomeState extends State<Home> {
       }
     }
 
-    setState(() {
-      isPlaying = !isPlaying;
-    });
+    isPlaying = !isPlaying;
+
+    setState(() {});
   }
 }
