@@ -1,3 +1,5 @@
+import 'package:dormant_bitcoin_seeker_flutter/Views/boost/boost_card.dart';
+import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 
 class Boost extends StatefulWidget {
@@ -10,8 +12,18 @@ class Boost extends StatefulWidget {
 class _BoostState extends State<Boost> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Boost"),
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: Container(
+        margin: const EdgeInsets.only(top:35),
+        child: Column(
+          children: const [
+            BoostCard(),
+            BoostCard(),
+            BoostCard()
+          ],
+        ),
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ const walletCardBackground = LinearGradient(colors: [
 const dialogAppBarBackgroundColor =Color.fromARGB(255, 13, 55, 88);
 const appBarBackgroundColor = Color.fromARGB(255, 16, 16, 16);
 const inputColor = Color.fromARGB(255, 22, 22, 22);
+const boostCardBackgroundColor = Color.fromRGBO(16, 16, 16, 1);
 
 //Icons
 const unfocusIconColor = Color.fromRGBO(233, 233, 233, 1);
@@ -23,3 +24,4 @@ const dialogContentMargins = EdgeInsets.all(25);
 
 //Texts
 const balanceColor = Color.fromARGB(255, 255, 131, 60);
+const descriptionColor = Color.fromARGB(125, 255, 255, 255);
