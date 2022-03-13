@@ -52,7 +52,7 @@ class BitcoinLib{
       WalletGeneratorState.wallets.add(card);
       sendPort.send(card);
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500 ));
     }
   }
 
@@ -88,7 +88,7 @@ class BitcoinLib{
       WalletGeneratorState.brainWallets.add(card);
       sendPort.send(card);
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 

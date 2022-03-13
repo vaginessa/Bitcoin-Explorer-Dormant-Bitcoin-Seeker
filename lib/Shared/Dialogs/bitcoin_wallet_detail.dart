@@ -21,17 +21,17 @@ class _BitcoinWalletDetailState extends State<BitcoinWalletDetail> {
       appBar: AppBar(
         title: const Text("Bitcoin Wallet", style : TextStyle(color:Colors.white)),
         backgroundColor: dialogAppBarBackgroundColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right:16),
-            child: GestureDetector(
-              child: Icon(isFavourite == false ? Icons.favorite_outline : Icons.favorite, color:Colors.red),
-              onTap: (){
-                addToFavourites();
-              },
-            )
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right:16),
+        //     child: GestureDetector(
+        //       child: Icon(isFavourite == false ? Icons.favorite_outline : Icons.favorite, color:Colors.red),
+        //       onTap: (){
+        //         addToFavourites();
+        //       },
+        //     )
+        //   )
+        // ],
       ),
       body: Container(
         padding: dialogContentMargins,

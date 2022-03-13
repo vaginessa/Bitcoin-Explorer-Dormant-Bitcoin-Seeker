@@ -26,35 +26,54 @@ class _BoostState extends State<Boost> {
                 color: Color.fromRGBO(18, 18, 18, 1)
               ),
               child: Container(
-                margin: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        StatsChart(title : "Title 1"),
-                        StatsChart(title : "Title 2")
-                      ],
-                    )
+                    NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (OverscrollIndicatorNotification overscroll) {
+                        overscroll.disallowIndicator();
+                        return true;
+                      },
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: const [
+                            StatsChart(title : "Wallets per second"),
+                            StatsChart(title : "Brainwallet per second"),
+                            StatsChart(title : "Wallets boost"),
+                            StatsChart(title : "Brainwallet boost"),
+                          ],
+                        ),
+                      )
+                    ),
                   ],
                 ),
               ),
             ),
             Expanded(
               child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: const [
-                      BoostCard(title: "Increase wallet generation speed by 10 for 5 minutes", description: "", actionName: "WATCH AN AD",),
-                      BoostCard(title: "Increase boost time for 15 minutes", description: "", actionName: "WATCH AN AD",),
-                      BoostCard(title: "Title 2", description: "", actionName: "1.99 \$",),
-                      BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
-                      BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
-                      BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
-                    ],
+                margin: const EdgeInsets.only(bottom:10),
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (OverscrollIndicatorNotification overscroll) {
+                    overscroll.disallowIndicator();
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: const [
+                        BoostCard(title: "Increase wallet generation speed by 10 for 5 minutes", description: "", actionName: "WATCH AN AD",),
+                        BoostCard(title: "Increase boost time for 15 minutes", description: "", actionName: "WATCH AN AD",),
+                        BoostCard(title: "Title 2", description: "", actionName: "1.99 \$",),
+                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
+                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
+                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
+                      ],
+                    ),
                   ),
                 ),
               ),

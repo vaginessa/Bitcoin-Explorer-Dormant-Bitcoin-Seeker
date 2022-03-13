@@ -84,13 +84,19 @@ class _HomeState extends State<Home> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:5),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      content[selectedContent]
-                    ],
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (OverscrollIndicatorNotification overscroll) {
+                    overscroll.disallowIndicator();
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        content[selectedContent]
+                      ],
+                    ),
                   ),
-                ),
+                )
               ),
             )
           ]

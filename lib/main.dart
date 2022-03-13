@@ -2,7 +2,7 @@ import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 
-import 'Views/boost/Boost.dart';
+import 'Views/boost/boost.dart';
 import 'Views/home/home.dart';
 
 void main() {

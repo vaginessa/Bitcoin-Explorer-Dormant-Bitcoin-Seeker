@@ -20,7 +20,11 @@ class _StatsChartState extends State<StatsChart> {
     return Container(
       margin: const EdgeInsets.only(top:20),
       child: CircularPercentIndicator(
-        header: Text(widget.title, style: const TextStyle(color: Colors.white, fontSize: 20),),
+        header: Container(
+          width:200,
+          margin: const EdgeInsets.only(bottom:20),
+          child: Text(widget.title, style: const TextStyle(color: Colors.white, fontSize: 18),textAlign: TextAlign.center,)
+        ),
         radius: 75.0,
         lineWidth: 10.0,
         animation: true,
