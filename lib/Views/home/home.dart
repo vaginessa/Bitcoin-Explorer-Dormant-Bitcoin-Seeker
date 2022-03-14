@@ -52,7 +52,12 @@ class _HomeState extends State<Home> {
                   children: [
                     SizedBox(width: lateralContentMargins.right,),
                     GestureDetector(
-                      child: const PreviewCard(icon: Icon(Icons.account_balance_wallet),title: "Random wallets", subtitle: "Standard Bitcoin wallet",),
+                      child: PreviewCard(
+                        icon: const Icon(Icons.account_balance_wallet),
+                        title: "Random wallets", 
+                        subtitle: "Standard Bitcoin wallet",
+                        isSelected: selectedContent == 0,
+                      ),
                       onTap: (){
                         if(isPlaying){
                           togglePlay();
@@ -64,7 +69,12 @@ class _HomeState extends State<Home> {
                     ),
                     const SizedBox(width:30),
                     GestureDetector(
-                      child: const PreviewCard(icon: Icon(Icons.text_snippet), title: "12 Phrases", subtitle: "Brainwallet",),
+                      child: PreviewCard(
+                        icon: const Icon(Icons.text_snippet), 
+                        title: "12 Phrases", 
+                        subtitle: "Brainwallet",
+                        isSelected: selectedContent == 1,
+                      ),
                       onTap: (){
                         if(isPlaying){
                           togglePlay();

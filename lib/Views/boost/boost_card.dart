@@ -1,3 +1,4 @@
+import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 
@@ -6,12 +7,16 @@ class BoostCard extends StatefulWidget {
     Key? key, 
     required this.title, 
     required this.description,
-    required this.actionName
+    required this.actionName,
+    required this.onBoost,
+    required this.boostType
   }) : super(key: key);
 
   final String title;
   final String description;
   final String actionName;
+  final Function onBoost;
+  final BoostType boostType;
 
   @override
   State<BoostCard> createState() => _BoostCardState();
@@ -46,7 +51,9 @@ class _BoostCardState extends State<BoostCard> {
               ),
             ),
             ElevatedButton(
-              onPressed: (){}, 
+              onPressed: (){
+                widget.onBoost(widget.boostType);
+              }, 
               child: Text(widget.actionName, style: const TextStyle(color: Colors.white, letterSpacing: 1),),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.purple)

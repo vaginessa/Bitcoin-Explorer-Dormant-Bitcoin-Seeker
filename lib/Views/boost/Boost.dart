@@ -1,3 +1,5 @@
+import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/boost_card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/stats_chart.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
@@ -11,8 +13,19 @@ class Boost extends StatefulWidget {
 }
 
 class _BoostState extends State<Boost> {
+
+  List<StatsChart> charts = [];
+
   @override
   Widget build(BuildContext context) {
+
+    charts =  [
+      StatsChart(chartType: ChartType.WALLETS_PER_SECOND, chartValue: getChartValue(ChartType.WALLETS_PER_SECOND),),
+      StatsChart(chartType: ChartType.BRAINWALLETS_PER_SECONDS, chartValue: getChartValue(ChartType.BRAINWALLETS_PER_SECONDS),),
+      StatsChart(chartType: ChartType.WALLETS_PER_SECOND, chartValue: getChartValue(ChartType.WALLETS_PER_SECOND),),
+      StatsChart(chartType: ChartType.BRAINWALLETS_PER_SECONDS, chartValue: getChartValue(ChartType.WALLETS_PER_SECOND),),
+    ];
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
@@ -42,12 +55,7 @@ class _BoostState extends State<Boost> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const [
-                            StatsChart(title : "Wallets per second"),
-                            StatsChart(title : "Brainwallet per second"),
-                            StatsChart(title : "Wallets boost"),
-                            StatsChart(title : "Brainwallet boost"),
-                          ],
+                          children: charts,
                         ),
                       )
                     ),
@@ -65,13 +73,13 @@ class _BoostState extends State<Boost> {
                   },
                   child: SingleChildScrollView(
                     child: Column(
-                      children: const [
-                        BoostCard(title: "Increase wallet generation speed by 10 for 5 minutes", description: "", actionName: "WATCH AN AD",),
-                        BoostCard(title: "Increase boost time for 15 minutes", description: "", actionName: "WATCH AN AD",),
-                        BoostCard(title: "Title 2", description: "", actionName: "1.99 \$",),
-                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
-                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
-                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",),
+                      children: [
+                        BoostCard(title: "Increase wallet generation speed by 10 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
+                        BoostCard(title: "Increase boost time for 15 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BRW_10_5,),
+                        BoostCard(title: "Title 2", description: "", actionName: "1.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
+                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
+                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
+                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
                       ],
                     ),
                   ),
@@ -82,5 +90,31 @@ class _BoostState extends State<Boost> {
         ),
       )
     );
+  }
+
+  int getChartValue(ChartType chartType){
+    switch(chartType){
+      case ChartType.WALLETS_PER_SECOND :
+        return WalletStats.walletsPerSecond;
+      case ChartType.BRAINWALLETS_PER_SECONDS :
+        return WalletStats.brainwalletsPerSeconds;
+      default :
+        return 0;
+    }
+  }
+
+  void onBoost(BoostType boostType){
+    switch(boostType){
+      case BoostType.WGS_10_5 :
+        setState(() {
+          WalletStats.walletsPerSecond += 5;
+        });
+        return;
+      case BoostType.BRW_10_5 :
+        setState(() {
+          WalletStats.brainwalletsPerSeconds += 5;
+        });
+        return;
+    }
   }
 }
