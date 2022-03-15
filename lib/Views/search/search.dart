@@ -30,7 +30,6 @@ class _SearchState extends State<Search> {
             margin: const EdgeInsets.only(top:30),
             child: TextFormField(
               controller: inputController,
-              onChanged: onSearch,
               style: const TextStyle(color:Colors.white),
               decoration: InputDecoration(
                 fillColor: inputColor,
@@ -97,7 +96,7 @@ class _SearchState extends State<Search> {
           child: const Icon(Icons.search),
           backgroundColor:Colors.blue,
           onPressed: () { 
-            print(inputController.text);
+            onSearch(inputController.text);
           },
         ),
       )
