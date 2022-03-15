@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/bitcoinlib.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Shared/card.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/brainwallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/random_wallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
@@ -136,44 +137,56 @@ class _HomeState extends State<Home> {
 
   Future<void> togglePlay() async{
     if(selectedContent == 0){
-      if(isPlaying && onRandomWalletsThread){
-        onRandomWalletsThread = false;
-        randomWalletsThread?.kill();
-        randomWalletsThread = null;
-      }
-      else if(isPlaying == false && onRandomWalletsThread == false){
-        BitcoinLib bitcoin = BitcoinLib();
-
-        final receivePort = ReceivePort();
-        onRandomWalletsThread = true;
-        randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,receivePort.sendPort);
-        receivePort.listen((response) {
-          WalletGeneratorState.wallets.add(response);
-          setState(() {});
-        });
-      }
+      generateWallet();
     }
     else if(selectedContent == 1){
-      if(isPlaying && onRandomBrainWalletsThread){
-        onRandomBrainWalletsThread = false;
-        randomBrainWalletsThread?.kill();
-        randomBrainWalletsThread = null;
-      }
-      else if(isPlaying == false && onRandomBrainWalletsThread == false){
-        BitcoinLib bitcoin = BitcoinLib();
-
-        final receivePort = ReceivePort();
-        onRandomBrainWalletsThread = true;
-        randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,receivePort.sendPort);
-        receivePort.listen((response) {
-          WalletGeneratorState.brainWallets.add(response);
-          setState(() {});
-        });
-      }
+      generateBrainWallet();
     }
-
+  
     isPlaying = !isPlaying;
 
     setState(() {});
+  }
+
+  void generateWallet() async{
+    if(isPlaying && onRandomWalletsThread){
+      onRandomWalletsThread = false;
+      randomWalletsThread?.kill();
+      randomWalletsThread = null;
+    }
+    else if(isPlaying == false && onRandomWalletsThread == false){
+      BitcoinLib bitcoin = BitcoinLib();
+
+      final receivePort = ReceivePort();
+      Map<String, Object> params = {};
+      params["sendPort"] = receivePort.sendPort;
+      params["walletsPerSecond"] = WalletStats.walletsPerSecond;
+
+      onRandomWalletsThread = true;
+      randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,params);
+      receivePort.listen((response) {
+        WalletGeneratorState.wallets.add(response);
+        setState(() {});
+      });
+    }
+  }
+
+  void generateBrainWallet() async{
+    if(isPlaying && onRandomBrainWalletsThread){
+      onRandomBrainWalletsThread = false;
+      randomBrainWalletsThread?.kill();
+      randomBrainWalletsThread = null;
+    }
+    else if(isPlaying == false && onRandomBrainWalletsThread == false){
+      BitcoinLib bitcoin = BitcoinLib();
+
+      final receivePort = ReceivePort();
+      onRandomBrainWalletsThread = true;
+      randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,receivePort.sendPort);
+      receivePort.listen((response) {
+        WalletGeneratorState.brainWallets.add(response);
+        setState(() {});
+      });
+    }
   }
 }

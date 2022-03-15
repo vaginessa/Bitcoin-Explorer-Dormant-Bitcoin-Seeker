@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import "package:pointycastle/ecc/curves/secp256k1.dart";
 import 'package:pointycastle/ecc/api.dart' show ECPoint;
 import "package:pointycastle/digests/sha256.dart";
@@ -20,7 +21,7 @@ class BitcoinLib{
   final secp256k1 = ECCurve_secp256k1();
   final Network network = Network.bitcoinCash();
 
-  void generateWallet(SendPort sendPort) async{ 
+  void generateWallet(Map<String,Object> params) async{ 
     Uint8List privateKey;
     Uint8List publicKey;
     String address;
@@ -50,9 +51,11 @@ class BitcoinLib{
       card = BitcoinWalletCard(wallet: wallet);
       // wallet.request();
       WalletGeneratorState.wallets.add(card);
-      sendPort.send(card);
+      (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(const Duration(milliseconds: 500 ));
+      print(1000 ~/ WalletStats.walletsPerSecond);
+      await Future.delayed(Duration(milliseconds: 1000 ~/ (params["walletsPerSecond"] as int)));
+      // await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 
