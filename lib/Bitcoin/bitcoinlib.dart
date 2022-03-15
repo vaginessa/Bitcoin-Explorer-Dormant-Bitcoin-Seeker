@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
-import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import "package:pointycastle/ecc/curves/secp256k1.dart";
 import 'package:pointycastle/ecc/api.dart' show ECPoint;
 import "package:pointycastle/digests/sha256.dart";
@@ -53,13 +52,11 @@ class BitcoinLib{
       WalletGeneratorState.wallets.add(card);
       (params["sendPort"] as SendPort).send(card);
 
-      print(1000 ~/ WalletStats.walletsPerSecond);
       await Future.delayed(Duration(milliseconds: 1000 ~/ (params["walletsPerSecond"] as int)));
-      // await Future.delayed(const Duration(milliseconds: 500));
     }
   }
 
-  void generateBrainWallet(SendPort sendPort) async{ 
+  void generateBrainWallet(Map<String,Object> params) async{ 
     Uint8List privateKey;
     Uint8List publicKey;
     String address;
@@ -89,9 +86,9 @@ class BitcoinLib{
       card = BitcoinWalletCard(wallet: wallet);
       // wallet.request();
       WalletGeneratorState.brainWallets.add(card);
-      sendPort.send(card);
+      (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 1000 ~/ (params["brainwalletsPerSecond"] as int)));
     }
   }
 

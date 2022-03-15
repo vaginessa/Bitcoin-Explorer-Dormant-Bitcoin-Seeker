@@ -181,8 +181,12 @@ class _HomeState extends State<Home> {
       BitcoinLib bitcoin = BitcoinLib();
 
       final receivePort = ReceivePort();
+      Map<String, Object> params = {};
+      params["sendPort"] = receivePort.sendPort;
+      params["brainwalletsPerSecond"] = WalletStats.walletsPerSecond;
+
       onRandomBrainWalletsThread = true;
-      randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,receivePort.sendPort);
+      randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
       receivePort.listen((response) {
         WalletGeneratorState.brainWallets.add(response);
         setState(() {});
