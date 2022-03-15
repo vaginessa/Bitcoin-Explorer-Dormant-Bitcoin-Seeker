@@ -9,6 +9,7 @@ const walletCardBackground = LinearGradient(colors: [
   Color.fromARGB(255, 8, 66, 114), 
   Color.fromARGB(255, 40, 96, 143)
 ]);
+const walletCardBackgroundNew = Color.fromARGB(255, 16, 16, 16);
 const dialogAppBarBackgroundColor =Color.fromARGB(255, 13, 55, 88);
 const appBarBackgroundColor = Color.fromARGB(255, 16, 16, 16);
 const inputColor = Color.fromARGB(255, 22, 22, 22);
