@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../../../Shared/bitcoin_wallet_card.dart';
 
 class BrainwalletGenerator extends StatefulWidget {
   const BrainwalletGenerator({ Key? key, required this.wallets }) : super(key: key);
 
-    final List<BitcoinWalletCard> wallets;
+  final List<BitcoinWalletCard> wallets;
 
   @override
   _BrainwalletGeneratorState createState() => _BrainwalletGeneratorState();
@@ -14,7 +13,8 @@ class BrainwalletGenerator extends StatefulWidget {
 class _BrainwalletGeneratorState extends State<BrainwalletGenerator> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return widget.wallets.isNotEmpty ?
+    SizedBox(
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -25,6 +25,14 @@ class _BrainwalletGeneratorState extends State<BrainwalletGenerator> {
           )
         ]
       ),
+    )
+    :
+    Column(
+      children: const [
+        Center(
+          child: Text("EMPTY", style: TextStyle(color : Colors.white)),
+        ),
+      ]
     );
   }
 }

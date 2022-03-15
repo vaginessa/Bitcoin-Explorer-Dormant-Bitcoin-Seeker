@@ -5,20 +5,25 @@ class PreviewCard extends StatelessWidget {
     Key? key, 
     required this.icon, 
     required this.title, 
-    required this.subtitle
+    required this.subtitle,
+    required this.isSelected
   }) : super(key: key);
 
   final Icon icon;
   final String title;
   final String subtitle;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: isSelected ? 216 : 210,
+      height: isSelected ? 146 : 140,
       padding: const EdgeInsets.all(15),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        color: Colors.blue
+      decoration: BoxDecoration(    
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
+        color: Colors.blue,
+        border: isSelected ? Border.all(color: Colors.white, width: 3) : null
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,8 +37,6 @@ class PreviewCard extends StatelessWidget {
           Text(subtitle, style: const TextStyle(color: Colors.white, fontSize: 14),)
         ],
       ),
-      width: 210,
-      height: 140,
     );
   }
 }

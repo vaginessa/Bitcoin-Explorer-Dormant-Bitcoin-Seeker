@@ -20,7 +20,7 @@ class BitcoinLib{
   final secp256k1 = ECCurve_secp256k1();
   final Network network = Network.bitcoinCash();
 
-  void generateWallet(SendPort sendPort) async{ 
+  void generateWallet(Map<String,Object> params) async{ 
     Uint8List privateKey;
     Uint8List publicKey;
     String address;
@@ -50,13 +50,13 @@ class BitcoinLib{
       card = BitcoinWalletCard(wallet: wallet);
       // wallet.request();
       WalletGeneratorState.wallets.add(card);
-      sendPort.send(card);
+      (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 1000 ~/ (params["walletsPerSecond"] as int)));
     }
   }
 
-  void generateBrainWallet(SendPort sendPort) async{ 
+  void generateBrainWallet(Map<String,Object> params) async{ 
     Uint8List privateKey;
     Uint8List publicKey;
     String address;
@@ -86,9 +86,9 @@ class BitcoinLib{
       card = BitcoinWalletCard(wallet: wallet);
       // wallet.request();
       WalletGeneratorState.brainWallets.add(card);
-      sendPort.send(card);
+      (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 1000 ~/ (params["brainwalletsPerSecond"] as int)));
     }
   }
 

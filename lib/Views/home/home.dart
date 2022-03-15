@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/bitcoinlib.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Bitcoin/wallet_generator_state.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Shared/card.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/brainwallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/home/home_pages/random_wallet_generator.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
@@ -41,36 +42,52 @@ class _HomeState extends State<Home> {
         height: double.infinity,
         child: Column(
           children: [
-            SingleChildScrollView(
-              scrollDirection:Axis.horizontal,
-              child: Row(
-                children: [
-                  SizedBox(width: lateralContentMargins.right,),
-                  GestureDetector(
-                    child: const PreviewCard(icon: Icon(Icons.account_balance_wallet),title: "Random wallets", subtitle: "Standard Bitcoin wallet",),
-                    onTap: (){
-                      if(isPlaying){
-                        togglePlay();
-                      }
-                      setState(() {
-                        selectedContent = 0;
-                      });
-                    },
-                  ),
-                  const SizedBox(width:30),
-                  GestureDetector(
-                    child: const PreviewCard(icon: Icon(Icons.text_snippet), title: "12 Phrases", subtitle: "Brainwallet",),
-                    onTap: (){
-                      if(isPlaying){
-                        togglePlay();
-                      }
-                      setState(() {
-                        selectedContent = 1;
-                      });
-                    },
-                  ),
-                  const SizedBox(width:30),
-                ],
+            NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification overscroll) {
+                overscroll.disallowIndicator();
+                return true;
+              },
+              child: SingleChildScrollView(
+                scrollDirection:Axis.horizontal,
+                child: Row(
+                  children: [
+                    SizedBox(width: lateralContentMargins.right,),
+                    GestureDetector(
+                      child: PreviewCard(
+                        icon: const Icon(Icons.account_balance_wallet),
+                        title: "Random wallets", 
+                        subtitle: "Standard Bitcoin wallet",
+                        isSelected: selectedContent == 0,
+                      ),
+                      onTap: (){
+                        if(isPlaying){
+                          togglePlay();
+                        }
+                        setState(() {
+                          selectedContent = 0;
+                        });
+                      },
+                    ),
+                    const SizedBox(width:30),
+                    GestureDetector(
+                      child: PreviewCard(
+                        icon: const Icon(Icons.text_snippet), 
+                        title: "12 Phrases", 
+                        subtitle: "Brainwallet",
+                        isSelected: selectedContent == 1,
+                      ),
+                      onTap: (){
+                        if(isPlaying){
+                          togglePlay();
+                        }
+                        setState(() {
+                          selectedContent = 1;
+                        });
+                      },
+                    ),
+                    const SizedBox(width:30),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -84,13 +101,19 @@ class _HomeState extends State<Home> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:5),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      content[selectedContent]
-                    ],
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (OverscrollIndicatorNotification overscroll) {
+                    overscroll.disallowIndicator();
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        content[selectedContent]
+                      ],
+                    ),
                   ),
-                ),
+                )
               ),
             )
           ]
@@ -108,41 +131,66 @@ class _HomeState extends State<Home> {
 
   bool isPlaying = false;
   Isolate? randomWalletsThread;
+  bool onRandomWalletsThread = false;
   Isolate? randomBrainWalletsThread;
+  bool onRandomBrainWalletsThread = false;
+
   Future<void> togglePlay() async{
     if(selectedContent == 0){
-      if(isPlaying){
-        randomWalletsThread?.kill();
-      }
-      else{
-        BitcoinLib bitcoin = BitcoinLib();
-
-        final receivePort = ReceivePort();
-        randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,receivePort.sendPort);
-        receivePort.listen((response) {
-          WalletGeneratorState.wallets.add(response);
-          setState(() {});
-        });
-      }
+      generateWallet();
     }
     else if(selectedContent == 1){
-      if(isPlaying){
-        randomBrainWalletsThread?.kill();
-      }
-      else{
-        BitcoinLib bitcoin = BitcoinLib();
-
-        final receivePort = ReceivePort();
-        randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,receivePort.sendPort);
-        receivePort.listen((response) {
-          WalletGeneratorState.brainWallets.add(response);
-          setState(() {});
-        });
-      }
+      generateBrainWallet();
     }
+  
+    isPlaying = !isPlaying;
 
-    setState(() {
-      isPlaying = !isPlaying;
-    });
+    setState(() {});
+  }
+
+  void generateWallet() async{
+    if(isPlaying && onRandomWalletsThread){
+      onRandomWalletsThread = false;
+      randomWalletsThread?.kill();
+      randomWalletsThread = null;
+    }
+    else if(isPlaying == false && onRandomWalletsThread == false){
+      BitcoinLib bitcoin = BitcoinLib();
+
+      final receivePort = ReceivePort();
+      Map<String, Object> params = {};
+      params["sendPort"] = receivePort.sendPort;
+      params["walletsPerSecond"] = WalletStats.walletsPerSecond;
+
+      onRandomWalletsThread = true;
+      randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,params);
+      receivePort.listen((response) {
+        WalletGeneratorState.wallets.add(response);
+        setState(() {});
+      });
+    }
+  }
+
+  void generateBrainWallet() async{
+    if(isPlaying && onRandomBrainWalletsThread){
+      onRandomBrainWalletsThread = false;
+      randomBrainWalletsThread?.kill();
+      randomBrainWalletsThread = null;
+    }
+    else if(isPlaying == false && onRandomBrainWalletsThread == false){
+      BitcoinLib bitcoin = BitcoinLib();
+
+      final receivePort = ReceivePort();
+      Map<String, Object> params = {};
+      params["sendPort"] = receivePort.sendPort;
+      params["brainwalletsPerSecond"] = WalletStats.walletsPerSecond;
+
+      onRandomBrainWalletsThread = true;
+      randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
+      receivePort.listen((response) {
+        WalletGeneratorState.brainWallets.add(response);
+        setState(() {});
+      });
+    }
   }
 }

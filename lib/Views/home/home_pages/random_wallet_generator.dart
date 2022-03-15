@@ -13,17 +13,24 @@ class RandomWalletGenerator extends StatefulWidget {
 class _RandomWalletGeneratorState extends State<RandomWalletGenerator> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return widget.wallets.isNotEmpty ?
+    SizedBox(
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: widget.wallets,
-          )
+          Column(children: widget.wallets,)
         ]
       ),
+    ) 
+    :
+    Column(
+      children: const [
+        Center(
+          child: Text("EMPTY", style: TextStyle(color : Colors.white)),
+        ),
+      ]
     );
   }
 }

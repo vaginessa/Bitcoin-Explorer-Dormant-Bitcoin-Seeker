@@ -6,7 +6,7 @@ class BitcoinWallet{
   String? privateKey;
   String? publicKey;
   String address;
-  int balance = 0;
+  double balance = 0;
   Map<String,dynamic> json = {};
   int? cardIndex;
 
@@ -24,7 +24,9 @@ class BitcoinWallet{
       result = !(response.statusCode >= 400),
       if(result){
         json = jsonDecode(response.body),
-        balance = json[address]["final_balance"],
+        balance = (json[address]["final_balance"] as int).toDouble(),
+        if(balance != 0)
+          balance = balance / 10000000
       }
     });
     return result;
