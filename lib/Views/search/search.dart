@@ -15,6 +15,7 @@ class _SearchState extends State<Search> {
 
   int currentTabIndex = 0;
   TextEditingController inputController = TextEditingController();
+  bool onFirst = true;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +65,8 @@ class _SearchState extends State<Search> {
                   ]
                 )
               else
-                const Center(
-                  child: Text("Invalid address", style: TextStyle(color: Colors.white, fontSize: 22.5),)
+                Center(
+                  child: Text(onFirst ? "Empty" : "Invalid address", style: const TextStyle(color: Colors.white, fontSize: 22.5),)
                 ),
               // TAB PRIVATE KEY
               if(WalletGeneratorState.searchResultByPrivateKey != null)
@@ -75,8 +76,8 @@ class _SearchState extends State<Search> {
                   ]
                 )
               else
-                const Center(
-                  child: Text("Invalid private key", style: TextStyle(color: Colors.white, fontSize: 22.5),)
+                Center(
+                  child: Text(onFirst ? "Empty" : "Invalid private key", style: const TextStyle(color: Colors.white, fontSize: 22.5),)
                 ),
               // TAB SEED PHRASE
               if(WalletGeneratorState.searchResultBySeedPhrase != null)
@@ -104,7 +105,7 @@ class _SearchState extends State<Search> {
   }
 
   Isolate? searchThread;
-  void onSearch(String search) async{
+  void onSearch(String search) async{    
     BitcoinLib bitcoin = BitcoinLib();
 
     final receivePort = ReceivePort();
@@ -152,6 +153,12 @@ class _SearchState extends State<Search> {
           WalletGeneratorState.searchResultBySeedPhrase = null;
         }
         setState((){});
+      });
+    }
+
+    if(onFirst){
+      setState(() {
+        onFirst = false;
       });
     }
   }
