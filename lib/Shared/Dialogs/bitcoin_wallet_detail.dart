@@ -38,15 +38,15 @@ class _BitcoinWalletDetailState extends State<BitcoinWalletDetail> {
                 Text(widget.wallet.balance.toString() + " BTC", style: const TextStyle(color: balanceColor, fontSize: 35, fontWeight: FontWeight.bold),),
                 const SizedBox(height:50),
                 if(widget.wallet.seed != null)
-                  KeyBanner(title : "12 phrases seed", content : widget.wallet.seed!),
+                  KeyBanner(title : "12 phrases seed", content : widget.wallet.seed!, onSeed: true,),
 
                 if(widget.wallet.privateKey != null)
-                  KeyBanner(title : "Private key", content : widget.wallet.privateKey!),
+                  KeyBanner(title : "Private key", content : widget.wallet.privateKey!, onSeed: false,),
 
                 if(widget.wallet.publicKey != null)
-                  KeyBanner(title : "Public key", content : widget.wallet.publicKey!),
+                  KeyBanner(title : "Public key", content : widget.wallet.publicKey!, onSeed: false,),
 
-                KeyBanner(title : "Address", content : widget.wallet.address),
+                KeyBanner(title : "Address", content : widget.wallet.address, onSeed: false,),
               ],
             ),
             SizedBox(
@@ -84,11 +84,13 @@ class KeyBanner extends StatelessWidget {
   const KeyBanner({
     Key? key,
     required this.title,
-    required this.content
+    required this.content,
+    required this.onSeed
   }) : super(key: key);
 
   final String title;
   final String content;
+  final bool onSeed;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,6 @@ class KeyBanner extends StatelessWidget {
           padding: const EdgeInsets.only(top:8, bottom:8, left:16, right:16),
           margin:const EdgeInsets.only(top:8),
           width: double.infinity,
-          height:50,
           decoration: const BoxDecoration(
             color :Color.fromARGB(255, 32, 32, 32),
             borderRadius: BorderRadius.all(Radius.circular(20))
@@ -110,7 +111,7 @@ class KeyBanner extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(content, style: const TextStyle(color:Color.fromRGBO(215, 215, 215, 1)),)
+              Text(content != "" || onSeed ? content : "Unknown", style: const TextStyle(color:Color.fromRGBO(215, 215, 215, 1)),)
             ]
           ),
         )

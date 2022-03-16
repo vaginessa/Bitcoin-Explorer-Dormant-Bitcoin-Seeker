@@ -16,6 +16,7 @@ class _SearchState extends State<Search> {
   int currentTabIndex = 0;
   TextEditingController inputController = TextEditingController();
   bool onFirst = true;
+  bool isSearching = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +97,10 @@ class _SearchState extends State<Search> {
           child: const Icon(Icons.search),
           backgroundColor:Colors.blue,
           onPressed: () { 
-            onSearch(inputController.text);
+            print(isSearching);
+            if(isSearching == false){
+              onSearch(inputController.text);
+            }
           },
         ),
       )
@@ -104,7 +108,8 @@ class _SearchState extends State<Search> {
   }
 
   Isolate? searchThread;
-  void onSearch(String search) async{    
+  void onSearch(String search) async{  
+    isSearching = true;  
     BitcoinLib bitcoin = BitcoinLib();
 
     final receivePort = ReceivePort();
@@ -114,9 +119,16 @@ class _SearchState extends State<Search> {
 
     if(currentTabIndex == 0){
       params["address"] = search;
-      searchThread = await Isolate.spawn(bitcoin.searchByAddress,params);
+
+      try{
+        searchThread = await Isolate.spawn(bitcoin.searchByAddress,params);
+      }
+      on Exception{
+        isSearching = false;
+      }
 
       receivePort.listen((response) {
+        isSearching = false;
         if(response != null){
           WalletGeneratorState.searchResultByAddress = response;
         }
@@ -128,9 +140,15 @@ class _SearchState extends State<Search> {
     }
     else if(currentTabIndex == 1){
       params["privateKey"] = search;
-      searchThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
+      try{
+        searchThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
+      }
+      on Exception{
+        isSearching = false;
+      }
 
       receivePort.listen((response) {
+        isSearching = false;
         if(response != null){
           WalletGeneratorState.searchResultByPrivateKey = response;
         }
@@ -142,9 +160,15 @@ class _SearchState extends State<Search> {
     }
     else if(currentTabIndex == 2){
       params["seedPhrase"] = search;
-      searchThread = await Isolate.spawn(bitcoin.searchBySeedPhrase,params);
+      try{
+        searchThread = await Isolate.spawn(bitcoin.searchBySeedPhrase,params);
+      }
+      on Exception{
+        isSearching = false;
+      }
 
       receivePort.listen((response) {
+        isSearching = false;
         if(response != null){
           WalletGeneratorState.searchResultBySeedPhrase = response;
         }

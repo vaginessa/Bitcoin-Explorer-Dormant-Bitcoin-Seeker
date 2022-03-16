@@ -20,14 +20,14 @@ class BitcoinWallet{
   Future<bool> request() async{
     bool result = false;
     await Blockchain.request(address).then((response) => {
-      
-      result = !(response.statusCode >= 400),
-      if(result){
-        json = jsonDecode(response.body),
-        balance = (json[address]["final_balance"] as int).toDouble(),
-        if(balance != 0)
-          balance = balance / 10000000
-      }
+        result = !(response.statusCode >= 400),
+        if(result){
+          json = jsonDecode(response.body),
+          balance = json[address] != null ? (json[address]["final_balance"] as int).toDouble() : 0,
+          result = json[address] != null,
+          if(balance != 0)
+            balance = balance / 10000000
+        }
     });
     return result;
   }
