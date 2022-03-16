@@ -28,16 +28,28 @@ class _SearchState extends State<Search> {
           toolbarHeight: 110,
           backgroundColor: appBarBackgroundColor,
           title : Container(
-            margin: const EdgeInsets.only(top:30),
             child: TextFormField(
               controller: inputController,
               style: const TextStyle(color:Colors.white),
               decoration: InputDecoration(
                 fillColor: inputColor,
                 filled: true,
-                suffixIcon:const Icon(Icons.search),
+                suffixIcon: const Icon(Icons.search, color:Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Colors.transparent,
+                    width: 2.0,
+                  ),
                 ),
                 hintText: "Search",
                 hintStyle:const TextStyle(color: Colors.grey)

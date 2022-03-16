@@ -29,7 +29,6 @@ class _BoostState extends State<Boost> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
-        margin: const EdgeInsets.only(top:35),
         child: Column(  
           children: [
             Container(
@@ -44,7 +43,10 @@ class _BoostState extends State<Boost> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
+                    Container(
+                      margin : const EdgeInsets.only(top:20),
+                      child: const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),)
+                    ),
                     NotificationListener<OverscrollIndicatorNotification>(
                       onNotification: (OverscrollIndicatorNotification overscroll) {
                         overscroll.disallowIndicator();

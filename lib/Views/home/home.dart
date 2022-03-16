@@ -21,7 +21,8 @@ class _HomeState extends State<Home> {
 
   List<Widget> content = [
     RandomWalletGenerator(wallets: WalletGeneratorState.wallets,),
-    BrainwalletGenerator(wallets: WalletGeneratorState.wallets)
+    BrainwalletGenerator(wallets: WalletGeneratorState.wallets),
+    BrainwalletGenerator(wallets: WalletGeneratorState.wallets),
   ];
 
   int selectedContent = 0;
@@ -31,7 +32,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     content = [
       RandomWalletGenerator(wallets: WalletGeneratorState.wallets.reversed.toList(),),
-      BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets)
+      BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets),
+      BrainwalletGenerator(wallets: WalletGeneratorState.wallets),
     ];
     
     return Scaffold(
@@ -86,6 +88,22 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     const SizedBox(width:30),
+                    GestureDetector(
+                      child: PreviewCard(
+                        icon: const Icon(Icons.text_snippet), 
+                        title: "Richest Addresses", 
+                        subtitle: "What if you find it?",
+                        isSelected: selectedContent == 2,
+                      ),
+                      onTap: (){
+                        if(isPlaying){
+                          togglePlay();
+                        }
+                        setState(() {
+                          selectedContent = 2;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -94,7 +112,7 @@ class _HomeState extends State<Home> {
               margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:15,bottom:15),
               child: Row(
                 children: [
-                  Text(selectedContent == 0 ? "Random wallet generator" : "Brainwallet generator", style: const TextStyle(color:Colors.white, fontSize: 20),textAlign:TextAlign.left ,),
+                  Text(selectedContent == 0 ? "Random wallet generator" : selectedContent == 1 ? "Brainwallet generator" : "Richest addresses", style: const TextStyle(color:Colors.white, fontSize: 20),textAlign:TextAlign.left ,),
                 ],
               ),
             ),
