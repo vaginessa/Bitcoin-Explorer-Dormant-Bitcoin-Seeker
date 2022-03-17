@@ -18,7 +18,7 @@ class _BitcoinWalletCardState extends State<BitcoinWalletCard> {
     return GestureDetector(
       child: Container(
         decoration: const BoxDecoration(
-          gradient:walletCardBackground,
+          color: appBarBackgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(25))
         ),
         width:double.infinity,

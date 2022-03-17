@@ -6,13 +6,15 @@ class PreviewCard extends StatelessWidget {
     required this.icon, 
     required this.title, 
     required this.subtitle,
-    required this.isSelected
+    required this.isSelected,
+    required this.color
   }) : super(key: key);
 
   final Icon icon;
   final String title;
   final String subtitle;
   final bool isSelected;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PreviewCard extends StatelessWidget {
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(    
         borderRadius: const BorderRadius.all(Radius.circular(25)),
-        color: Colors.blue,
+        color: color,
         border: isSelected ? Border.all(color: Colors.white, width: 3) : null
       ),
       child: Column(

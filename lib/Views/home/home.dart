@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
                         title: "Random wallets", 
                         subtitle: "Standard Bitcoin wallet",
                         isSelected: selectedContent == 0,
+                        color : Colors.blue
                       ),
                       onTap: (){
                         if(isPlaying){
@@ -77,6 +78,7 @@ class _HomeState extends State<Home> {
                         title: "12 Phrases", 
                         subtitle: "Brainwallet",
                         isSelected: selectedContent == 1,
+                        color : Colors.blue
                       ),
                       onTap: (){
                         if(isPlaying){
@@ -94,6 +96,7 @@ class _HomeState extends State<Home> {
                         title: "Richest Addresses", 
                         subtitle: "What if you find it?",
                         isSelected: selectedContent == 2,
+                        color : Colors.blue
                       ),
                       onTap: (){
                         if(isPlaying){

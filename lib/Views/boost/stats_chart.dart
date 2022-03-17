@@ -55,9 +55,9 @@ class _StatsChartState extends State<StatsChart> {
 
   String getChartTitle(){
     switch(widget.chartType){
-      case ChartType.WALLETS_PER_SECOND :
+      case ChartType.WPS :
         return "Wallets per second\n(WPS)";
-      case ChartType.BRAINWALLETS_PER_SECONDS :
+      case ChartType.BPS :
         return "Brainwallet per second\n(BPS)";
       default :
         return "";

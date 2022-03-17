@@ -20,10 +20,8 @@ class _BoostState extends State<Boost> {
   Widget build(BuildContext context) {
 
     charts =  [
-      StatsChart(chartType: ChartType.WALLETS_PER_SECOND, chartValue: getChartValue(ChartType.WALLETS_PER_SECOND),),
-      StatsChart(chartType: ChartType.BRAINWALLETS_PER_SECONDS, chartValue: getChartValue(ChartType.BRAINWALLETS_PER_SECONDS),),
-      StatsChart(chartType: ChartType.WALLETS_PER_SECOND, chartValue: getChartValue(ChartType.WALLETS_PER_SECOND),),
-      StatsChart(chartType: ChartType.BRAINWALLETS_PER_SECONDS, chartValue: getChartValue(ChartType.WALLETS_PER_SECOND),),
+      StatsChart(chartType: ChartType.WPS, chartValue: getChartValue(ChartType.WPS),),
+      StatsChart(chartType: ChartType.BPS, chartValue: getChartValue(ChartType.BPS),),
     ];
 
     return Scaffold(
@@ -31,40 +29,57 @@ class _BoostState extends State<Boost> {
       body: Container(
         child: Column(  
           children: [
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(18, 18, 18, 1)
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin : const EdgeInsets.only(top:20),
-                        child: const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),)
-                      ),
-                      NotificationListener<OverscrollIndicatorNotification>(
-                        onNotification: (OverscrollIndicatorNotification overscroll) {
-                          overscroll.disallowIndicator();
-                          return true;
-                        },
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: charts,
+            Flex(
+              direction: Axis.vertical,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(18, 18, 18, 1)
+                  ),
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.only(left:24, top:44),
+                            child: Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
+                        ),
+                        NotificationListener<OverscrollIndicatorNotification>(
+                          onNotification: (OverscrollIndicatorNotification overscroll) {
+                            overscroll.disallowIndicator();
+                            return true;
+                          },
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: charts,
+                            ),
+                          )
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top:25,),
+                          padding : const EdgeInsets.only(left : 24),
+                          width : double.infinity,
+                          height:50,
+                          color : const Color.fromARGB(255, 66, 66, 66),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text("WPS Boost : 0", style: TextStyle(color : Colors.white),),
+                              Text("BPS Boost : 0", style: TextStyle(color : Colors.white),),
+                            ],
                           ),
                         )
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ]
             ),
             Expanded(
               child: Container(
@@ -79,6 +94,8 @@ class _BoostState extends State<Boost> {
                       children: [
                         BoostCard(title: "Increase WPS by 1 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
                         BoostCard(title: "Increase BPS by 0.5 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
+                        BoostCard(title: "Increase WPS by 5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
+                        BoostCard(title: "Increase BPS by 2.5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
                       ],
                     ),
                   ),
@@ -93,9 +110,9 @@ class _BoostState extends State<Boost> {
 
   double getChartValue(ChartType chartType){
     switch(chartType){
-      case ChartType.WALLETS_PER_SECOND :
+      case ChartType.WPS :
         return WalletStats.walletsPerSecond;
-      case ChartType.BRAINWALLETS_PER_SECONDS :
+      case ChartType.BPS :
         return WalletStats.brainwalletsPerSeconds;
       default :
         return 0;
@@ -112,6 +129,16 @@ class _BoostState extends State<Boost> {
       case BoostType.BPS_ADS :
         setState(() {
           WalletStats.brainwalletsPerSeconds += 0.5;
+        });
+        return;
+      case BoostType.WPS_PREMIUM : 
+        setState(() {
+          WalletStats.brainwalletsPerSeconds += 5;
+        });
+        return;
+      case BoostType.BPS_PREMIUM : 
+        setState(() {
+          WalletStats.brainwalletsPerSeconds += 2.5;
         });
         return;
     }
