@@ -52,7 +52,7 @@ class BitcoinLib{
       WalletGeneratorState.wallets.add(card);
       (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(Duration(milliseconds: 1000 ~/ (params["walletsPerSecond"] as int)));
+      await Future.delayed(Duration(milliseconds: 1000.0 ~/ (params["walletsPerSecond"] as double)));
     }
   }
 
@@ -88,7 +88,7 @@ class BitcoinLib{
       WalletGeneratorState.brainWallets.add(card);
       (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(Duration(milliseconds: 1000 ~/ (params["brainwalletsPerSecond"] as int)));
+      await Future.delayed(Duration(milliseconds: 1000.0 ~/ (params["brainwalletsPerSecond"] as double)));
     }
   }
 

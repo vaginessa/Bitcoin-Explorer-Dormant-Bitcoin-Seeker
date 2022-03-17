@@ -1,5 +1,5 @@
 
 class WalletStats{
-  static int walletsPerSecond = 1;
-  static int brainwalletsPerSeconds = 1;
+  static double walletsPerSecond = 1;
+  static double brainwalletsPerSeconds = 1;
 }

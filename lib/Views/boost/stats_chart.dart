@@ -10,7 +10,7 @@ class StatsChart extends StatefulWidget {
     required this.chartValue
   }) : super(key: key);
 
-  final int chartValue;
+  final double chartValue;
   final ChartType chartType;
 
   @override
@@ -31,7 +31,7 @@ class _StatsChartState extends State<StatsChart> {
         radius: 75.0,
         lineWidth: 10.0,
         animation: true,
-        percent: widget.chartValue/100,
+        percent: widget.chartValue/100.0,
         center: Text(
           widget.chartValue.toString(),
           style: const TextStyle(
@@ -56,9 +56,9 @@ class _StatsChartState extends State<StatsChart> {
   String getChartTitle(){
     switch(widget.chartType){
       case ChartType.WALLETS_PER_SECOND :
-        return "Wallets per second";
+        return "Wallets per second\n(WPS)";
       case ChartType.BRAINWALLETS_PER_SECONDS :
-        return "Brainwallet per second";
+        return "Brainwallet per second\n(BPS)";
       default :
         return "";
     }

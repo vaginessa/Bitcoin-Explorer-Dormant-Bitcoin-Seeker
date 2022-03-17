@@ -31,37 +31,38 @@ class _BoostState extends State<Boost> {
       body: Container(
         child: Column(  
           children: [
-            Container(
-              width: double.infinity,
-              height: 300,
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(18, 18, 18, 1)
-              ),
+            Expanded(
               child: Container(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin : const EdgeInsets.only(top:20),
-                      child: const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),)
-                    ),
-                    NotificationListener<OverscrollIndicatorNotification>(
-                      onNotification: (OverscrollIndicatorNotification overscroll) {
-                        overscroll.disallowIndicator();
-                        return true;
-                      },
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: charts,
-                        ),
-                      )
-                    ),
-                  ],
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(18, 18, 18, 1)
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin : const EdgeInsets.only(top:20),
+                        child: const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),)
+                      ),
+                      NotificationListener<OverscrollIndicatorNotification>(
+                        onNotification: (OverscrollIndicatorNotification overscroll) {
+                          overscroll.disallowIndicator();
+                          return true;
+                        },
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: charts,
+                          ),
+                        )
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -76,12 +77,8 @@ class _BoostState extends State<Boost> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        BoostCard(title: "Increase wallet generation speed by 10 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
-                        BoostCard(title: "Increase boost time for 15 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BRW_10_5,),
-                        BoostCard(title: "Title 2", description: "", actionName: "1.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
-                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
-                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
-                        BoostCard(title: "Title 3", description: "", actionName: "3.99 \$",onBoost: onBoost,boostType: BoostType.WGS_10_5,),
+                        BoostCard(title: "Increase WPS by 1 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
+                        BoostCard(title: "Increase BPS by 0.5 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
                       ],
                     ),
                   ),
@@ -94,7 +91,7 @@ class _BoostState extends State<Boost> {
     );
   }
 
-  int getChartValue(ChartType chartType){
+  double getChartValue(ChartType chartType){
     switch(chartType){
       case ChartType.WALLETS_PER_SECOND :
         return WalletStats.walletsPerSecond;
@@ -107,14 +104,14 @@ class _BoostState extends State<Boost> {
 
   void onBoost(BoostType boostType){
     switch(boostType){
-      case BoostType.WGS_10_5 :
+      case BoostType.WPS_ADS :
         setState(() {
-          WalletStats.walletsPerSecond += 5;
+          WalletStats.walletsPerSecond += 1;
         });
         return;
-      case BoostType.BRW_10_5 :
+      case BoostType.BPS_ADS :
         setState(() {
-          WalletStats.brainwalletsPerSeconds += 5;
+          WalletStats.brainwalletsPerSeconds += 0.5;
         });
         return;
     }

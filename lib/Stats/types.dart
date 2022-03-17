@@ -6,6 +6,6 @@ enum ChartType{
 }
 
 enum BoostType{
-  WGS_10_5,
-  BRW_10_5 
+  WPS_ADS,
+  BPS_ADS, 
 }
