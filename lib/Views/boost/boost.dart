@@ -17,6 +17,12 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   List<StatsChart> charts = [];
 
   @override
+  void initState() {
+    WalletStats.getData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     charts =  [
       StatsChart(chartType: ChartType.WPS, chartValue: getChartValue(ChartType.WPS),),
@@ -95,6 +101,9 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   }
 
   void onBoost(BoostType boostType){
+
+    WalletStats.setData();
+
     switch(boostType){
       case BoostType.WPS_ADS :
         setState(() {
