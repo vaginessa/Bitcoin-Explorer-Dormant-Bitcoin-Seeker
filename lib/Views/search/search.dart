@@ -109,7 +109,6 @@ class _SearchState extends State<Search> {
           child: const Icon(Icons.search),
           backgroundColor:Colors.blue,
           onPressed: () { 
-            print(isSearching);
             if(isSearching == false){
               onSearch(inputController.text);
             }

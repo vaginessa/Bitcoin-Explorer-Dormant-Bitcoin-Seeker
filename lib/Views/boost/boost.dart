@@ -12,13 +12,12 @@ class Boost extends StatefulWidget {
   _BoostState createState() => _BoostState();
 }
 
-class _BoostState extends State<Boost> {
+class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
   List<StatsChart> charts = [];
 
   @override
   Widget build(BuildContext context) {
-
     charts =  [
       StatsChart(chartType: ChartType.WPS, chartValue: getChartValue(ChartType.WPS),),
       StatsChart(chartType: ChartType.BPS, chartValue: getChartValue(ChartType.BPS),),
@@ -26,85 +25,61 @@ class _BoostState extends State<Boost> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Container(
-        child: Column(  
-          children: [
-            Flex(
-              direction: Axis.vertical,
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(18, 18, 18, 1)
+      body: Column(  
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(18, 18, 18, 1)
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left:24, top:44),
+                    child: Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
                   ),
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.only(left:24, top:44),
-                            child: Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
-                        ),
-                        NotificationListener<OverscrollIndicatorNotification>(
-                          onNotification: (OverscrollIndicatorNotification overscroll) {
-                            overscroll.disallowIndicator();
-                            return true;
-                          },
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: charts,
-                            ),
-                          )
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top:25,),
-                          padding : const EdgeInsets.only(left : 24),
-                          width : double.infinity,
-                          height:50,
-                          color : const Color.fromARGB(255, 66, 66, 66),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text("WPS Boost : 0", style: TextStyle(color : Colors.white),),
-                              Text("BPS Boost : 0", style: TextStyle(color : Colors.white),),
-                            ],
-                          ),
-                        )
-                      ],
+                  NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (OverscrollIndicatorNotification overscroll) {
+                      overscroll.disallowIndicator();
+                      return true;
+                    },
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: charts,
+                      ),
                     ),
                   ),
-                ),
-              ]
+                ],
+              )
             ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(bottom:10),
-                child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification: (OverscrollIndicatorNotification overscroll) {
-                    overscroll.disallowIndicator();
-                    return true;
-                  },
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        BoostCard(title: "Increase WPS by 1 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
-                        BoostCard(title: "Increase BPS by 0.5 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
-                        BoostCard(title: "Increase WPS by 5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
-                        BoostCard(title: "Increase BPS by 2.5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
-                      ],
-                    ),
-                  ),
+          ),
+          Expanded(
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification overscroll) {
+                overscroll.disallowIndicator();
+                return true;
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    BoostCard(title: "Increase WPS by 1 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
+                    BoostCard(title: "Increase BPS by 0.5 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
+                    BoostCard(title: "Increase WPS by 5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
+                    BoostCard(title: "Increase BPS by 2.5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
+                  ],
                 ),
               ),
             )
-          ],
-        ),
-      )
+          )
+        ],
+      ),
     );
   }
 
