@@ -1,5 +1,6 @@
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boosts.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/boost_card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/stats_chart.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
@@ -18,8 +19,18 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    WalletStats.getData();
     super.initState();
+    WalletStats.getData().then((value) => {
+      setState(() {
+        
+      })
+    });
+
+    // WalletStats.resetData().then((value) => {
+    //   setState(() {
+
+    //   })
+    // });
   }
 
   @override
@@ -44,9 +55,29 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left:24, top:44),
-                    child: Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
+                  Padding(
+                    padding: const EdgeInsets.only(left:24, top:44, right : 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children : [
+                        const Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
+                        GestureDetector(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 68, 39, 2),
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(6.0),
+                              child: Icon(Icons.show_chart_sharp, color: Colors.orange,size : 30),
+                            )
+                          ),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ActiveBoosts()));
+                          },
+                        )
+                      ]
+                    )
                   ),
                   NotificationListener<OverscrollIndicatorNotification>(
                     onNotification: (OverscrollIndicatorNotification overscroll) {
@@ -77,8 +108,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
                   children: [
                     BoostCard(title: "Increase WPS by 1 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
                     BoostCard(title: "Increase BPS by 0.5 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
-                    BoostCard(title: "Increase WPS by 5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
-                    BoostCard(title: "Increase BPS by 2.5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
+                    BoostCard(title: "Increase WPS by 5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.WPS_PREMIUM,),
+                    BoostCard(title: "Increase BPS by 2.5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.BPS_PREMIUM,),
                   ],
                 ),
               ),
@@ -101,30 +132,53 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   }
 
   void onBoost(BoostType boostType){
-
-    WalletStats.setData();
-
     switch(boostType){
       case BoostType.WPS_ADS :
         setState(() {
           WalletStats.walletsPerSecond += 1;
+
+          checkMaxValues();
+
+          WalletStats.setData();
         });
         return;
       case BoostType.BPS_ADS :
         setState(() {
           WalletStats.brainwalletsPerSeconds += 0.5;
+
+          checkMaxValues();
+
+          WalletStats.setData();
         });
         return;
       case BoostType.WPS_PREMIUM : 
         setState(() {
-          WalletStats.brainwalletsPerSeconds += 5;
+          WalletStats.walletsPerSecond += 5;
+
+          checkMaxValues();
+
+          WalletStats.setData();
         });
         return;
       case BoostType.BPS_PREMIUM : 
         setState(() {
           WalletStats.brainwalletsPerSeconds += 2.5;
+
+          checkMaxValues();
+
+          WalletStats.setData();
         });
         return;
     }
+  }
+
+  void checkMaxValues(){
+    if(WalletStats.walletsPerSecond > MAX_WPS){
+      WalletStats.walletsPerSecond = MAX_WPS;
+    }
+                                        
+    if(WalletStats.brainwalletsPerSeconds > MAX_BPS){
+      WalletStats.brainwalletsPerSeconds = MAX_BPS;  
+    }  
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -18,6 +19,15 @@ class StatsChart extends StatefulWidget {
 }
 
 class _StatsChartState extends State<StatsChart> {
+
+  double divider = 0;
+
+  @override
+  void initState() {
+    divider = widget.chartType == ChartType.BPS ? MAX_WPS : MAX_BPS;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +41,7 @@ class _StatsChartState extends State<StatsChart> {
         radius: 75.0,
         lineWidth: 10.0,
         animation: true,
-        percent: widget.chartValue/100.0,
+        percent: widget.chartValue/divider,
         center: Text(
           widget.chartValue.toString(),
           style: const TextStyle(
