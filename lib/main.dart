@@ -9,7 +9,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+  // MobileAds.instance.initialize();
   
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -30,8 +30,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    print("AAAAAAAAAAAAAAAAAAAAAA");
-    GoogleAdMob.loadRewardedAd();
+    // GoogleAdMob.loadRewardedAd();
     super.initState();
   }
 

@@ -35,8 +35,12 @@ class WalletStats{
   static Future<void> getData() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    walletsPerSecond = sharedPreferences.getDouble("WPS") as double;
-    brainwalletsPerSeconds = sharedPreferences.getDouble("BPS") as double;
+    dynamic _wps = sharedPreferences.getDouble("WPS");
+    dynamic _bps = sharedPreferences.getDouble("BPS");
+
+    walletsPerSecond = _wps == null ? DEFAULT_WPS : _wps as double;
+    brainwalletsPerSeconds = _bps == null ? DEFAULT_BPS : _bps as double;
+
   }
 
   static Future<void> resetData() async{
