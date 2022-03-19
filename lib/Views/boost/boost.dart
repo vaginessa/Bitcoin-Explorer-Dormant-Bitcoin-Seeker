@@ -135,6 +135,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
     switch(boostType){
       case BoostType.WPS_ADS :
         setState(() {
+          WalletStats.activateBoost(BoostType.WPS_ADS);
+
           WalletStats.walletsPerSecond += 1;
 
           checkMaxValues();
@@ -144,6 +146,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         return;
       case BoostType.BPS_ADS :
         setState(() {
+          WalletStats.activateBoost(BoostType.BPS_ADS);
+
           WalletStats.brainwalletsPerSeconds += 0.5;
 
           checkMaxValues();
@@ -153,9 +157,6 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         return;
       case BoostType.WPS_PREMIUM : 
         setState(() {
-
-          WalletStats.activateBoost();
-
           WalletStats.walletsPerSecond += 5;
 
           checkMaxValues();
@@ -165,9 +166,6 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         return;
       case BoostType.BPS_PREMIUM : 
         setState(() {
-
-          WalletStats.activateBoost();
-
           WalletStats.brainwalletsPerSeconds += 2.5;
 
           checkMaxValues();

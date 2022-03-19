@@ -18,7 +18,7 @@ class _ActiveBoostsState extends State<ActiveBoosts> {
   @override
   Widget build(BuildContext context) {
 
-    activeBoosts = WalletStats.activeBoosts;
+    activeBoosts = WalletStats.activeBoostsCards;
 
     return Scaffold(
       appBar: AppBar(

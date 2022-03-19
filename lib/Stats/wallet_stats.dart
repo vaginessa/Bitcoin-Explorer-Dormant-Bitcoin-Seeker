@@ -4,7 +4,6 @@ import 'package:dormant_bitcoin_seeker_flutter/Models/active_boost.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boost_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 const double DEFAULT_WPS = 1;
 const double DEFAULT_BPS = 1;
@@ -15,11 +14,15 @@ class WalletStats{
   static double walletsPerSecond = DEFAULT_WPS;
   static double brainwalletsPerSeconds = DEFAULT_BPS;
   
-  static List<ActiveBoostCard> activeBoosts = [];
+  static List<ActiveBoost> activeBoosts = [];
+  static List<ActiveBoostCard> activeBoostsCards = [];
 
-  static void activateBoost(){
-    ActiveBoostCard activeBoostCard = const ActiveBoostCard();
-    activeBoosts.add(activeBoostCard);
+  static void activateBoost(BoostType boostType){
+    ActiveBoost activeBoost = ActiveBoost(startTime: "", boostType: boostType);
+    ActiveBoostCard activeBoostCard = ActiveBoostCard(boost : activeBoost);
+
+    activeBoosts.add(activeBoost);
+    activeBoostsCards.add(activeBoostCard);
   }
 
   static Future<void> setData() async{
