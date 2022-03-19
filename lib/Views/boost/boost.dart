@@ -54,7 +54,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left:24, top:44, right : 24),
