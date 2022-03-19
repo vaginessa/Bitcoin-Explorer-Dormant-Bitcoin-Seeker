@@ -1,5 +1,6 @@
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boosts.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/boost_card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/stats_chart.dart';
@@ -106,10 +107,10 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    BoostCard(title: "Increase WPS by 1 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.WPS_ADS,),
-                    BoostCard(title: "Increase BPS by 0.5 for 5 minutes", description: "", actionName: "WATCH AN AD",onBoost: onBoost,boostType: BoostType.BPS_ADS,),
-                    BoostCard(title: "Increase WPS by 5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.WPS_PREMIUM,),
-                    BoostCard(title: "Increase BPS by 2.5 for ever", description: "", actionName: "0.99\$",onBoost: onBoost,boostType: BoostType.BPS_PREMIUM,),
+                    BoostCard(title: WalletStatsUtils.getButtonDescription(BoostType.WPS_ADS), description: "", actionName: WalletStatsUtils.getButtonTitle(BoostType.WPS_ADS),onBoost: onBoost,boostType: BoostType.WPS_ADS,),
+                    BoostCard(title: WalletStatsUtils.getButtonDescription(BoostType.BPS_ADS), description: "", actionName: WalletStatsUtils.getButtonTitle(BoostType.BPS_ADS),onBoost: onBoost,boostType: BoostType.BPS_ADS,),
+                    BoostCard(title: WalletStatsUtils.getButtonDescription(BoostType.WPS_PREMIUM), description: "", actionName: WalletStatsUtils.getButtonTitle(BoostType.WPS_PREMIUM),onBoost: onBoost,boostType: BoostType.WPS_PREMIUM,),
+                    BoostCard(title: WalletStatsUtils.getButtonDescription(BoostType.BPS_PREMIUM), description: "", actionName: WalletStatsUtils.getButtonTitle(BoostType.BPS_PREMIUM),onBoost: onBoost,boostType: BoostType.BPS_PREMIUM,),
                   ],
                 ),
               ),
@@ -137,7 +138,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         setState(() {
           WalletStats.activateBoost(BoostType.WPS_ADS);
 
-          WalletStats.walletsPerSecond += 1;
+          WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
 
           checkMaxValues();
 
@@ -148,7 +149,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         setState(() {
           WalletStats.activateBoost(BoostType.BPS_ADS);
 
-          WalletStats.brainwalletsPerSeconds += 0.5;
+          WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
 
           checkMaxValues();
 
@@ -157,7 +158,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         return;
       case BoostType.WPS_PREMIUM : 
         setState(() {
-          WalletStats.walletsPerSecond += 5;
+          WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
 
           checkMaxValues();
 
@@ -166,7 +167,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         return;
       case BoostType.BPS_PREMIUM : 
         setState(() {
-          WalletStats.brainwalletsPerSeconds += 2.5;
+          WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
 
           checkMaxValues();
 

@@ -1,4 +1,5 @@
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../Models/active_boost.dart';
@@ -34,7 +35,7 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(widget.boost.boostType == BoostType.WPS_ADS ? "WPS" : "BPS", style: const TextStyle(color: Colors.white, fontSize: 20),),
-            const Text("+ 10", style: TextStyle(color: Colors.white, fontSize: 17.5),),
+            Text("+ " + WalletStatsUtils.getValue(widget.boost.boostType).toString(), style: const TextStyle(color: Colors.white, fontSize: 17.5),),
             const Text("5:00", style: TextStyle(color: Colors.yellow, fontSize: 17.5),),
           ],
         ),

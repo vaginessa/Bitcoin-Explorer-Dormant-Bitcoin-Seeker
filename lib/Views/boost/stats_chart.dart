@@ -4,6 +4,8 @@ import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../Stats/wallet_stats_utils.dart';
+
 class StatsChart extends StatefulWidget {
   const StatsChart({ 
     Key? key,
@@ -36,7 +38,7 @@ class _StatsChartState extends State<StatsChart> {
         header: Container(
           width:200,
           margin: const EdgeInsets.only(bottom:20),
-          child: Text(getChartTitle(), style: const TextStyle(color: Colors.white, fontSize: 18),textAlign: TextAlign.center,)
+          child: Text(WalletStatsUtils.getChartTitle(widget.chartType), style: const TextStyle(color: Colors.white, fontSize: 18),textAlign: TextAlign.center,)
         ),
         radius: 75.0,
         lineWidth: 10.0,
@@ -61,16 +63,5 @@ class _StatsChartState extends State<StatsChart> {
     setState(() {
       
     });
-  }
-
-  String getChartTitle(){
-    switch(widget.chartType){
-      case ChartType.WPS :
-        return "Wallets per second\n(WPS)";
-      case ChartType.BPS :
-        return "Brainwallet per second\n(BPS)";
-      default :
-        return "";
-    }
   }
 }
