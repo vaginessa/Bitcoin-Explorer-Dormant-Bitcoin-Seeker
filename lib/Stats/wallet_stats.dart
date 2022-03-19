@@ -1,5 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:dormant_bitcoin_seeker_flutter/Models/active_boost.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boost_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -11,12 +14,12 @@ const double MAX_BPS = 1000;
 class WalletStats{
   static double walletsPerSecond = DEFAULT_WPS;
   static double brainwalletsPerSeconds = DEFAULT_BPS;
+  
+  static List<ActiveBoostCard> activeBoosts = [];
 
-  Map toMap(){
-    return {
-      "WPS" : walletsPerSecond,
-      "BPS" : brainwalletsPerSeconds
-    };
+  static void activateBoost(){
+    ActiveBoostCard activeBoostCard = const ActiveBoostCard();
+    activeBoosts.add(activeBoostCard);
   }
 
   static Future<void> setData() async{
