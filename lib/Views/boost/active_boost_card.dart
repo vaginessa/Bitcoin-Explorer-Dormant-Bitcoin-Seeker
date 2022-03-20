@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,34 @@ class ActiveBoostCard extends StatefulWidget {
 }
 
 class _ActiveBoostCardState extends State<ActiveBoostCard> {
+
+  Timer? timer;
+  int time = 300;
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (time == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            time--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,10 +66,14 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
           children: [
             Text(widget.boost.boostType == BoostType.WPS_ADS ? "WPS" : "BPS", style: const TextStyle(color: Colors.white, fontSize: 20),),
             Text("+ " + WalletStatsUtils.getValue(widget.boost.boostType).toString(), style: const TextStyle(color: Colors.white, fontSize: 17.5),),
-            const Text("5:00", style: TextStyle(color: Colors.yellow, fontSize: 17.5),),
+            Text(formatTime(time), style: const TextStyle(color: Colors.yellow, fontSize: 17.5),),
           ],
         ),
       ),
     );
+  }
+
+  String formatTime(int seconds) {
+    return '${(Duration(seconds: seconds))}'.split('.')[0].padLeft(8, '0');
   }
 }
