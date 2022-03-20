@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
@@ -9,7 +11,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // MobileAds.instance.initialize();
+  MobileAds.instance.initialize().then((value) => {
+    print("Mobile Ads Initialized")
+  });
   
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -30,7 +34,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // GoogleAdMob.loadRewardedAd();
     super.initState();
   }
 

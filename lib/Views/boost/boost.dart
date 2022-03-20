@@ -5,6 +5,7 @@ import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boosts.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/boost_card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/stats_chart.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
+import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
 import 'package:flutter/material.dart';
 
 class Boost extends StatefulWidget {
@@ -135,6 +136,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   void onBoost(BoostType boostType){
     switch(boostType){
       case BoostType.WPS_ADS :
+        GoogleAdMob.showInterstitial();
+
         setState(() {
           WalletStats.activateBoost(BoostType.WPS_ADS);
 
@@ -146,6 +149,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         });
         return;
       case BoostType.BPS_ADS :
+        GoogleAdMob.showInterstitial();
+        
         setState(() {
           WalletStats.activateBoost(BoostType.BPS_ADS);
 

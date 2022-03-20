@@ -43,7 +43,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.dormant_bitcoin_seeker_flutter"
-        minSdkVersion 26
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
