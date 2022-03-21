@@ -44,6 +44,7 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
   @override
   void initState() {
     super.initState();
+    time = WalletStatsUtils.getSeconds(widget.boost.boostType);
     startTimer();
   }
 

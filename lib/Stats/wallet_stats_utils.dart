@@ -7,6 +7,9 @@ const double BPS_ADS = 0.5;
 const double WPS_PREMIUM = 5;
 const double BPS_PREMIUM = 2.5;
 
+const int WPS_ADS_SECONDS = 300;
+const int BPS_ADS_SECONDS = 150;
+
 const String WPS_ADS_BUTTON_DESCRIPTION = "Increase WPS by 1 for 5 minutes";
 const String BPS_ADS_BUTTON_DESCRIPTION = "Increase BPS by 0.5 for 5 minutes";
 const String WPS_PREMIUM_BUTTON_DESCRIPTION = "Increase WPS by 5 for ever";
@@ -69,6 +72,19 @@ class WalletStatsUtils
         return WPS_PREMIUM;
       case BoostType.BPS_PREMIUM:
         return BPS_PREMIUM;
+    }
+  }
+
+  static int getSeconds(BoostType boostType){
+    switch(boostType){
+      case BoostType.WPS_ADS:
+        return WPS_ADS_SECONDS;
+      case BoostType.BPS_ADS:
+        return BPS_ADS_SECONDS;
+      case BoostType.WPS_PREMIUM:
+        return 0;
+      case BoostType.BPS_PREMIUM:
+        return 0;
     }
   }
 }
