@@ -10,4 +10,11 @@ class ActiveBoost{
     required this.startTime,
     required this.boostType,
   });
+
+  Map<String,String> toMap(){
+    return {
+      "boost type" : boostType.toString(),
+      "end time" : startTime
+    };
+  }
 }
