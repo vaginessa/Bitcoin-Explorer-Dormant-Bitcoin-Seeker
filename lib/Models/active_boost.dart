@@ -1,20 +1,21 @@
 
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
 
 class ActiveBoost{
 
   BoostType boostType;
-  String startTime;
+  String endTime;
 
   ActiveBoost({
-    required this.startTime,
+    required this.endTime,
     required this.boostType,
   });
 
   Map<String,String> toMap(){
     return {
-      "boost type" : boostType.toString(),
-      "end time" : startTime
+      "boost type" : WalletStatsUtils.boostTypeConvert(boostType,null),
+      "end time" : endTime
     };
   }
 }

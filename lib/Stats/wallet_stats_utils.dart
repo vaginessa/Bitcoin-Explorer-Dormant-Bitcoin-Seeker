@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:flutter/cupertino.dart';
 
 const double WPS_ADS = 1;
 const double BPS_ADS = 0.5;
@@ -86,5 +87,34 @@ class WalletStatsUtils
       case BoostType.BPS_PREMIUM:
         return 0;
     }
+  }
+
+  static dynamic boostTypeConvert(BoostType? boostType, String? _boostType){
+    if(boostType != null){
+      switch(boostType){
+        case BoostType.WPS_ADS:
+          return "WPS_ADS";
+        case BoostType.BPS_ADS:
+          return "BPS_ADS";
+        case BoostType.WPS_PREMIUM:
+          return "WPS_PREMIUM";
+        case BoostType.BPS_PREMIUM:
+          return "BPS_PREMIUM";
+      }
+    }
+    else if(_boostType != null){
+      switch(_boostType){
+        case "WPS_ADS":
+          return BoostType.WPS_ADS;
+        case "BPS_ADS":
+          return BoostType.BPS_ADS;
+        case "WPS_PREMIUM":
+          return BoostType.WPS_PREMIUM;
+        case "BPS_PREMIUM":
+          return BoostType.BPS_PREMIUM;
+      }
+    }
+    
+    return null;
   }
 }

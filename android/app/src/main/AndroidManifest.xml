@@ -36,7 +36,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value=""/>
+            android:value="ca-app-pub-9491236630949342~4327863875"/>
 
         <meta-data android:name="io.flutter.network-policy"
                 android:resource="@xml/network_security_config"/>

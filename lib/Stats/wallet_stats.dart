@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:dormant_bitcoin_seeker_flutter/Models/active_boost.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boost_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,11 +25,8 @@ class WalletStats {
     // final berlinWallFell = DateTime.utc(1989, 11, 9);
     // final moonLanding = DateTime.parse('1969-07-20 20:18:04Z'); // 8:18pm
 
-    ActiveBoost activeBoost =
-        ActiveBoost(startTime: startTime.toString(), boostType: boostType);
+    ActiveBoost activeBoost = ActiveBoost(endTime: startTime.toString(), boostType: boostType);
     ActiveBoostCard activeBoostCard = ActiveBoostCard(boost: activeBoost);
-
-    print(activeBoost.startTime);
 
     activeBoosts.add(activeBoost);
     activeBoostsCards.add(activeBoostCard);
@@ -53,12 +51,21 @@ class WalletStats {
 
     dynamic _wps = sharedPreferences.getDouble("WPS");
     dynamic _bps = sharedPreferences.getDouble("BPS");
-    dynamic _activeBoosts = sharedPreferences.getStringList("active boosts");
+    List<String> _activeBoosts = sharedPreferences.getStringList("active boosts") as List<String>;
 
     walletsPerSecond = _wps == null ? DEFAULT_WPS : _wps as double;
     brainwalletsPerSeconds = _bps == null ? DEFAULT_BPS : _bps as double;
 
-    print(_activeBoosts);
+    for(int n=0;n<_activeBoosts.length;n++){
+      Map<String, String> temp = Map.from(json.decode(_activeBoosts[n]));
+      ActiveBoost _boost =ActiveBoost(endTime : temp["end time"]!, boostType: WalletStatsUtils.boostTypeConvert(null,temp["boost type"]!) as BoostType);
+      activeBoosts.add(_boost);
+      activeBoostsCards.add(ActiveBoostCard(boost: _boost));
+    }
+
+    for(int n=0;n<activeBoosts.length;n++){
+      print(activeBoosts[n].boostType);
+    }
   }
 
   static Future<void> resetData() async {
@@ -66,5 +73,7 @@ class WalletStats {
 
     sharedPreferences.setDouble("WPS", DEFAULT_WPS);
     sharedPreferences.setDouble("BPS", DEFAULT_BPS);
+
+    sharedPreferences.setStringList("active boosts", []);
   }
 }
