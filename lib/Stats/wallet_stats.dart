@@ -84,5 +84,12 @@ class WalletStats {
     int index = activeBoosts.indexOf(boost);
     activeBoosts.removeAt(index);
     activeBoostsCards.removeAt(index);
+
+    if(boost.boostType == BoostType.WPS_ADS){
+      walletsPerSecond -= WalletStatsUtils.getValue(boost.boostType);
+    }
+    else if(boost.boostType ==  BoostType.BPS_ADS){
+      brainwalletsPerSeconds -= WalletStatsUtils.getValue(boost.boostType);
+    }
   }
 }
