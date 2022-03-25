@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names
-
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
-import 'package:flutter/cupertino.dart';
 
 const double WPS_ADS = 1;
 const double BPS_ADS = 0.5;

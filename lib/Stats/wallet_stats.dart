@@ -21,11 +21,11 @@ class WalletStats {
   static List<ActiveBoostCard> activeBoostsCards = [];
 
   static void activateBoost(BoostType boostType) {
-    DateTime startTime = DateTime.now();
-    // final berlinWallFell = DateTime.utc(1989, 11, 9);
-    // final moonLanding = DateTime.parse('1969-07-20 20:18:04Z'); // 8:18pm
+    DateTime endTime = DateTime.now();
+    endTime = endTime.add(Duration(seconds: WalletStatsUtils.getSeconds(boostType)));
 
-    ActiveBoost activeBoost = ActiveBoost(endTime: startTime.toString(), boostType: boostType);
+  
+    ActiveBoost activeBoost = ActiveBoost(endTime: endTime.toString(), boostType: boostType);
     ActiveBoostCard activeBoostCard = ActiveBoostCard(boost: activeBoost);
 
     activeBoosts.add(activeBoost);
@@ -56,6 +56,9 @@ class WalletStats {
     walletsPerSecond = _wps == null ? DEFAULT_WPS : _wps as double;
     brainwalletsPerSeconds = _bps == null ? DEFAULT_BPS : _bps as double;
 
+    activeBoosts = [];
+    activeBoostsCards = [];
+
     for(int n=0;n<_activeBoosts.length;n++){
       Map<String, String> temp = Map.from(json.decode(_activeBoosts[n]));
       ActiveBoost _boost =ActiveBoost(endTime : temp["end time"]!, boostType: WalletStatsUtils.boostTypeConvert(null,temp["boost type"]!) as BoostType);
@@ -75,5 +78,11 @@ class WalletStats {
     sharedPreferences.setDouble("BPS", DEFAULT_BPS);
 
     sharedPreferences.setStringList("active boosts", []);
+  }
+
+  static void removeBoost(ActiveBoost boost){
+    int index = activeBoosts.indexOf(boost);
+    activeBoosts.removeAt(index);
+    activeBoostsCards.removeAt(index);
   }
 }

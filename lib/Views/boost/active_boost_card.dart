@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
+import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,10 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
       (Timer timer) {
         if (time == 0) {
           setState(() {
+            WalletStats.removeBoost(widget.boost);
+            WalletStats.setData();
             timer.cancel();
+            dispose();
           });
         } else {
           setState(() {
@@ -44,8 +48,33 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
   @override
   void initState() {
     super.initState();
-    time = WalletStatsUtils.getSeconds(widget.boost.boostType);
-    startTimer();
+    
+    DateTime currentTime = DateTime.now();
+    DateTime endTime = DateTime.parse(widget.boost.endTime);
+
+    int seconds = endTime.difference(currentTime).inSeconds;
+
+    print(currentTime);
+    print(endTime);
+    print(seconds);
+
+    if(seconds < 1){
+      WalletStats.removeBoost(widget.boost);
+      WalletStats.setData();
+    }
+    else{
+      time = seconds;
+      startTimer();
+    }
+
+    setState(() {});
+  }
+
+  @mustCallSuper
+  @protected
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
