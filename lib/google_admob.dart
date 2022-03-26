@@ -8,6 +8,7 @@ class GoogleAdMob{
   static void interstialLoad(bool show) async{
     await InterstitialAd.load(
       adUnitId: "ca-app-pub-3940256099942544/1033173712", 
+      // ignore: prefer_const_constructors
       request: AdRequest(), 
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {

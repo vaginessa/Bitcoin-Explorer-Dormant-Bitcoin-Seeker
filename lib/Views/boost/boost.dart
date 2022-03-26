@@ -27,12 +27,6 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         
       })
     });
-
-    // WalletStats.resetData().then((value) => {
-    //   setState(() {
-
-    //   })
-    // });
   }
 
   @override
@@ -75,7 +69,16 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
                             )
                           ),
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ActiveBoosts()));
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context) => const ActiveBoosts()
+                              )
+                            ).whenComplete(() => {
+                                setState(() {
+                                  
+                                })
+                            });
                           },
                         )
                       ]

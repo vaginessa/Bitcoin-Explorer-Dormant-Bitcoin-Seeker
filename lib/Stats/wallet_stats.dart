@@ -65,10 +65,6 @@ class WalletStats {
       activeBoosts.add(_boost);
       activeBoostsCards.add(ActiveBoostCard(boost: _boost));
     }
-
-    for(int n=0;n<activeBoosts.length;n++){
-      print(activeBoosts[n].boostType);
-    }
   }
 
   static Future<void> resetData() async {

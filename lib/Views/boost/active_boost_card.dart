@@ -23,18 +23,19 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
 
   Timer? timer;
   int time = 300;
+  bool hide = false;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,
       (Timer timer) {
-        if (time == 0) {
+        if (time < 1) {
           setState(() {
             WalletStats.removeBoost(widget.boost);
             WalletStats.setData();
             timer.cancel();
-            dispose();
+            hide = true;
           });
         } else {
           setState(() {
@@ -53,10 +54,6 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
     DateTime endTime = DateTime.parse(widget.boost.endTime);
 
     int seconds = endTime.difference(currentTime).inSeconds;
-
-    print(currentTime);
-    print(endTime);
-    print(seconds);
 
     if(seconds < 1){
       WalletStats.removeBoost(widget.boost);
@@ -79,7 +76,7 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return !hide ? Container(
       height: 80,
       decoration: const BoxDecoration(
         border: Border(
@@ -100,7 +97,7 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
           ],
         ),
       ),
-    );
+    ) : const Center();
   }
 
   String formatTime(int seconds) {
