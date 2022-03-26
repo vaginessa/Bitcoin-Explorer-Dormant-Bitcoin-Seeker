@@ -27,6 +27,35 @@ class _HomeState extends State<Home> {
 
   int selectedContent = 0;
   Random rd = Random();
+  Timer? intervalCheck;
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    intervalCheck = Timer.periodic(const Duration(seconds: 10), (timer) {
+      if(WalletStats.boostsCheck()){
+        restartThreads();
+        setState(() {});
+      }
+    });
+  }
+
+  @mustCallSuper
+  @protected
+  void dispose() {
+    intervalCheck?.cancel();
+    if(randomBrainWalletsThread != null){
+      randomBrainWalletsThread?.kill();
+    }
+
+    if(randomWalletsThread != null){
+      randomWalletsThread?.kill();
+    }
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +233,7 @@ class _HomeState extends State<Home> {
       final receivePort = ReceivePort();
       Map<String, Object> params = {};
       params["sendPort"] = receivePort.sendPort;
-      params["brainwalletsPerSecond"] = WalletStats.walletsPerSecond;
+      params["brainwalletsPerSecond"] = WalletStats.brainwalletsPerSeconds;
 
       onRandomBrainWalletsThread = true;
       randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
@@ -212,6 +241,44 @@ class _HomeState extends State<Home> {
         WalletGeneratorState.brainWallets.add(response);
         setState(() {});
       });
+    }
+  }
+
+  void restartThreads() async{
+    if(isPlaying){
+      if(onRandomWalletsThread){
+        randomWalletsThread?.kill();
+        BitcoinLib bitcoin = BitcoinLib();
+
+        final receivePort = ReceivePort();
+        Map<String, Object> params = {};
+        params["sendPort"] = receivePort.sendPort;
+        params["walletsPerSecond"] = WalletStats.walletsPerSecond;
+
+        onRandomWalletsThread = true;
+        randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,params);
+        receivePort.listen((response) {
+          WalletGeneratorState.wallets.add(response);
+          setState(() {});
+        });
+      }
+
+      if(onRandomBrainWalletsThread){
+        randomBrainWalletsThread?.kill();
+        BitcoinLib bitcoin = BitcoinLib();
+
+        final receivePort = ReceivePort();
+        Map<String, Object> params = {};
+        params["sendPort"] = receivePort.sendPort;
+        params["brainwalletsPerSecond"] = WalletStats.brainwalletsPerSeconds;
+
+        onRandomBrainWalletsThread = true;
+        randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
+        receivePort.listen((response) {
+          WalletGeneratorState.brainWallets.add(response);
+          setState(() {});
+        });
+      }
     }
   }
 }

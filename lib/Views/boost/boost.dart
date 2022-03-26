@@ -27,13 +27,15 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    WalletStats.boostsCheck();
+
     WalletStats.getData().then((value) => {
       setState(() {
         
       })
     });
 
-    intervalCheck = Timer.periodic(const Duration(seconds: 5), (timer) {
+    intervalCheck = Timer.periodic(const Duration(seconds: 10), (timer) {
       if(WalletStats.boostsCheck()){
         setState(() {});
       }
