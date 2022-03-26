@@ -1,18 +1,18 @@
 // ignore_for_file: constant_identifier_names
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 
-const double WPS_ADS = 1;
-const double BPS_ADS = 0.5;
-const double WPS_PREMIUM = 5;
-const double BPS_PREMIUM = 2.5;
+const double WPS_ADS = 5;
+const double BPS_ADS = 2.5;
+const double WPS_PREMIUM = 10;
+const double BPS_PREMIUM = 5;
 
 const int WPS_ADS_SECONDS = 300;
 const int BPS_ADS_SECONDS = 150;
 
-const String WPS_ADS_BUTTON_DESCRIPTION = "Increase WPS by 1 for 5 minutes";
-const String BPS_ADS_BUTTON_DESCRIPTION = "Increase BPS by 0.5 for 5 minutes";
-const String WPS_PREMIUM_BUTTON_DESCRIPTION = "Increase WPS by 5 for ever";
-const String BPS_PREMIUM_BUTTON_DESCRIPTION = "Increase BPS by 2.5 for ever";
+const String WPS_ADS_BUTTON_DESCRIPTION = "Increase WPS by 5 for 5 minutes";
+const String BPS_ADS_BUTTON_DESCRIPTION = "Increase BPS by 2.5 for 5 minutes";
+const String WPS_PREMIUM_BUTTON_DESCRIPTION = "Increase WPS by 10 for ever";
+const String BPS_PREMIUM_BUTTON_DESCRIPTION = "Increase BPS by 5 for ever";
 
 const String WPS_ADS_BUTTON_TITLE = "WATCH AN AD";
 const String BPS_ADS_BUTTON_TITLE = "WATCH AN AD";

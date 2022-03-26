@@ -58,6 +58,7 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
     if(seconds < 1){
       WalletStats.removeBoost(widget.boost);
       WalletStats.setData();
+      hide = true;
     }
     else{
       time = seconds;

@@ -3,7 +3,6 @@ import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
 import '../../Stats/wallet_stats_utils.dart';
 
 class StatsChart extends StatefulWidget {

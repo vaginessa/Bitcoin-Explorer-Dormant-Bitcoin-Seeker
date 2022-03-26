@@ -1,6 +1,5 @@
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:flutter/material.dart';
-
 import '../../global.dart';
 import 'active_boost_card.dart';
 

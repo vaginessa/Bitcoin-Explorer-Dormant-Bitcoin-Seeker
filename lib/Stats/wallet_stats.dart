@@ -24,7 +24,6 @@ class WalletStats {
     DateTime endTime = DateTime.now();
     endTime = endTime.add(Duration(seconds: WalletStatsUtils.getSeconds(boostType)));
 
-  
     ActiveBoost activeBoost = ActiveBoost(endTime: endTime.toString(), boostType: boostType);
     ActiveBoostCard activeBoostCard = ActiveBoostCard(boost: activeBoost);
 
@@ -87,5 +86,27 @@ class WalletStats {
     else if(boost.boostType ==  BoostType.BPS_ADS){
       brainwalletsPerSeconds -= WalletStatsUtils.getValue(boost.boostType);
     }
+  }
+
+  static bool boostsCheck(){
+    bool result = false;
+
+    DateTime currentTime = DateTime.now();
+    DateTime endTime;
+    int seconds = 0;
+
+    for(int n=0;n<activeBoosts.length;n++){
+      endTime = DateTime.parse(activeBoosts[n].endTime);
+      seconds = endTime.difference(currentTime).inSeconds;
+
+      if(seconds < 1){
+        removeBoost(activeBoosts[n]);
+        result = true;
+      }
+    }
+
+    print("check");
+
+    return result;
   }
 }

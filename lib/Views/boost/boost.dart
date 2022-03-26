@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
@@ -18,6 +21,8 @@ class Boost extends StatefulWidget {
 class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
   List<StatsChart> charts = [];
+  Timer? intervalCheck;
+
 
   @override
   void initState() {
@@ -27,6 +32,19 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         
       })
     });
+
+    intervalCheck = Timer.periodic(const Duration(seconds: 5), (timer) {
+      if(WalletStats.boostsCheck()){
+        setState(() {});
+      }
+    });
+  }
+
+  @mustCallSuper
+  @protected
+  void dispose() {
+    intervalCheck?.cancel();
+    super.dispose();
   }
 
   @override
@@ -142,7 +160,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         GoogleAdMob.showInterstitial();
 
         setState(() {
-          WalletStats.activateBoost(BoostType.WPS_ADS);
+          WalletStats.activateBoost(boostType);
 
           WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
 
@@ -155,7 +173,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         GoogleAdMob.showInterstitial();
         
         setState(() {
-          WalletStats.activateBoost(BoostType.BPS_ADS);
+          WalletStats.activateBoost(boostType);
 
           WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
 
