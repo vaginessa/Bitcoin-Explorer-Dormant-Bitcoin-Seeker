@@ -118,24 +118,24 @@ class _HomeState extends State<Home> {
                         });
                       },
                     ),
-                    const SizedBox(width:30),
-                    GestureDetector(
-                      child: PreviewCard(
-                        icon: const Icon(Icons.text_snippet), 
-                        title: "Richest Addresses", 
-                        subtitle: "What if you find it?",
-                        isSelected: selectedContent == 2,
-                        color : Colors.blue
-                      ),
-                      onTap: (){
-                        if(isPlaying){
-                          togglePlay();
-                        }
-                        setState(() {
-                          selectedContent = 2;
-                        });
-                      },
-                    ),
+                    // const SizedBox(width:30),
+                    // GestureDetector(
+                    //   child: PreviewCard(
+                    //     icon: const Icon(Icons.text_snippet), 
+                    //     title: "Richest Addresses", 
+                    //     subtitle: "What if you find it?",
+                    //     isSelected: selectedContent == 2,
+                    //     color : Colors.blue
+                    //   ),
+                    //   onTap: (){
+                    //     if(isPlaying){
+                    //       togglePlay();
+                    //     }
+                    //     setState(() {
+                    //       selectedContent = 2;
+                    //     });
+                    //   },
+                    // ),
                   ],
                 ),
               ),
