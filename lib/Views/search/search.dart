@@ -77,9 +77,12 @@ class _SearchState extends State<Search> {
                   ]
                 )
               else
-                Center(
-                  child: Text(onFirst ? "Empty" : "Invalid address", style: const TextStyle(color: Colors.white, fontSize: 22.5),)
-                ),
+                if(isSearching)
+                  const SizedBox(width:20, height: 20, child: Center(child: CircularProgressIndicator()))
+                else
+                  Center(
+                    child: Text(onFirst ? "Empty" : "Invalid address", style: const TextStyle(color: Colors.white, fontSize: 22.5),)
+                  ),
               // TAB PRIVATE KEY
               if(WalletGeneratorState.searchResultByPrivateKey != null)
                 Column(
@@ -88,9 +91,12 @@ class _SearchState extends State<Search> {
                   ]
                 )
               else
-                Center(
-                  child: Text(onFirst ? "Empty" : "Invalid private key", style: const TextStyle(color: Colors.white, fontSize: 22.5),)
-                ),
+                if(isSearching)
+                  const SizedBox(width:20, height: 20, child: Center(child: CircularProgressIndicator()))
+                else
+                  Center(
+                    child: Text(onFirst ? "Empty" : "Invalid private key", style: const TextStyle(color: Colors.white, fontSize: 22.5),)
+                  ),
               // TAB SEED PHRASE
               if(WalletGeneratorState.searchResultBySeedPhrase != null)
                 Column(
@@ -99,9 +105,12 @@ class _SearchState extends State<Search> {
                   ]
                 )
               else
-                const Center(
-                  child: Text("Invalid seed phrase", style: TextStyle(color: Colors.white, fontSize: 22.5),)
-                ),
+                if(isSearching)
+                  const SizedBox(width:20, height: 20, child: Center(child: CircularProgressIndicator()))
+                else
+                  const Center(
+                    child: Text("Invalid seed phrase", style: TextStyle(color: Colors.white, fontSize: 22.5),)
+                  ),
             ],
           ),
         ),
@@ -120,7 +129,9 @@ class _SearchState extends State<Search> {
 
   Isolate? searchThread;
   void onSearch(String search) async{  
-    isSearching = true;  
+    setState(() {
+      isSearching = true;
+    });
     BitcoinLib bitcoin = BitcoinLib();
 
     final receivePort = ReceivePort();
@@ -129,13 +140,16 @@ class _SearchState extends State<Search> {
     params["sendPort"] = receivePort.sendPort;
 
     if(currentTabIndex == 0){
+      WalletGeneratorState.searchResultByAddress = null;
       params["address"] = search;
 
       try{
         searchThread = await Isolate.spawn(bitcoin.searchByAddress,params);
       }
       on Exception{
-        isSearching = false;
+        setState(() {
+          isSearching = false;
+        });
       }
 
       receivePort.listen((response) {
@@ -150,12 +164,23 @@ class _SearchState extends State<Search> {
       });
     }
     else if(currentTabIndex == 1){
+      WalletGeneratorState.searchResultByPrivateKey = null;
       params["privateKey"] = search;
-      try{
-        searchThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
+
+      if(params["privateKey"] == ""){
+        setState(() {
+          isSearching = false;
+        });
       }
-      on Exception{
-        isSearching = false;
+      else{
+        try{
+          searchThread = await Isolate.spawn(bitcoin.searchByPrivateKey,params);
+        }
+        on Exception{
+          setState(() {
+            isSearching = false;
+          });
+        }
       }
 
       receivePort.listen((response) {
@@ -170,12 +195,15 @@ class _SearchState extends State<Search> {
       });
     }
     else if(currentTabIndex == 2){
+      WalletGeneratorState.searchResultBySeedPhrase = null;
       params["seedPhrase"] = search;
       try{
         searchThread = await Isolate.spawn(bitcoin.searchBySeedPhrase,params);
       }
       on Exception{
-        isSearching = false;
+        setState(() {
+          isSearching = false;
+        });
       }
 
       receivePort.listen((response) {
