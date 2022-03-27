@@ -10,9 +10,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // MobileAds.instance.initialize().then((value) => {
-  //   print("Mobile Ads Initialized")
-  // });
+  MobileAds.instance.initialize().then((value) => {
+    GoogleAdMob.interstialLoad(false)
+  });
   
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 

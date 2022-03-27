@@ -105,8 +105,6 @@ class WalletStats {
       }
     }
 
-    print("check");
-
     return result;
   }
 }
