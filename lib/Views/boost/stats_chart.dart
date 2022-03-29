@@ -39,7 +39,7 @@ class _StatsChartState extends State<StatsChart> {
           margin: const EdgeInsets.only(bottom:20),
           child: Text(WalletStatsUtils.getChartTitle(widget.chartType), style: const TextStyle(color: Colors.white, fontSize: 18),textAlign: TextAlign.center,)
         ),
-        radius: 75.0,
+        radius: 70,
         lineWidth: 10.0,
         animation: true,
         percent: widget.chartValue/divider,
