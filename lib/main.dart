@@ -8,6 +8,8 @@ import 'Views/boost/boost.dart';
 import 'Views/home/home.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'Views/info/Info.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize().then((value) => {
@@ -29,7 +31,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int pageIndex = 0;
 
-  List<Widget> pages = [const Home(), const Boost(), const Search(), const Home()];
+  List<Widget> pages = [const Home(), const Boost(), const Search(), const Info()];
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _MyAppState extends State<MyApp> {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home", tooltip: ""),
             BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: "Boost", tooltip: ""),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search", tooltip: ""),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings", tooltip: "")
+            BottomNavigationBarItem(icon: Icon(Icons.info), label: "Info", tooltip: "")
           ],
         ),
       )
