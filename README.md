@@ -8,6 +8,10 @@
 
 ![Random 12 phrases wallet view](https://user-images.githubusercontent.com/96957446/161375749-1c234fc5-e1ae-4806-9873-a1696bc30d20.PNG)
 
+## Bitcoin wallets detail
+
+![Bitcoin Wallet Detail](https://user-images.githubusercontent.com/96957446/161380191-aa166789-9d21-413e-a6eb-e8e44c4f0514.PNG)
+
 ## Boosts view
 
 ![Boots view](https://user-images.githubusercontent.com/96957446/161375748-a8d2a326-7f52-4785-9a1c-3bec806ceb9a.PNG)
