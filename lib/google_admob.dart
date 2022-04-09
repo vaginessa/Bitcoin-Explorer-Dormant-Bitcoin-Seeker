@@ -4,6 +4,7 @@ class GoogleAdMob{
 
   static RewardedAd? _rewardedAd;
   static int num_of_attempt_load = 0;
+  static bool? adResponse;
 
   static void interstialLoad(bool show) async{
     await RewardedAd.load(
@@ -49,14 +50,18 @@ class GoogleAdMob{
       onAdFailedToShowFullScreenContent: (RewardedAd ad,AdError error){
         print("AD FAILED");
         ad.dispose();
+        adResponse = false;
       },
       onAdImpression: (RewardedAd ad){
         print("AD IMPRESSION");
+      },
+      onAdWillDismissFullScreenContent: (RewardedAd ad){
+        adResponse = false;
       }
     );
 
     _rewardedAd?.show(onUserEarnedReward: (ad, reward) {
-      print("AD EARNED REWARD");
+      adResponse = true;
     });
 
     _rewardedAd = null;

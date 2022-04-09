@@ -156,62 +156,74 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
     }
   }
 
+  Timer? timer;
+  Timer? timer2;
   void onBoost(BoostType boostType){
     switch(boostType){
       case BoostType.WPS_ADS :
         GoogleAdMob.showInterstitial();
 
-        setState(() {
-          WalletStats.activateBoost(boostType);
+        timer = Timer.periodic(
+          const Duration(seconds: 1),
+          (Timer timer) {
+            if(GoogleAdMob.adResponse == false){
+              GoogleAdMob.adResponse = null;
+              timer.cancel();
+            }
+            else if(GoogleAdMob.adResponse == true){
 
-          WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+              setState(() {
+                WalletStats.activateBoost(boostType);
+                WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+                WalletStats.checkMaxValues();
+                WalletStats.setData();
+              });
 
-          checkMaxValues();
-
-          WalletStats.setData();
-        });
+              GoogleAdMob.adResponse = null;
+              timer.cancel();
+            }
+          },
+        );
         return;
       case BoostType.BPS_ADS :
         GoogleAdMob.showInterstitial();
-        
-        setState(() {
-          WalletStats.activateBoost(boostType);
 
-          WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+        timer2 = Timer.periodic(
+          const Duration(seconds: 1),
+          (Timer timer) {
+            if(GoogleAdMob.adResponse == false){
+              GoogleAdMob.adResponse = null;
+              timer.cancel();
+            }
+            else if(GoogleAdMob.adResponse == true){
 
-          checkMaxValues();
+              setState(() {
+                WalletStats.activateBoost(boostType);
+                WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+                WalletStats.checkMaxValues();
+                WalletStats.setData();
+              });
 
-          WalletStats.setData();
-        });
+              GoogleAdMob.adResponse = null;
+              timer.cancel();
+            }
+          },
+        );
         return;
       case BoostType.WPS_PREMIUM : 
         setState(() {
           WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
-
-          checkMaxValues();
-
+          WalletStats.checkMaxValues();
           WalletStats.setData();
         });
         return;
       case BoostType.BPS_PREMIUM : 
         setState(() {
           WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
-
-          checkMaxValues();
-
+          WalletStats.checkMaxValues();
           WalletStats.setData();
         });
         return;
     }
-  }
-
-  void checkMaxValues(){
-    if(WalletStats.walletsPerSecond > MAX_WPS){
-      WalletStats.walletsPerSecond = MAX_WPS;
-    }
-                                        
-    if(WalletStats.brainwalletsPerSeconds > MAX_BPS){
-      WalletStats.brainwalletsPerSeconds = MAX_BPS;  
-    }  
   }
 }

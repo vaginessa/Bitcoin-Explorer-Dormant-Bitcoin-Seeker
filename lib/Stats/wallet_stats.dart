@@ -107,4 +107,14 @@ class WalletStats {
 
     return result;
   }
+
+  static void checkMaxValues(){
+    if(walletsPerSecond > MAX_WPS){
+      walletsPerSecond = MAX_WPS;
+    }
+                                        
+    if(brainwalletsPerSeconds > MAX_BPS){
+      brainwalletsPerSeconds = MAX_BPS;  
+    }  
+  }
 }
