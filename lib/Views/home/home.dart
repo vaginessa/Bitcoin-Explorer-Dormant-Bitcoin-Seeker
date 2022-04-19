@@ -61,8 +61,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     content = [
       RandomWalletGenerator(wallets: WalletGeneratorState.wallets.reversed.toList(),),
-      BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets),
-      BrainwalletGenerator(wallets: WalletGeneratorState.wallets),
+      BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets.reversed.toList())
     ];
     
     return Scaffold(
@@ -117,25 +116,7 @@ class _HomeState extends State<Home> {
                           selectedContent = 1;
                         });
                       },
-                    ),
-                    // const SizedBox(width:30),
-                    // GestureDetector(
-                    //   child: PreviewCard(
-                    //     icon: const Icon(Icons.text_snippet), 
-                    //     title: "Richest Addresses", 
-                    //     subtitle: "What if you find it?",
-                    //     isSelected: selectedContent == 2,
-                    //     color : Colors.blue
-                    //   ),
-                    //   onTap: (){
-                    //     if(isPlaying){
-                    //       togglePlay();
-                    //     }
-                    //     setState(() {
-                    //       selectedContent = 2;
-                    //     });
-                    //   },
-                    // ),
+                    )
                   ],
                 ),
               ),
