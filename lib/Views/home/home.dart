@@ -21,8 +21,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> content = [
     RandomWalletGenerator(wallets: WalletGeneratorState.wallets,),
-    BrainwalletGenerator(wallets: WalletGeneratorState.wallets),
-    BrainwalletGenerator(wallets: WalletGeneratorState.wallets),
+    BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets)
   ];
 
   int selectedContent = 0;
@@ -197,6 +196,12 @@ class _HomeState extends State<Home> {
       randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,params);
       receivePort.listen((response) {
         WalletGeneratorState.wallets.add(response);
+    
+        if(WalletGeneratorState.wallets.length > 100)
+        {
+          WalletGeneratorState.wallets.removeAt(0);
+        }
+
         setState(() {});
       });
     }
@@ -220,6 +225,12 @@ class _HomeState extends State<Home> {
       randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
       receivePort.listen((response) {
         WalletGeneratorState.brainWallets.add(response);
+
+        if(WalletGeneratorState.brainWallets.length > 100)
+        {
+          WalletGeneratorState.brainWallets.removeAt(0);
+        }
+
         setState(() {});
       });
     }

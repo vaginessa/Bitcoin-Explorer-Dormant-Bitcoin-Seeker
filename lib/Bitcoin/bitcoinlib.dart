@@ -24,7 +24,6 @@ class BitcoinLib{
     Uint8List privateKey;
     Uint8List publicKey;
     String address;
-    List<BitcoinWallet> wallets = [];
     BitcoinWallet wallet;
     BitcoinWalletCard card;
 
@@ -45,11 +44,8 @@ class BitcoinLib{
         address: address
       );
 
-      wallets.add(wallet);
-
       card = BitcoinWalletCard(wallet: wallet);
       // wallet.request();
-      WalletGeneratorState.wallets.add(card);
       (params["sendPort"] as SendPort).send(card);
 
       await Future.delayed(Duration(milliseconds: 1000.0 ~/ (params["walletsPerSecond"] as double)));
