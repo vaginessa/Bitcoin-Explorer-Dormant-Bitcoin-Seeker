@@ -1,4 +1,4 @@
-# Blockchain Explorer - Flutter
+# Blockchain Explorer
 
 ## Dormant Bitcoins
 As of July 2020, there were over 10m bitcoins ($85b) accumulated in dormant bitcoin addresses with no outgoing transactions at all in 2019 (Coindesk and Medium).
