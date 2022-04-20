@@ -11,7 +11,7 @@ Whatever the reason, we can suppose that at this point, a big part of this accum
 
 This app gives you the possibility to search for those "lost" private keys.
 
-## Screenshoots
+## Screenshots
 <img src="https://user-images.githubusercontent.com/96957446/161375750-ad27ca43-3691-4615-8760-030c5c4cdd73.PNG" width="30%"> <img src="https://user-images.githubusercontent.com/96957446/161375749-1c234fc5-e1ae-4806-9873-a1696bc30d20.PNG" width="30%">
 <img src="https://user-images.githubusercontent.com/96957446/161380191-aa166789-9d21-413e-a6eb-e8e44c4f0514.PNG" width="30%">
 <img src="https://user-images.githubusercontent.com/96957446/161375748-a8d2a326-7f52-4785-9a1c-3bec806ceb9a.PNG" width="30%">
