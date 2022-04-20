@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';

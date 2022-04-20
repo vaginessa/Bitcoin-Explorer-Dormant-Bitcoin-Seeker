@@ -62,6 +62,8 @@ class _HomeState extends State<Home> {
       RandomWalletGenerator(wallets: WalletGeneratorState.wallets.reversed.toList(),),
       BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets.reversed.toList())
     ];
+
+    WalletStats.getData();
     
     return Scaffold(
       backgroundColor: backgroundColor,

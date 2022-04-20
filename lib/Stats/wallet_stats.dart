@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const double DEFAULT_WPS = 1;
 const double DEFAULT_BPS = 1;
-const double MAX_WPS = 1000;
-const double MAX_BPS = 1000;
+const double MAX_WPS = 200;
+const double MAX_BPS = 100;
 
 class WalletStats {
   static double walletsPerSecond = DEFAULT_WPS;
@@ -104,6 +104,8 @@ class WalletStats {
         result = true;
       }
     }
+
+    setData();
 
     return result;
   }
