@@ -1,5 +1,6 @@
 import 'package:dormant_bitcoin_seeker_flutter/Models/bitcoin_wallet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../global.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -94,26 +95,39 @@ class KeyBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool canShowClipboardAlert = true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height:20),
         Text(title, style: const TextStyle(color:Colors.white, fontSize: 16, fontWeight: FontWeight.normal),),
-        Container(
-          padding: const EdgeInsets.only(top:8, bottom:8, left:16, right:16),
-          margin:const EdgeInsets.only(top:8),
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color :Color.fromARGB(255, 32, 32, 32),
-            borderRadius: BorderRadius.all(Radius.circular(20))
+        GestureDetector(
+          child: Container(
+            padding: const EdgeInsets.only(top:8, bottom:8, left:16, right:16),
+            margin:const EdgeInsets.only(top:8),
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color :Color.fromARGB(255, 32, 32, 32),
+              borderRadius: BorderRadius.all(Radius.circular(20))
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(content != "" || onSeed ? content : "Unknown", style: const TextStyle(color:Color.fromRGBO(215, 215, 215, 1)),)
+              ]
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(content != "" || onSeed ? content : "Unknown", style: const TextStyle(color:Color.fromRGBO(215, 215, 215, 1)),)
-            ]
-          ),
+          onTap: (){
+            Clipboard.setData(ClipboardData(text: content != "" || onSeed ? content : "Unknown")).then((_){
+              if(canShowClipboardAlert){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text((content != "" || onSeed ? content : "Unknown") + " copied to clipboard"))).closed.then((value) => {
+                  canShowClipboardAlert = true
+                });
+                canShowClipboardAlert = false;
+              }
+            });
+          },
         )
       ],
     );
