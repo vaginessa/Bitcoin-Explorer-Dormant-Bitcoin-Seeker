@@ -1,4 +1,4 @@
-package com.example.dormant_bitcoin_seeker_flutter
+package com.BlockchainExplorer.DormantBitcoinSeeker
 
 import io.flutter.embedding.android.FlutterActivity
 

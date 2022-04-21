@@ -1,6 +1,6 @@
 {
-    "name": "dormant_bitcoin_seeker_flutter",
-    "short_name": "dormant_bitcoin_seeker_flutter",
+    "name": "Dormant Bitcoin Seeker",
+    "short_name": "Dormant Bitcoin Seeker",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
