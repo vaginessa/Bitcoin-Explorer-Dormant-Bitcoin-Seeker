@@ -26,7 +26,7 @@ class BitcoinWallet{
           balance = json[address] != null ? (json[address]["final_balance"] as int).toDouble() : 0,
           result = json[address] != null,
           if(balance != 0)
-            balance = balance / 10000000
+            balance = balance / 100000000
         }
     });
     return result;

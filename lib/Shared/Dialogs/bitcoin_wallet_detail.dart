@@ -36,7 +36,7 @@ class _BitcoinWalletDetailState extends State<BitcoinWalletDetail> {
           children: [
             Wrap(
               children: [
-                Text(widget.wallet.balance.toString() + " BTC", style: const TextStyle(color: balanceColor, fontSize: 35, fontWeight: FontWeight.bold),),
+                Text(widget.wallet.balance.toStringAsFixed(2) + " BTC", style: const TextStyle(color: balanceColor, fontSize: 35, fontWeight: FontWeight.bold),),
                 const SizedBox(height:50),
                 if(widget.wallet.seed != null)
                   KeyBanner(title : "12 phrases seed", content : widget.wallet.seed!, onSeed: true,),

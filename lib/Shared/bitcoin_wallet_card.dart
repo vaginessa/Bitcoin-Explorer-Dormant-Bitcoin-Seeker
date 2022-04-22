@@ -48,7 +48,7 @@ class _BitcoinWalletCardState extends State<BitcoinWalletCard> {
                   ),
                 ),
               ),
-              Text(widget.wallet.balance > 1 ? widget.wallet.balance.toStringAsFixed(2) : widget.wallet.balance.toString() + " BTC", style: const TextStyle(color:balanceColor, fontSize: 20, fontWeight: FontWeight.bold),),
+              Text(widget.wallet.balance > 1 ? widget.wallet.balance.toStringAsFixed(2) + " BTC" : widget.wallet.balance.toString() + " BTC", style: const TextStyle(color:balanceColor, fontSize: 20, fontWeight: FontWeight.bold),),
             ],
           ),
         ),

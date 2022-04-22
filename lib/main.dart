@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
@@ -17,6 +16,7 @@ void main() {
   });
   
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []); 
 
   runApp(const MyApp());
 }
