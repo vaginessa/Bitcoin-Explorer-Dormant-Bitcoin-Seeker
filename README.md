@@ -12,11 +12,11 @@ Whatever the reason, we can suppose that at this point, a big part of this accum
 This app gives you the possibility to search for those "lost" private keys.
 
 ## Screenshots
-<img src="https://user-images.githubusercontent.com/96957446/161375750-ad27ca43-3691-4615-8760-030c5c4cdd73.PNG" width="30%"> <img src="https://user-images.githubusercontent.com/96957446/161375749-1c234fc5-e1ae-4806-9873-a1696bc30d20.PNG" width="30%">
-<img src="https://user-images.githubusercontent.com/96957446/161380191-aa166789-9d21-413e-a6eb-e8e44c4f0514.PNG" width="30%">
-<img src="https://user-images.githubusercontent.com/96957446/161375748-a8d2a326-7f52-4785-9a1c-3bec806ceb9a.PNG" width="30%">
-<img src="https://user-images.githubusercontent.com/96957446/161375747-a2e72802-54db-43ae-9ec0-7af979d0e097.PNG" width="30%">
-<img src="https://user-images.githubusercontent.com/96957446/161375753-dac04833-4c22-4b3b-8ff9-5a5d336c31ab.PNG" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164687733-33040bc9-20ea-4806-b576-e88d86f5938a.png" width="30%"> <img src="https://user-images.githubusercontent.com/96957446/164687739-f4d8d532-0670-4924-ac0f-b33a09510500.png" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164687747-f2eed579-63fa-4092-a2c7-ee0a0cf69e75.png" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164687701-468d99c4-9aa9-419a-a4fc-05723f81bfcd.png" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164687712-6b90f9ca-1cd8-4bdf-8ddc-09828e6eee0a.png" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164687726-98887f97-60b6-43a1-936b-a4efb79752e1.png" width="30%">
 
 ## Random Bitcoin wallets generation
 
