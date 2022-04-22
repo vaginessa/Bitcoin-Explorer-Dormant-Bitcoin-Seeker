@@ -5,11 +5,11 @@ As of July 2020, there were over 10m bitcoins ($85b) accumulated in dormant bitc
 
 On May 20, 2020, some of the earliest mined bitcoins were moved for the first time in 11 years (Crystalarticle). This, along with the number of addresses that haven’t activity for a long time prompted Crystal to analyze these dormant bitcoin addresses.
 
-It’s hard to say the exact reason for this inactivity: perhaps the holders are waiting for the right time to sell their bitcoin, or perhaps they have just lost their private key and cannot gain access to their funds.
+The reason for this inactivity is probably that the holders of those bitcoins have just lost their private key and cannot gain access to their funds.
 
-Whatever the reason, we can suppose that at this point, a big part of this accumulated bitcoin will never leave the addresses where they are right now.
+A big part of this accumulated bitcoin will never leave the addresses where they are right now.
 
-This app gives you the possibility to search for those "lost" private keys.
+Or maybe not! This app gives you the possibility to search for those lost private keys by generating random private keys of bitcoin addresses and giving you the balance of those in real time.
 
 ## Screenshots
 <img src="https://user-images.githubusercontent.com/96957446/164687733-33040bc9-20ea-4806-b576-e88d86f5938a.png" width="30%"> <img src="https://user-images.githubusercontent.com/96957446/164687739-f4d8d532-0670-4924-ac0f-b33a09510500.png" width="30%">
