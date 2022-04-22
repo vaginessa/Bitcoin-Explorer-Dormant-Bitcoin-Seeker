@@ -7,7 +7,7 @@ import 'Views/boost/boost.dart';
 import 'Views/home/home.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'Views/info/Info.dart';
+import 'Views/info/info.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
