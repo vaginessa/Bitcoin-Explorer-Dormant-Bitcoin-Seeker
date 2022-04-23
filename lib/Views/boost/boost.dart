@@ -10,6 +10,10 @@ import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'dart:io';
+
 class Boost extends StatefulWidget {
   const Boost({ Key? key }) : super(key: key);
 
@@ -22,9 +26,62 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   List<StatsChart> charts = [];
   Timer? intervalCheck;
 
+  /// IAP VARIABLES ///
+  final String testID = "test";
+  final InAppPurchase _iap = InAppPurchase.instance;
+  bool _avaiable = true;
+  List<ProductDetails> _products = [];
+  List<PurchaseDetails> _purchases = [];
+  StreamSubscription? _subscription = null;
+  int _credits = 0;
+  ////////////////////
+  
+  /// IAP METHODS ///
+  void _initialize() async {
+    _avaiable = await _iap.isAvailable();
+
+    if(_avaiable){
+      await _getProducts();
+
+      _verifyPurchase();
+
+      _subscription = _iap.purchaseStream.listen((data) => setState(() {
+        print("NEW PURCHASE");
+        _purchases = data;
+        _verifyPurchase();
+      }));
+    }
+  }
+
+  Future<void> _getProducts() async{
+    Set<String> ids = Set.from([testID]);
+    ProductDetailsResponse response = await _iap.queryProductDetails(ids);
+    
+    setState(() {
+      _products = response.productDetails;
+    });
+  }
+
+  PurchaseDetails _hasPurchased(String productID){
+    return _purchases.firstWhere((purchase) => purchase.productID == productID);
+  }
+
+  void _verifyPurchase() {
+    PurchaseDetails purchase = _hasPurchased(testID);
+
+    if(purchase.status == PurchaseStatus.purchased){
+      print("purchased");
+    }
+  }
+
+  void _buyProduct(ProductDetails prod){
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails : prod);
+    _iap.buyConsumable(purchaseParam: purchaseParam);
+  }
 
   @override
   void initState() {
+    _initialize();
     super.initState();
     WalletStats.boostsCheck();
 
@@ -41,9 +98,11 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
     });
   }
 
+  @override
   @mustCallSuper
   @protected
   void dispose() {
+    _subscription?.cancel();
     intervalCheck?.cancel();
     super.dispose();
   }

@@ -16,7 +16,7 @@ void main() {
   });
   
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []); 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []); 
 
   runApp(const MyApp());
 }
