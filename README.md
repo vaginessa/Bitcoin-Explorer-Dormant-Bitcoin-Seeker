@@ -1,4 +1,4 @@
-# Blockchain Explorer
+# Blockchain Explorer - Dormant Bitcoin Seeker
 
 ## Dormant Bitcoins
 As of July 2020, there were over 10m bitcoins ($85b) accumulated in dormant bitcoin addresses with no outgoing transactions at all in 2019 (Coindesk and Medium).
@@ -14,9 +14,9 @@ Or maybe not! This app gives you the possibility to search for those lost privat
 ## Screenshots
 <img src="https://user-images.githubusercontent.com/96957446/164687733-33040bc9-20ea-4806-b576-e88d86f5938a.png" width="30%"> <img src="https://user-images.githubusercontent.com/96957446/164687739-f4d8d532-0670-4924-ac0f-b33a09510500.png" width="30%">
 <img src="https://user-images.githubusercontent.com/96957446/164687747-f2eed579-63fa-4092-a2c7-ee0a0cf69e75.png" width="30%">
-<img src="https://user-images.githubusercontent.com/96957446/164687701-468d99c4-9aa9-419a-a4fc-05723f81bfcd.png" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164723913-dd8442eb-ff4f-48d5-a475-22f1dba63b3f.png" width="30%">
 <img src="https://user-images.githubusercontent.com/96957446/164687712-6b90f9ca-1cd8-4bdf-8ddc-09828e6eee0a.png" width="30%">
-<img src="https://user-images.githubusercontent.com/96957446/164687726-98887f97-60b6-43a1-936b-a4efb79752e1.png" width="30%">
+<img src="https://user-images.githubusercontent.com/96957446/164704057-79fa5ff8-d128-4bdb-a074-6bd2b86f9788.png" width="30%">
 
 ## Random Bitcoin wallets generation
 
