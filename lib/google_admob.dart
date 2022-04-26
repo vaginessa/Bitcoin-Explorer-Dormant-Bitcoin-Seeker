@@ -46,6 +46,7 @@ class GoogleAdMob{
       },
       onAdDismissedFullScreenContent: (RewardedAd ad){
         print("AD DISMISSED");
+        adResponse = false;
       },
       onAdFailedToShowFullScreenContent: (RewardedAd ad,AdError error){
         print("AD FAILED");

@@ -9,10 +9,7 @@ import 'package:dormant_bitcoin_seeker_flutter/Views/boost/stats_chart.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
 import 'package:flutter/material.dart';
-
-import 'dart:async';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'dart:io';
 
 class Boost extends StatefulWidget {
   const Boost({ Key? key }) : super(key: key);
@@ -216,9 +213,12 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
   Timer? timer;
   Timer? timer2;
+  bool busy = false;
   void onBoost(BoostType boostType){
     switch(boostType){
       case BoostType.WPS_ADS :
+        if(busy) return;
+        busy = true;
         GoogleAdMob.showInterstitial();
 
         timer = Timer.periodic(
@@ -227,6 +227,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
             if(GoogleAdMob.adResponse == false){
               GoogleAdMob.adResponse = null;
               timer.cancel();
+              busy = false;
             }
             else if(GoogleAdMob.adResponse == true){
 
@@ -239,11 +240,14 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
               GoogleAdMob.adResponse = null;
               timer.cancel();
+              busy = false;
             }
           },
         );
         return;
       case BoostType.BPS_ADS :
+        if(busy) return;
+        busy = true;
         GoogleAdMob.showInterstitial();
 
         timer2 = Timer.periodic(
@@ -252,6 +256,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
             if(GoogleAdMob.adResponse == false){
               GoogleAdMob.adResponse = null;
               timer.cancel();
+              busy = false;
             }
             else if(GoogleAdMob.adResponse == true){
 
@@ -264,6 +269,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
               GoogleAdMob.adResponse = null;
               timer.cancel();
+              busy = false;
             }
           },
         );
