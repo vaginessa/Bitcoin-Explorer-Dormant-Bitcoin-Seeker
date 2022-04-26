@@ -2,7 +2,6 @@ import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'Views/boost/boost.dart';
 import 'Views/home/home.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -15,8 +14,8 @@ void main() {
     GoogleAdMob.interstialLoad(false)
   });
   
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []); 
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []); 
 
   runApp(const MyApp());
 }
