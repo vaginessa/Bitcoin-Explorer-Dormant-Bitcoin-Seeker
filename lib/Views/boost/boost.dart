@@ -24,7 +24,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   Timer? intervalCheck;
 
   /// IAP VARIABLES ///
-  final String testID = "test";
+  final String wpsID = "wps";
   final InAppPurchase _iap = InAppPurchase.instance;
   bool _avaiable = true;
   List<ProductDetails> _products = [];
@@ -51,12 +51,10 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _getProducts() async{
-    Set<String> ids = Set.from([testID]);
+    Set<String> ids = Set.from([wpsID]);
     ProductDetailsResponse response = await _iap.queryProductDetails(ids);
-    
-    setState(() {
-      _products = response.productDetails;
-    });
+    _products = response.productDetails;
+    print(_products);
   }
 
   PurchaseDetails _hasPurchased(String productID){
@@ -64,7 +62,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   }
 
   void _verifyPurchase() {
-    PurchaseDetails purchase = _hasPurchased(testID);
+    PurchaseDetails purchase = _hasPurchased(wpsID);
 
     if(purchase.status == PurchaseStatus.purchased){
       print("purchased");
@@ -275,6 +273,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         );
         return;
       case BoostType.WPS_PREMIUM : 
+        _buyProduct(_products.firstWhere((element) => element.id == wpsID));
+
         setState(() {
           WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
           WalletStats.checkMaxValues();
