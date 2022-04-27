@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
@@ -231,7 +230,13 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
               setState(() {
                 WalletStats.activateBoost(boostType);
-                WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+                if(WalletStats.walletsPerSecond + WalletStatsUtils.getValue(boostType) > MAX_WPS){
+                  WalletStats.walletsPerSecond = MAX_WPS;
+                }
+                else{
+                  WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+                }
+
                 WalletStats.checkMaxValues();
                 WalletStats.setData();
               });
@@ -257,10 +262,15 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
               busy = false;
             }
             else if(GoogleAdMob.adResponse == true){
-
               setState(() {
                 WalletStats.activateBoost(boostType);
-                WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+                if(WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS){
+                  WalletStats.brainwalletsPerSeconds = MAX_BPS;
+                }
+                else{
+                  WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+                }
+
                 WalletStats.checkMaxValues();
                 WalletStats.setData();
               });
@@ -276,14 +286,24 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         _buyProduct(_products.firstWhere((element) => element.id == wpsID));
 
         setState(() {
-          WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+          if(WalletStats.walletsPerSecond + WalletStatsUtils.getValue(boostType) > MAX_WPS){
+            WalletStats.walletsPerSecond = MAX_WPS;
+          }
+          else{
+            WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+          }
           WalletStats.checkMaxValues();
           WalletStats.setData();
         });
         return;
       case BoostType.BPS_PREMIUM : 
         setState(() {
-          WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+          if(WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS){
+            WalletStats.brainwalletsPerSeconds = MAX_BPS;
+          }
+          else{
+            WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+          }
           WalletStats.checkMaxValues();
           WalletStats.setData();
         });

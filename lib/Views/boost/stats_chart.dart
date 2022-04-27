@@ -25,7 +25,7 @@ class _StatsChartState extends State<StatsChart> {
 
   @override
   void initState() {
-    divider = widget.chartType == ChartType.BPS ? MAX_WPS : MAX_BPS;
+    divider = widget.chartType == ChartType.BPS ? MAX_BPS : MAX_WPS;
     super.initState();
   }
 
