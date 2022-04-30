@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+  @override
   @mustCallSuper
   @protected
   void dispose() {
@@ -187,6 +188,7 @@ class _HomeState extends State<Home> {
       randomWalletsThread = null;
     }
     else if(isPlaying == false && onRandomWalletsThread == false){
+      showAlert();
       BitcoinLib bitcoin = BitcoinLib();
 
       final receivePort = ReceivePort();
@@ -216,6 +218,7 @@ class _HomeState extends State<Home> {
       randomBrainWalletsThread = null;
     }
     else if(isPlaying == false && onRandomBrainWalletsThread == false){
+      showAlert();
       BitcoinLib bitcoin = BitcoinLib();
 
       final receivePort = ReceivePort();
@@ -274,5 +277,41 @@ class _HomeState extends State<Home> {
         });
       }
     }
+  }
+
+  void showAlert(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          alignment: Alignment.center,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          actions: [
+            ElevatedButton(
+              onPressed: (){Navigator.pop(context);}, 
+              child: const SizedBox(
+                width: double.infinity,
+                child: Text("OK", textAlign: TextAlign.center,)
+              ),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  )
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 106, 149, 166),)
+              ),
+            ),
+          ],
+          content: const Text(
+            "Don't worry, the Bitcoin wallet generation will stop automatically if it finds a wallet with balance in it",
+            style: TextStyle(color:Colors.black, fontSize: 17.5),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: const Color.fromARGB(255, 138, 184, 202),
+        );
+      },
+    );
   }
 }
