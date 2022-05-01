@@ -81,7 +81,7 @@ class BitcoinLib{
 
       card = BitcoinWalletCard(wallet: wallet);
       // wallet.request();
-      WalletGeneratorState.brainWallets.add(card);
+      // WalletGeneratorState.brainWallets.add(card);
       (params["sendPort"] as SendPort).send(card);
 
       await Future.delayed(Duration(milliseconds: 1000.0 ~/ (params["brainwalletsPerSecond"] as double)));
