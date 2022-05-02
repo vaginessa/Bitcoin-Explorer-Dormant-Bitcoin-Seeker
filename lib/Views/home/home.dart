@@ -300,16 +300,16 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(20),
                   )
                 ),
-                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 106, 149, 166),)
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 70, 77, 80),)
               ),
             ),
           ],
           content: const Text(
             "Don't worry, the Bitcoin wallet generation will stop automatically if it finds a wallet with balance in it",
-            style: TextStyle(color:Colors.black, fontSize: 17.5),
+            style: TextStyle(color:Colors.white, fontSize: 17.5),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: const Color.fromARGB(255, 138, 184, 202),
+          backgroundColor: const Color.fromARGB(255, 48, 56, 59),
         );
       },
     );
