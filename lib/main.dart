@@ -3,6 +3,7 @@ import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'Stats/wallet_stats.dart';
 import 'Views/boost/boost.dart';
 import 'Views/home/home.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

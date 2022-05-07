@@ -46,6 +46,7 @@ class WalletStats {
   }
 
   static Future<void> getData() async {
+    // WalletStats.resetData();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     dynamic _wps = sharedPreferences.getDouble("WPS");
@@ -71,7 +72,6 @@ class WalletStats {
 
     sharedPreferences.setDouble("WPS", DEFAULT_WPS);
     sharedPreferences.setDouble("BPS", DEFAULT_BPS);
-
     sharedPreferences.setStringList("active boosts", []);
   }
 

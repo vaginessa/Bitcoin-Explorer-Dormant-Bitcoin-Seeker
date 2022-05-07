@@ -24,58 +24,57 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
   /// IAP VARIABLES ///
   final String wpsID = "wps";
-  final InAppPurchase _iap = InAppPurchase.instance;
-  bool _avaiable = true;
+  final InAppPurchase iapInstance = InAppPurchase.instance;
+  bool avaiable = true;
   List<ProductDetails> _products = [];
   List<PurchaseDetails> _purchases = [];
-  StreamSubscription? _subscription = null;
-  int _credits = 0;
+  StreamSubscription? _subscription;
   ////////////////////
   
   /// IAP METHODS ///
-  void _initialize() async {
-    _avaiable = await _iap.isAvailable();
+  void initIAP() async {
+    avaiable = await iapInstance.isAvailable();
 
-    if(_avaiable){
+    if(avaiable){
       await _getProducts();
 
-      _verifyPurchase();
+      verifyPurchase();
 
-      _subscription = _iap.purchaseStream.listen((data) => setState(() {
+      _subscription = iapInstance.purchaseStream.listen((data) => setState(() {
         print("NEW PURCHASE");
         _purchases = data;
-        _verifyPurchase();
+        verifyPurchase();
       }));
     }
   }
 
   Future<void> _getProducts() async{
     Set<String> ids = Set.from([wpsID]);
-    ProductDetailsResponse response = await _iap.queryProductDetails(ids);
+    ProductDetailsResponse response = await iapInstance.queryProductDetails(ids);
     _products = response.productDetails;
-    print(_products);
   }
 
   PurchaseDetails _hasPurchased(String productID){
     return _purchases.firstWhere((purchase) => purchase.productID == productID);
   }
 
-  void _verifyPurchase() {
+  void verifyPurchase() {
     PurchaseDetails purchase = _hasPurchased(wpsID);
 
     if(purchase.status == PurchaseStatus.purchased){
-      print("purchased");
+      print("PRODUCT PURCHASED");
     }
   }
 
   void _buyProduct(ProductDetails prod){
+    print("OPENED PAYMENT WINDOW");
     final PurchaseParam purchaseParam = PurchaseParam(productDetails : prod);
-    _iap.buyConsumable(purchaseParam: purchaseParam);
+    iapInstance.buyConsumable(purchaseParam: purchaseParam);
   }
 
   @override
   void initState() {
-    _initialize();
+    initIAP();
     super.initState();
     WalletStats.boostsCheck();
 
@@ -285,28 +284,28 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
       case BoostType.WPS_PREMIUM : 
         _buyProduct(_products.firstWhere((element) => element.id == wpsID));
 
-        setState(() {
-          if(WalletStats.walletsPerSecond + WalletStatsUtils.getValue(boostType) > MAX_WPS){
-            WalletStats.walletsPerSecond = MAX_WPS;
-          }
-          else{
-            WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
-          }
-          WalletStats.checkMaxValues();
-          WalletStats.setData();
-        });
+        // setState(() {
+        //   if(WalletStats.walletsPerSecond + WalletStatsUtils.getValue(boostType) > MAX_WPS){
+        //     WalletStats.walletsPerSecond = MAX_WPS;
+        //   }
+        //   else{
+        //     WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
+        //   }
+        //   WalletStats.checkMaxValues();
+        //   WalletStats.setData();
+        // });
         return;
       case BoostType.BPS_PREMIUM : 
-        setState(() {
-          if(WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS){
-            WalletStats.brainwalletsPerSeconds = MAX_BPS;
-          }
-          else{
-            WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
-          }
-          WalletStats.checkMaxValues();
-          WalletStats.setData();
-        });
+        // setState(() {
+        //   if(WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS){
+        //     WalletStats.brainwalletsPerSeconds = MAX_BPS;
+        //   }
+        //   else{
+        //     WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
+        //   }
+        //   WalletStats.checkMaxValues();
+        //   WalletStats.setData();
+        // });
         return;
     }
   }
