@@ -16,8 +16,8 @@ const String BPS_PREMIUM_BUTTON_DESCRIPTION = "Increase BPS by 2.5 for ever";
 
 const String WPS_ADS_BUTTON_TITLE = "WATCH AN AD";
 const String BPS_ADS_BUTTON_TITLE = "WATCH AN AD";
-const String WPS_PREMIUM_BUTTON_TITLE = "0.99\$";
-const String BPS_PREMIUM_BUTTON_TITLE = "0.99\$";
+const String WPS_PREMIUM_BUTTON_TITLE = "2.99\$";
+const String BPS_PREMIUM_BUTTON_TITLE = "2.99\$";
 
 const String WPS_CHART_TITLE = "Wallets per second\n(WPS)";
 const String BPS_CHART_TITLE = "Wallets per second\n(WPS)";

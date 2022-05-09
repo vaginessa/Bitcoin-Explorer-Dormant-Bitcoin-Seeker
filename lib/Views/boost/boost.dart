@@ -40,14 +40,11 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
       // Get Google Play Products
       ProductDetailsResponse response = await iapInstance.queryProductDetails({wpsID, bpsID});
       _products = response.productDetails;
-
-      verifyPurchase();
     }
   }
 
-  void verifyPurchase() {
-    print("2");
-    PurchaseDetails purchase = _purchases.firstWhere((purchase) => purchase.productID == wpsID);
+  void verifyPurchase(String id) {
+    PurchaseDetails purchase = _purchases.firstWhere((purchase) => purchase.productID == id);
 
     if(purchase.status == PurchaseStatus.purchased){
       print("PRODUCT PURCHASED");
@@ -64,7 +61,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
       iapInstance.purchaseStream.listen((data) => setState(() {
           print("NEW PURCHASE");
           _purchases = data;
-          verifyPurchase();
+          verifyPurchase(prod.id);
       }));
   }
 
@@ -288,6 +285,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         // });
         return;
       case BoostType.BPS_PREMIUM : 
+      _buyProduct(_products.firstWhere((element) => element.id == bpsID));
+
         // setState(() {
         //   if(WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS){
         //     WalletStats.brainwalletsPerSeconds = MAX_BPS;
