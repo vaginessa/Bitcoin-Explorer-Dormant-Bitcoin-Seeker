@@ -24,6 +24,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
   /// IAP VARIABLES ///
   final String wpsID = "wps";
+  final String bpsID = "bps";
   final InAppPurchase iapInstance = InAppPurchase.instance;
   bool avaiable = true;
   List<ProductDetails> _products = [];
@@ -36,40 +37,35 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
     avaiable = await iapInstance.isAvailable();
 
     if(avaiable){
-      await _getProducts();
+      // Get Google Play Products
+      ProductDetailsResponse response = await iapInstance.queryProductDetails({wpsID, bpsID});
+      _products = response.productDetails;
 
       verifyPurchase();
-
-      _subscription = iapInstance.purchaseStream.listen((data) => setState(() {
-        print("NEW PURCHASE");
-        _purchases = data;
-        verifyPurchase();
-      }));
     }
   }
 
-  Future<void> _getProducts() async{
-    Set<String> ids = Set.from([wpsID]);
-    ProductDetailsResponse response = await iapInstance.queryProductDetails(ids);
-    _products = response.productDetails;
-  }
-
-  PurchaseDetails _hasPurchased(String productID){
-    return _purchases.firstWhere((purchase) => purchase.productID == productID);
-  }
-
   void verifyPurchase() {
-    PurchaseDetails purchase = _hasPurchased(wpsID);
+    print("2");
+    PurchaseDetails purchase = _purchases.firstWhere((purchase) => purchase.productID == wpsID);
 
     if(purchase.status == PurchaseStatus.purchased){
       print("PRODUCT PURCHASED");
     }
   }
 
-  void _buyProduct(ProductDetails prod){
+  void _buyProduct(ProductDetails prod) async{
     print("OPENED PAYMENT WINDOW");
     final PurchaseParam purchaseParam = PurchaseParam(productDetails : prod);
-    iapInstance.buyConsumable(purchaseParam: purchaseParam);
+    await iapInstance.buyConsumable(purchaseParam: purchaseParam);
+
+    // Subscribe to the google play purchase stream
+    _subscription ??= 
+      iapInstance.purchaseStream.listen((data) => setState(() {
+          print("NEW PURCHASE");
+          _purchases = data;
+          verifyPurchase();
+      }));
   }
 
   @override
@@ -78,16 +74,12 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
     super.initState();
     WalletStats.boostsCheck();
 
-    WalletStats.getData().then((value) => {
-      setState(() {
-        
-      })
-    });
+    // Get wps, bps, active boots
+    WalletStats.getData().then((value) => { setState(() { })});
 
+    //Check if an active boost is finished
     intervalCheck = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if(WalletStats.boostsCheck()){
-        setState(() {});
-      }
+      if(WalletStats.boostsCheck()){ setState(() {}); }
     });
   }
 
