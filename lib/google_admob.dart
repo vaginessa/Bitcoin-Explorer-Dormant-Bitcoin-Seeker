@@ -3,19 +3,18 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 class GoogleAdMob{
 
   static RewardedAd? _rewardedAd;
-  static int num_of_attempt_load = 0;
+  static int attempts = 0;
   static bool? adResponse;
 
   static void interstialLoad(bool show) async{
     await RewardedAd.load(
       adUnitId: "ca-app-pub-3940256099942544/5224354917", 
-      // ignore: prefer_const_constructors
-      request: AdRequest(), 
+      request: const AdRequest(), 
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
           _rewardedAd = ad;
           print("AD LOADED.");
-          num_of_attempt_load = 0;
+          attempts = 0;
 
           if(show){
             showInterstitial();
@@ -24,10 +23,10 @@ class GoogleAdMob{
         onAdFailedToLoad: (LoadAdError error){
           print("AD FAILED TO LOAD.");
           print(error);
-          num_of_attempt_load++;
+          attempts++;
           _rewardedAd = null;
 
-          if(num_of_attempt_load <= 2){
+          if(attempts <= 2){
             interstialLoad(false);
           }
         }

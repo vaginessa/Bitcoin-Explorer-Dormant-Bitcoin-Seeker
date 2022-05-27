@@ -27,33 +27,31 @@ class _SearchState extends State<Search> {
         appBar: AppBar(
           toolbarHeight: 110,
           backgroundColor: appBarBackgroundColor,
-          title : Container(
-            child: TextFormField(
-              controller: inputController,
-              style: const TextStyle(color:Colors.white),
-              decoration: InputDecoration(
-                fillColor: inputColor,
-                filled: true,
-                suffixIcon: const Icon(Icons.search, color:Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    color: Colors.transparent,
-                    width: 2.0,
-                  ),
-                ),
-                hintText: "Search",
-                hintStyle:const TextStyle(color: Colors.grey)
+          title : TextFormField(
+            controller: inputController,
+            style: const TextStyle(color:Colors.white),
+            decoration: InputDecoration(
+              fillColor: inputColor,
+              filled: true,
+              suffixIcon: const Icon(Icons.search, color:Colors.grey),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 2.0,
+                ),
+              ),
+              hintText: "Search",
+              hintStyle:const TextStyle(color: Colors.grey)
             ),
           ),
           bottom: TabBar(
@@ -108,9 +106,7 @@ class _SearchState extends State<Search> {
                 if(isSearching)
                   const SizedBox(width:20, height: 20, child: Center(child: CircularProgressIndicator()))
                 else
-                  const Center(
-                    child: Text("Invalid seed phrase", style: TextStyle(color: Colors.white, fontSize: 22.5),)
-                  ),
+                  const Center(child: Text("Invalid seed phrase", style: TextStyle(color: Colors.white, fontSize: 22.5),)),
             ],
           ),
         ),

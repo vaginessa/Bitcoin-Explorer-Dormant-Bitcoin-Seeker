@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
@@ -75,7 +76,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   }
 
   void _buyProduct(ProductDetails prod) async{
-    print("OPENED PAYMENT WINDOW");
+    log("OPENED PAYMENT WINDOW");
     final PurchaseParam purchaseParam = PurchaseParam(productDetails : prod);
     await iapInstance.buyConsumable(purchaseParam: purchaseParam);
 
@@ -297,7 +298,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
         _buyProduct(_products.firstWhere((element) => element.id == wpsID));
         return;
       case BoostType.BPS_PREMIUM : 
-      _buyProduct(_products.firstWhere((element) => element.id == bpsID));
+        _buyProduct(_products.firstWhere((element) => element.id == bpsID));
         return;
     }
   }

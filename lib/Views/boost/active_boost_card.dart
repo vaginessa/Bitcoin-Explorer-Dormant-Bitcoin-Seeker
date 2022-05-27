@@ -68,6 +68,7 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
     setState(() {});
   }
 
+  @override
   @mustCallSuper
   @protected
   void dispose() {

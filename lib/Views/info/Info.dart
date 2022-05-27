@@ -36,8 +36,8 @@ class Paragraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-      Center(child: Text(text, style: const TextStyle(color : Colors.white, fontSize: 15),textAlign: TextAlign.center)),
-      const SizedBox(height:30)
+        Center(child: Text(text, style: const TextStyle(color : Colors.white, fontSize: 15),textAlign: TextAlign.center)),
+        const SizedBox(height:30)
       ],
     );
   }
