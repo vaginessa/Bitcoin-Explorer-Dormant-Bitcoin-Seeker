@@ -11,16 +11,17 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class Home extends StatefulWidget {
-  const Home({ Key? key }) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   List<Widget> content = [
-    RandomWalletGenerator(wallets: WalletGeneratorState.wallets,),
+    RandomWalletGenerator(
+      wallets: WalletGeneratorState.wallets,
+    ),
     BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets)
   ];
 
@@ -30,11 +31,10 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
     super.initState();
 
     intervalCheck = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if(WalletStats.boostsCheck()){
+      if (WalletStats.boostsCheck()) {
         restartThreads();
         setState(() {});
       }
@@ -46,11 +46,11 @@ class _HomeState extends State<Home> {
   @protected
   void dispose() {
     intervalCheck?.cancel();
-    if(randomBrainWalletsThread != null){
+    if (randomBrainWalletsThread != null) {
       randomBrainWalletsThread?.kill();
     }
 
-    if(randomWalletsThread != null){
+    if (randomWalletsThread != null) {
       randomWalletsThread?.kill();
     }
 
@@ -60,80 +60,97 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     content = [
-      RandomWalletGenerator(wallets: WalletGeneratorState.wallets.reversed.toList(),),
-      BrainwalletGenerator(wallets: WalletGeneratorState.brainWallets.reversed.toList())
+      RandomWalletGenerator(
+        wallets: WalletGeneratorState.wallets.reversed.toList(),
+      ),
+      BrainwalletGenerator(
+          wallets: WalletGeneratorState.brainWallets.reversed.toList())
     ];
 
     WalletStats.getData();
-    
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
-        margin: const EdgeInsets.only(top:50),
+        margin: const EdgeInsets.only(top: 50),
         width: double.infinity,
         height: double.infinity,
-        child: Column(
-          children: [
-            NotificationListener<OverscrollIndicatorNotification>(
-              onNotification: (OverscrollIndicatorNotification overscroll) {
-                overscroll.disallowIndicator();
-                return true;
-              },
-              child: SingleChildScrollView(
-                scrollDirection:Axis.horizontal,
-                child: Row(
-                  children: [
-                    SizedBox(width: lateralContentMargins.right,),
-                    GestureDetector(
-                      child: PreviewCard(
-                        icon: const Icon(Icons.account_balance_wallet),
-                        title: "Random wallets", 
-                        subtitle: "Standard Bitcoin wallet",
-                        isSelected: selectedContent == 0,
-                        color : Colors.blue
-                      ),
-                      onTap: (){
-                        if(isPlaying){
-                          togglePlay();
-                        }
-                        setState(() {
-                          selectedContent = 0;
-                        });
-                      },
-                    ),
-                    const SizedBox(width:30),
-                    GestureDetector(
-                      child: PreviewCard(
-                        icon: const Icon(Icons.text_snippet), 
-                        title: "12 Phrases", 
-                        subtitle: "Brainwallet",
-                        isSelected: selectedContent == 1,
-                        color : Colors.blue
-                      ),
-                      onTap: (){
-                        if(isPlaying){
-                          togglePlay();
-                        }
-                        setState(() {
-                          selectedContent = 1;
-                        });
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:15,bottom:15),
+        child: Column(children: [
+          NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification overscroll) {
+              overscroll.disallowIndicator();
+              return true;
+            },
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  Text(selectedContent == 0 ? "Random wallet generator" : selectedContent == 1 ? "Brainwallet generator" : "Richest addresses", style: const TextStyle(color:Colors.white, fontSize: 20),textAlign:TextAlign.left ,),
+                  SizedBox(
+                    width: lateralContentMargins.right,
+                  ),
+                  GestureDetector(
+                    child: PreviewCard(
+                        icon: const Icon(Icons.account_balance_wallet),
+                        title: "Random wallets",
+                        subtitle: "Standard Bitcoin wallet",
+                        isSelected: selectedContent == 0,
+                        color: Colors.blue),
+                    onTap: () {
+                      if (isPlaying) {
+                        togglePlay();
+                      }
+                      setState(() {
+                        selectedContent = 0;
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 30),
+                  GestureDetector(
+                    child: PreviewCard(
+                        icon: const Icon(Icons.text_snippet),
+                        title: "12 Phrases",
+                        subtitle: "Brainwallet",
+                        isSelected: selectedContent == 1,
+                        color: Colors.blue),
+                    onTap: () {
+                      if (isPlaying) {
+                        togglePlay();
+                      }
+                      setState(() {
+                        selectedContent = 1;
+                      });
+                    },
+                  )
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left:lateralContentMargins.left, right:lateralContentMargins.right,top:5),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+                left: lateralContentMargins.left,
+                right: lateralContentMargins.right,
+                top: 15,
+                bottom: 15),
+            child: Row(
+              children: [
+                Text(
+                  selectedContent == 0
+                      ? "Random wallet generator"
+                      : selectedContent == 1
+                          ? "Brainwallet generator"
+                          : "Richest addresses",
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+                margin: EdgeInsets.only(
+                    left: lateralContentMargins.left,
+                    right: lateralContentMargins.right,
+                    top: 5),
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification: (OverscrollIndicatorNotification overscroll) {
                     overscroll.disallowIndicator();
@@ -141,21 +158,17 @@ class _HomeState extends State<Home> {
                   },
                   child: SingleChildScrollView(
                     child: Column(
-                      children: [
-                        content[selectedContent]
-                      ],
+                      children: [content[selectedContent]],
                     ),
                   ),
-                )
-              ),
-            )
-          ]
-        ),
+                )),
+          )
+        ]),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
         backgroundColor: isPlaying ? Colors.red : Colors.green,
-        onPressed: () { 
+        onPressed: () {
           togglePlay();
         },
       ),
@@ -168,26 +181,24 @@ class _HomeState extends State<Home> {
   Isolate? randomBrainWalletsThread;
   bool onRandomBrainWalletsThread = false;
 
-  Future<void> togglePlay() async{
-    if(selectedContent == 0){
+  Future<void> togglePlay() async {
+    if (selectedContent == 0) {
       generateWallet();
-    }
-    else if(selectedContent == 1){
+    } else if (selectedContent == 1) {
       generateBrainWallet();
     }
-  
+
     isPlaying = !isPlaying;
 
     setState(() {});
   }
 
-  void generateWallet() async{
-    if(isPlaying && onRandomWalletsThread){
+  void generateWallet() async {
+    if (isPlaying && onRandomWalletsThread) {
       onRandomWalletsThread = false;
       randomWalletsThread?.kill();
       randomWalletsThread = null;
-    }
-    else if(isPlaying == false && onRandomWalletsThread == false){
+    } else if (isPlaying == false && onRandomWalletsThread == false) {
       showAlert();
       BitcoinLib bitcoin = BitcoinLib();
 
@@ -197,12 +208,11 @@ class _HomeState extends State<Home> {
       params["walletsPerSecond"] = WalletStats.walletsPerSecond;
 
       onRandomWalletsThread = true;
-      randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,params);
+      randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet, params);
       receivePort.listen((response) {
         WalletGeneratorState.wallets.add(response);
-    
-        if(WalletGeneratorState.wallets.length > 100)
-        {
+
+        if (WalletGeneratorState.wallets.length > 100) {
           WalletGeneratorState.wallets.removeAt(0);
         }
 
@@ -211,13 +221,12 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void generateBrainWallet() async{
-    if(isPlaying && onRandomBrainWalletsThread){
+  void generateBrainWallet() async {
+    if (isPlaying && onRandomBrainWalletsThread) {
       onRandomBrainWalletsThread = false;
       randomBrainWalletsThread?.kill();
       randomBrainWalletsThread = null;
-    }
-    else if(isPlaying == false && onRandomBrainWalletsThread == false){
+    } else if (isPlaying == false && onRandomBrainWalletsThread == false) {
       showAlert();
       BitcoinLib bitcoin = BitcoinLib();
 
@@ -227,12 +236,12 @@ class _HomeState extends State<Home> {
       params["brainwalletsPerSecond"] = WalletStats.brainwalletsPerSeconds;
 
       onRandomBrainWalletsThread = true;
-      randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
+      randomBrainWalletsThread =
+          await Isolate.spawn(bitcoin.generateBrainWallet, params);
       receivePort.listen((response) {
         WalletGeneratorState.brainWallets.add(response);
 
-        if(WalletGeneratorState.brainWallets.length > 100)
-        {
+        if (WalletGeneratorState.brainWallets.length > 100) {
           WalletGeneratorState.brainWallets.removeAt(0);
         }
 
@@ -241,9 +250,9 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void restartThreads() async{
-    if(isPlaying){
-      if(onRandomWalletsThread){
+  void restartThreads() async {
+    if (isPlaying) {
+      if (onRandomWalletsThread) {
         randomWalletsThread?.kill();
         BitcoinLib bitcoin = BitcoinLib();
 
@@ -253,14 +262,15 @@ class _HomeState extends State<Home> {
         params["walletsPerSecond"] = WalletStats.walletsPerSecond;
 
         onRandomWalletsThread = true;
-        randomWalletsThread = await Isolate.spawn(bitcoin.generateWallet,params);
+        randomWalletsThread =
+            await Isolate.spawn(bitcoin.generateWallet, params);
         receivePort.listen((response) {
           WalletGeneratorState.wallets.add(response);
           setState(() {});
         });
       }
 
-      if(onRandomBrainWalletsThread){
+      if (onRandomBrainWalletsThread) {
         randomBrainWalletsThread?.kill();
         BitcoinLib bitcoin = BitcoinLib();
 
@@ -270,7 +280,8 @@ class _HomeState extends State<Home> {
         params["brainwalletsPerSecond"] = WalletStats.brainwalletsPerSeconds;
 
         onRandomBrainWalletsThread = true;
-        randomBrainWalletsThread = await Isolate.spawn(bitcoin.generateBrainWallet,params);
+        randomBrainWalletsThread =
+            await Isolate.spawn(bitcoin.generateBrainWallet, params);
         receivePort.listen((response) {
           WalletGeneratorState.brainWallets.add(response);
           setState(() {});
@@ -279,34 +290,40 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void showAlert(){
+  void showAlert() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           alignment: Alignment.center,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           actions: [
             ElevatedButton(
-              onPressed: (){Navigator.pop(context);}, 
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const SizedBox(
-                width: double.infinity,
-                child: Text("OK", textAlign: TextAlign.center,)
-              ),
+                  width: double.infinity,
+                  child: Text(
+                    "OK",
+                    textAlign: TextAlign.center,
+                  )),
               style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      const EdgeInsets.all(0)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                  )
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 70, 77, 80),)
-              ),
+                  )),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 70, 77, 80),
+                  )),
             ),
           ],
           content: const Text(
             "Don't worry, the Bitcoin wallet generation will stop automatically if it finds a wallet with balance in it",
-            style: TextStyle(color:Colors.white, fontSize: 17.5),
+            style: TextStyle(color: Colors.white, fontSize: 17.5),
             textAlign: TextAlign.center,
           ),
           backgroundColor: const Color.fromARGB(255, 48, 56, 59),

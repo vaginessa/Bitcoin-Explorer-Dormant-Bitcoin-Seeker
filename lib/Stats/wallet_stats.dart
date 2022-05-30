@@ -22,9 +22,11 @@ class WalletStats {
 
   static void activateBoost(BoostType boostType) {
     DateTime endTime = DateTime.now();
-    endTime = endTime.add(Duration(seconds: WalletStatsUtils.getSeconds(boostType)));
+    endTime =
+        endTime.add(Duration(seconds: WalletStatsUtils.getSeconds(boostType)));
 
-    ActiveBoost activeBoost = ActiveBoost(endTime: endTime.toString(), boostType: boostType);
+    ActiveBoost activeBoost =
+        ActiveBoost(endTime: endTime.toString(), boostType: boostType);
     ActiveBoostCard activeBoostCard = ActiveBoostCard(boost: activeBoost);
 
     activeBoosts.add(activeBoost);
@@ -51,7 +53,8 @@ class WalletStats {
 
     dynamic _wps = sharedPreferences.getDouble("WPS");
     dynamic _bps = sharedPreferences.getDouble("BPS");
-    List<String> _activeBoosts = sharedPreferences.getStringList("active boosts") as List<String>;
+    List<String> _activeBoosts =
+        sharedPreferences.getStringList("active boosts") as List<String>;
 
     walletsPerSecond = _wps == null ? DEFAULT_WPS : _wps as double;
     brainwalletsPerSeconds = _bps == null ? DEFAULT_BPS : _bps as double;
@@ -59,9 +62,13 @@ class WalletStats {
     activeBoosts = [];
     activeBoostsCards = [];
 
-    for(int n=0;n<_activeBoosts.length;n++){
+    for (int n = 0; n < _activeBoosts.length; n++) {
       Map<String, String> temp = Map.from(json.decode(_activeBoosts[n]));
-      ActiveBoost _boost =ActiveBoost(endTime : temp["end time"]!, boostType: WalletStatsUtils.boostTypeConvert(null,temp["boost type"]!) as BoostType);
+      ActiveBoost _boost = ActiveBoost(
+          endTime: temp["end time"]!,
+          boostType:
+              WalletStatsUtils.boostTypeConvert(null, temp["boost type"]!)
+                  as BoostType);
       activeBoosts.add(_boost);
       activeBoostsCards.add(ActiveBoostCard(boost: _boost));
     }
@@ -75,31 +82,30 @@ class WalletStats {
     sharedPreferences.setStringList("active boosts", []);
   }
 
-  static void removeBoost(ActiveBoost boost){
+  static void removeBoost(ActiveBoost boost) {
     int index = activeBoosts.indexOf(boost);
     activeBoosts.removeAt(index);
     activeBoostsCards.removeAt(index);
 
-    if(boost.boostType == BoostType.WPS_ADS){
+    if (boost.boostType == BoostType.WPS_ADS) {
       walletsPerSecond -= WalletStatsUtils.getValue(boost.boostType);
-    }
-    else if(boost.boostType ==  BoostType.BPS_ADS){
+    } else if (boost.boostType == BoostType.BPS_ADS) {
       brainwalletsPerSeconds -= WalletStatsUtils.getValue(boost.boostType);
     }
   }
 
-  static bool boostsCheck(){
+  static bool boostsCheck() {
     bool result = false;
 
     DateTime currentTime = DateTime.now();
     DateTime endTime;
     int seconds = 0;
 
-    for(int n=0;n<activeBoosts.length;n++){
+    for (int n = 0; n < activeBoosts.length; n++) {
       endTime = DateTime.parse(activeBoosts[n].endTime);
       seconds = endTime.difference(currentTime).inSeconds;
 
-      if(seconds < 1){
+      if (seconds < 1) {
         removeBoost(activeBoosts[n]);
         result = true;
       }
@@ -110,13 +116,13 @@ class WalletStats {
     return result;
   }
 
-  static void checkMaxValues(){
-    if(walletsPerSecond > MAX_WPS){
+  static void checkMaxValues() {
+    if (walletsPerSecond > MAX_WPS) {
       walletsPerSecond = MAX_WPS;
     }
-                                        
-    if(brainwalletsPerSeconds > MAX_BPS){
-      brainwalletsPerSeconds = MAX_BPS;  
-    }  
+
+    if (brainwalletsPerSeconds > MAX_BPS) {
+      brainwalletsPerSeconds = MAX_BPS;
+    }
   }
 }

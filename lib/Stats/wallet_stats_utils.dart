@@ -22,10 +22,9 @@ const String BPS_PREMIUM_BUTTON_TITLE = "2.99\$";
 const String WPS_CHART_TITLE = "Wallets per second\n(WPS)";
 const String BPS_CHART_TITLE = "Wallets per second\n(WPS)";
 
-class WalletStatsUtils
-{
-  static String getButtonTitle(BoostType boostType){
-    switch(boostType){
+class WalletStatsUtils {
+  static String getButtonTitle(BoostType boostType) {
+    switch (boostType) {
       case BoostType.WPS_ADS:
         return WPS_ADS_BUTTON_TITLE;
       case BoostType.BPS_ADS:
@@ -37,8 +36,8 @@ class WalletStatsUtils
     }
   }
 
-  static String getButtonDescription(BoostType boostType){
-    switch(boostType){
+  static String getButtonDescription(BoostType boostType) {
+    switch (boostType) {
       case BoostType.WPS_ADS:
         return WPS_ADS_BUTTON_DESCRIPTION;
       case BoostType.BPS_ADS:
@@ -50,19 +49,19 @@ class WalletStatsUtils
     }
   }
 
-  static String getChartTitle(ChartType chartType){
-    switch(chartType){
-      case ChartType.WPS :
+  static String getChartTitle(ChartType chartType) {
+    switch (chartType) {
+      case ChartType.WPS:
         return "Wallets per second\n(WPS)";
-      case ChartType.BPS :
+      case ChartType.BPS:
         return "Brainwallet per second\n(BPS)";
-      default :
+      default:
         return "";
     }
   }
 
-  static double getValue(BoostType boostType){
-    switch(boostType){
+  static double getValue(BoostType boostType) {
+    switch (boostType) {
       case BoostType.WPS_ADS:
         return WPS_ADS;
       case BoostType.BPS_ADS:
@@ -74,8 +73,8 @@ class WalletStatsUtils
     }
   }
 
-  static int getSeconds(BoostType boostType){
-    switch(boostType){
+  static int getSeconds(BoostType boostType) {
+    switch (boostType) {
       case BoostType.WPS_ADS:
         return WPS_ADS_SECONDS;
       case BoostType.BPS_ADS:
@@ -87,9 +86,9 @@ class WalletStatsUtils
     }
   }
 
-  static dynamic boostTypeConvert(BoostType? boostType, String? _boostType){
-    if(boostType != null){
-      switch(boostType){
+  static dynamic boostTypeConvert(BoostType? boostType, String? _boostType) {
+    if (boostType != null) {
+      switch (boostType) {
         case BoostType.WPS_ADS:
           return "WPS_ADS";
         case BoostType.BPS_ADS:
@@ -99,9 +98,8 @@ class WalletStatsUtils
         case BoostType.BPS_PREMIUM:
           return "BPS_PREMIUM";
       }
-    }
-    else if(_boostType != null){
-      switch(_boostType){
+    } else if (_boostType != null) {
+      switch (_boostType) {
         case "WPS_ADS":
           return BoostType.WPS_ADS;
         case "BPS_ADS":
@@ -112,7 +110,7 @@ class WalletStatsUtils
           return BoostType.BPS_PREMIUM;
       }
     }
-    
+
     return null;
   }
 }

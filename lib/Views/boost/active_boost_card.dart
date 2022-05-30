@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 import '../../Models/active_boost.dart';
 
 class ActiveBoostCard extends StatefulWidget {
-  const ActiveBoostCard({ 
-    Key? key,
-    required this.boost
-  }) : super(key: key);
+  const ActiveBoostCard({Key? key, required this.boost}) : super(key: key);
 
   final ActiveBoost boost;
 
@@ -20,7 +17,6 @@ class ActiveBoostCard extends StatefulWidget {
 }
 
 class _ActiveBoostCardState extends State<ActiveBoostCard> {
-
   Timer? timer;
   int time = 300;
   bool hide = false;
@@ -49,18 +45,17 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
   @override
   void initState() {
     super.initState();
-    
+
     DateTime currentTime = DateTime.now();
     DateTime endTime = DateTime.parse(widget.boost.endTime);
 
     int seconds = endTime.difference(currentTime).inSeconds;
 
-    if(seconds < 1){
+    if (seconds < 1) {
       WalletStats.removeBoost(widget.boost);
       WalletStats.setData();
       hide = true;
-    }
-    else{
+    } else {
       time = seconds;
       startTimer();
     }
@@ -78,28 +73,38 @@ class _ActiveBoostCardState extends State<ActiveBoostCard> {
 
   @override
   Widget build(BuildContext context) {
-    return !hide ? Container(
-      height: 80,
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color.fromRGBO(255, 255, 255, 0.1),
-            width: 1
+    return !hide
+        ? Container(
+            height: 80,
+            decoration: const BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: Color.fromRGBO(255, 255, 255, 0.1), width: 1))),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.boost.boostType == BoostType.WPS_ADS ? "WPS" : "BPS",
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  Text(
+                    "+ " +
+                        WalletStatsUtils.getValue(widget.boost.boostType)
+                            .toString(),
+                    style: const TextStyle(color: Colors.white, fontSize: 17.5),
+                  ),
+                  Text(
+                    formatTime(time),
+                    style:
+                        const TextStyle(color: Colors.yellow, fontSize: 17.5),
+                  ),
+                ],
+              ),
+            ),
           )
-        )
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left : 30, right : 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(widget.boost.boostType == BoostType.WPS_ADS ? "WPS" : "BPS", style: const TextStyle(color: Colors.white, fontSize: 20),),
-            Text("+ " + WalletStatsUtils.getValue(widget.boost.boostType).toString(), style: const TextStyle(color: Colors.white, fontSize: 17.5),),
-            Text(formatTime(time), style: const TextStyle(color: Colors.yellow, fontSize: 17.5),),
-          ],
-        ),
-      ),
-    ) : const Center();
+        : const Center();
   }
 
   String formatTime(int seconds) {

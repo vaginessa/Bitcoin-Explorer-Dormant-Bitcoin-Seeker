@@ -6,11 +6,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../../Stats/wallet_stats_utils.dart';
 
 class StatsChart extends StatefulWidget {
-  const StatsChart({ 
-    Key? key,
-    required this.chartType,
-    required this.chartValue
-  }) : super(key: key);
+  const StatsChart(
+      {Key? key, required this.chartType, required this.chartValue})
+      : super(key: key);
 
   final double chartValue;
   final ChartType chartType;
@@ -20,7 +18,6 @@ class StatsChart extends StatefulWidget {
 }
 
 class _StatsChartState extends State<StatsChart> {
-
   double divider = 0;
 
   @override
@@ -32,24 +29,24 @@ class _StatsChartState extends State<StatsChart> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top:20),
+      margin: const EdgeInsets.only(top: 20),
       child: CircularPercentIndicator(
         header: Container(
-          width:200,
-          margin: const EdgeInsets.only(bottom:20),
-          child: Text(WalletStatsUtils.getChartTitle(widget.chartType), style: const TextStyle(color: Colors.white, fontSize: 18),textAlign: TextAlign.center,)
-        ),
+            width: 200,
+            margin: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              WalletStatsUtils.getChartTitle(widget.chartType),
+              style: const TextStyle(color: Colors.white, fontSize: 18),
+              textAlign: TextAlign.center,
+            )),
         radius: 70,
         lineWidth: 10.0,
         animation: true,
-        percent: widget.chartValue/divider,
+        percent: widget.chartValue / divider,
         center: Text(
           widget.chartValue.toString(),
           style: const TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.w400,
-            color: Colors.white
-          ),
+              fontSize: 25.0, fontWeight: FontWeight.w400, color: Colors.white),
         ),
         backgroundColor: Colors.grey,
         circularStrokeCap: CircularStrokeCap.round,
@@ -58,9 +55,7 @@ class _StatsChartState extends State<StatsChart> {
     );
   }
 
-  void refresh(){
-    setState(() {
-      
-    });
+  void refresh() {
+    setState(() {});
   }
 }
