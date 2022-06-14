@@ -36,14 +36,6 @@ class WalletStats {
     sharedPreferences.setDouble("BPS", DEFAULT_BPS);
   }
 
-  static bool boostsCheck() {
-    bool result = false;
-
-    setData();
-
-    return result;
-  }
-
   static void checkMaxValues() {
     if (walletsPerSecond > MAX_WPS) {
       walletsPerSecond = MAX_WPS;

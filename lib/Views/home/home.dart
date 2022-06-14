@@ -30,18 +30,6 @@ class _HomeState extends State<Home> {
   Timer? intervalCheck;
 
   @override
-  void initState() {
-    super.initState();
-
-    intervalCheck = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if (WalletStats.boostsCheck()) {
-        restartThreads();
-        setState(() {});
-      }
-    });
-  }
-
-  @override
   @mustCallSuper
   @protected
   void dispose() {
@@ -247,46 +235,6 @@ class _HomeState extends State<Home> {
 
         setState(() {});
       });
-    }
-  }
-
-  void restartThreads() async {
-    if (isPlaying) {
-      if (onRandomWalletsThread) {
-        randomWalletsThread?.kill();
-        BitcoinLib bitcoin = BitcoinLib();
-
-        final receivePort = ReceivePort();
-        Map<String, Object> params = {};
-        params["sendPort"] = receivePort.sendPort;
-        params["walletsPerSecond"] = WalletStats.walletsPerSecond;
-
-        onRandomWalletsThread = true;
-        randomWalletsThread =
-            await Isolate.spawn(bitcoin.generateWallet, params);
-        receivePort.listen((response) {
-          WalletGeneratorState.wallets.add(response);
-          setState(() {});
-        });
-      }
-
-      if (onRandomBrainWalletsThread) {
-        randomBrainWalletsThread?.kill();
-        BitcoinLib bitcoin = BitcoinLib();
-
-        final receivePort = ReceivePort();
-        Map<String, Object> params = {};
-        params["sendPort"] = receivePort.sendPort;
-        params["brainwalletsPerSecond"] = WalletStats.brainwalletsPerSeconds;
-
-        onRandomBrainWalletsThread = true;
-        randomBrainWalletsThread =
-            await Isolate.spawn(bitcoin.generateBrainWallet, params);
-        receivePort.listen((response) {
-          WalletGeneratorState.brainWallets.add(response);
-          setState(() {});
-        });
-      }
     }
   }
 

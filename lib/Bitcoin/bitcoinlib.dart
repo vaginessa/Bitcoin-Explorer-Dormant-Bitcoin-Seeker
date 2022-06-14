@@ -48,7 +48,9 @@ class BitcoinLib{
       // wallet.request();
       (params["sendPort"] as SendPort).send(card);
 
-      await Future.delayed(Duration(milliseconds: 1000.0 ~/ (params["walletsPerSecond"] as double)));
+      double temp = 1320 + ((100 * (params["walletsPerSecond"] as double) / 100) * 35);
+
+      await Future.delayed(Duration(milliseconds: temp ~/ (params["walletsPerSecond"] as double)));
     }
   }
 

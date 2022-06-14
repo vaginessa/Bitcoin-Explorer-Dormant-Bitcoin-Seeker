@@ -23,6 +23,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   /// IAP VARIABLES ///
   final String wpsID = "wps";
   final String bpsID = "bps";
+  final String wps2ID = "wps2";
+  final String wps3ID = "wps3";
   final InAppPurchase iapInstance = InAppPurchase.instance;
   bool avaiable = true;
   List<ProductDetails> _products = [];
@@ -36,14 +38,13 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
     if (avaiable) {
       // Get Google Play Products
-      ProductDetailsResponse response = await iapInstance.queryProductDetails({wpsID, bpsID});
+      ProductDetailsResponse response = await iapInstance.queryProductDetails({wpsID, bpsID, wps2ID, wps3ID});
       _products = response.productDetails;
     }
   }
 
   void verifyPurchase(String id) {
-    PurchaseDetails purchase =
-        _purchases.firstWhere((purchase) => purchase.productID == id);
+    PurchaseDetails purchase = _purchases.firstWhere((purchase) => purchase.productID == id);
 
     if (purchase.status == PurchaseStatus.purchased) {
       if (id == wpsID) {
@@ -55,8 +56,6 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
           {
             WalletStats.walletsPerSecond += WalletStatsUtils.getValue(BoostType.WPS_PREMIUM);
           }
-
-          WalletStats.setData();
         });
       } else if (id == bpsID) {
         setState(() {
@@ -67,10 +66,27 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
           {
             WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(BoostType.BPS_PREMIUM);
           }
-
-          WalletStats.setData();
         });
+      } else if(id == wps2ID){
+          if (WalletStats.walletsPerSecond + WalletStatsUtils.getValue(BoostType.WPS_PREMIUM_2) > MAX_BPS) 
+          {
+            WalletStats.walletsPerSecond = MAX_WPS;
+          } else 
+          {
+            WalletStats.walletsPerSecond += WalletStatsUtils.getValue(BoostType.WPS_PREMIUM_2);
+          }
+      } else if(id == wps3ID){
+          if (WalletStats.walletsPerSecond + WalletStatsUtils.getValue(BoostType.WPS_PREMIUM_3) > MAX_BPS) 
+          {
+            WalletStats.walletsPerSecond = MAX_WPS;
+          } 
+          else 
+          {
+            WalletStats.walletsPerSecond += WalletStatsUtils.getValue(BoostType.WPS_PREMIUM_3);
+          }
       }
+
+      WalletStats.setData();
     }
   }
 
@@ -93,17 +109,9 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   void initState() {
     initIAP();
     super.initState();
-    WalletStats.boostsCheck();
 
     // Get wps, bps, active boots
     WalletStats.getData().then((value) => {setState(() {})});
-
-    //Check if an active boost is finished
-    intervalCheck = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if (WalletStats.boostsCheck()) {
-        setState(() {});
-      }
-    });
   }
 
   @override
@@ -184,14 +192,32 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
                     onBoost: onBoost,
                     boostType: BoostType.WPS_PREMIUM,
                   ),
+                  // BoostCard(
+                  //   title: WalletStatsUtils.getButtonDescription(
+                  //       BoostType.BPS_PREMIUM),
+                  //   description: "",
+                  //   actionName:
+                  //       WalletStatsUtils.getButtonTitle(BoostType.BPS_PREMIUM),
+                  //   onBoost: onBoost,
+                  //   boostType: BoostType.BPS_PREMIUM,
+                  // ),
                   BoostCard(
                     title: WalletStatsUtils.getButtonDescription(
-                        BoostType.BPS_PREMIUM),
+                        BoostType.WPS_PREMIUM_2),
                     description: "",
                     actionName:
-                        WalletStatsUtils.getButtonTitle(BoostType.BPS_PREMIUM),
+                        WalletStatsUtils.getButtonTitle(BoostType.WPS_PREMIUM_2),
                     onBoost: onBoost,
-                    boostType: BoostType.BPS_PREMIUM,
+                    boostType: BoostType.WPS_PREMIUM_2,
+                  ),
+                  BoostCard(
+                    title: WalletStatsUtils.getButtonDescription(
+                        BoostType.WPS_PREMIUM_3),
+                    description: "",
+                    actionName:
+                        WalletStatsUtils.getButtonTitle(BoostType.WPS_PREMIUM_3),
+                    onBoost: onBoost,
+                    boostType: BoostType.WPS_PREMIUM_3,
                   ),
                 ],
               ),
@@ -224,6 +250,12 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
       case BoostType.BPS_PREMIUM:
         _buyProduct(_products.firstWhere((element) => element.id == bpsID));
         return;
+      case BoostType.WPS_PREMIUM_2:
+        _buyProduct(_products.firstWhere((element) => element.id == wps2ID));
+        return;
+      case BoostType.WPS_PREMIUM_3:
+        _buyProduct(_products.firstWhere((element) => element.id == wps3ID));
+        return;  
     }
   }
 }
