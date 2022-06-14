@@ -3,7 +3,7 @@ import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 
 const double WPS_ADS = 1;
 const double BPS_ADS = 0.5;
-const double WPS_PREMIUM = 5;
+const double WPS_PREMIUM = 3;
 const double BPS_PREMIUM = 2.5;
 
 const int WPS_ADS_SECONDS = 300;

@@ -34,6 +34,7 @@ class WalletStats {
   }
 
   static Future<void> setData() async {
+    WalletStats.checkMaxValues();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     sharedPreferences.setDouble("WPS", walletsPerSecond);

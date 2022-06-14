@@ -38,8 +38,7 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
 
     if (avaiable) {
       // Get Google Play Products
-      ProductDetailsResponse response =
-          await iapInstance.queryProductDetails({wpsID, bpsID});
+      ProductDetailsResponse response = await iapInstance.queryProductDetails({wpsID, bpsID});
       _products = response.productDetails;
     }
   }
@@ -51,28 +50,26 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
     if (purchase.status == PurchaseStatus.purchased) {
       if (id == wpsID) {
         setState(() {
-          if (WalletStats.walletsPerSecond +
-                  WalletStatsUtils.getValue(BoostType.WPS_PREMIUM) >
-              MAX_WPS) {
+          if (WalletStats.walletsPerSecond + WalletStatsUtils.getValue(BoostType.WPS_PREMIUM) > MAX_WPS) 
+          {
             WalletStats.walletsPerSecond = MAX_WPS;
-          } else {
-            WalletStats.walletsPerSecond +=
-                WalletStatsUtils.getValue(BoostType.WPS_PREMIUM);
+          } else 
+          {
+            WalletStats.walletsPerSecond += WalletStatsUtils.getValue(BoostType.WPS_PREMIUM);
           }
-          WalletStats.checkMaxValues();
+
           WalletStats.setData();
         });
       } else if (id == bpsID) {
         setState(() {
-          if (WalletStats.brainwalletsPerSeconds +
-                  WalletStatsUtils.getValue(BoostType.BPS_PREMIUM) >
-              MAX_BPS) {
+          if (WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(BoostType.BPS_PREMIUM) > MAX_BPS) 
+          {
             WalletStats.brainwalletsPerSeconds = MAX_BPS;
-          } else {
-            WalletStats.brainwalletsPerSeconds +=
-                WalletStatsUtils.getValue(BoostType.BPS_PREMIUM);
+          } else 
+          {
+            WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(BoostType.BPS_PREMIUM);
           }
-          WalletStats.checkMaxValues();
+
           WalletStats.setData();
         });
       }
@@ -89,7 +86,9 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
           print("NEW PURCHASE");
           _purchases = data;
           verifyPurchase(prod.id);
-        }));
+        }
+      )
+    );
   }
 
   @override
@@ -139,15 +138,13 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
           Expanded(
             child: Container(
                 width: double.infinity,
-                decoration:
-                    const BoxDecoration(color: Color.fromRGBO(18, 18, 18, 1)),
+                decoration: const BoxDecoration(color: Color.fromRGBO(18, 18, 18, 1)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                        padding:
-                            const EdgeInsets.only(left: 24, top: 44, right: 24),
+                        padding: const EdgeInsets.only(left: 24, top: 44, right: 24),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -280,16 +277,14 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
             } else if (GoogleAdMob.adResponse == true) {
               setState(() {
                 WalletStats.activateBoost(boostType);
-                if (WalletStats.walletsPerSecond +
-                        WalletStatsUtils.getValue(boostType) >
-                    MAX_WPS) {
+                if (WalletStats.walletsPerSecond + WalletStatsUtils.getValue(boostType) > MAX_WPS) 
+                {
                   WalletStats.walletsPerSecond = MAX_WPS;
-                } else {
-                  WalletStats.walletsPerSecond +=
-                      WalletStatsUtils.getValue(boostType);
+                } else 
+                {
+                  WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
                 }
 
-                WalletStats.checkMaxValues();
                 WalletStats.setData();
               });
 
@@ -315,13 +310,10 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
             } else if (GoogleAdMob.adResponse == true) {
               setState(() {
                 WalletStats.activateBoost(boostType);
-                if (WalletStats.brainwalletsPerSeconds +
-                        WalletStatsUtils.getValue(boostType) >
-                    MAX_BPS) {
+                if (WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS) {
                   WalletStats.brainwalletsPerSeconds = MAX_BPS;
                 } else {
-                  WalletStats.brainwalletsPerSeconds +=
-                      WalletStatsUtils.getValue(boostType);
+                  WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
                 }
 
                 WalletStats.checkMaxValues();

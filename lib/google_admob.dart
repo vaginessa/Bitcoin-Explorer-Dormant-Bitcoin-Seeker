@@ -8,7 +8,7 @@ class GoogleAdMob{
 
   static void interstialLoad(bool show) async{
     await RewardedAd.load(
-      adUnitId: "ca-app-pub-3940256099942544/5224354917", 
+      adUnitId: "ca-app-pub-3940256099942544/3419835294", 
       request: const AdRequest(), 
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
