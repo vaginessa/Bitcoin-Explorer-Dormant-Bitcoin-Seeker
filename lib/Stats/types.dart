@@ -6,8 +6,6 @@ enum ChartType{
 }
 
 enum BoostType{
-  WPS_ADS,
-  BPS_ADS, 
   WPS_PREMIUM,
   BPS_PREMIUM
 }

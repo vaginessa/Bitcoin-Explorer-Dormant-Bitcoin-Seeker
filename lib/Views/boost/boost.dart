@@ -3,11 +3,9 @@ import 'dart:developer';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/types.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Stats/wallet_stats_utils.dart';
-import 'package:dormant_bitcoin_seeker_flutter/Views/boost/active_boosts.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/boost_card.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/boost/stats_chart.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
-import 'package:dormant_bitcoin_seeker_flutter/google_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
@@ -147,32 +145,8 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 24, top: 44, right: 24),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Current stats",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 27.5),
-                              ),
-                              GestureDetector(
-                                child: Container(
-                                    decoration: const BoxDecoration(
-                                        color: Color.fromARGB(255, 68, 39, 2),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(6.0),
-                                      child: Icon(Icons.show_chart_sharp,
-                                          color: Colors.orange, size: 30),
-                                    )),
-                                onTap: () {
-                                  Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ActiveBoosts()))
-                                      .whenComplete(() => {setState(() {})});
-                                },
-                              )
+                            children: const [
+                              Text("Current stats", style: TextStyle(color: Colors.white, fontSize: 27.5),),
                             ])),
                     NotificationListener<OverscrollIndicatorNotification>(
                       onNotification:
@@ -201,24 +175,6 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  BoostCard(
-                    title: WalletStatsUtils.getButtonDescription(
-                        BoostType.WPS_ADS),
-                    description: "",
-                    actionName:
-                        WalletStatsUtils.getButtonTitle(BoostType.WPS_ADS),
-                    onBoost: onBoost,
-                    boostType: BoostType.WPS_ADS,
-                  ),
-                  BoostCard(
-                    title: WalletStatsUtils.getButtonDescription(
-                        BoostType.BPS_ADS),
-                    description: "",
-                    actionName:
-                        WalletStatsUtils.getButtonTitle(BoostType.BPS_ADS),
-                    onBoost: onBoost,
-                    boostType: BoostType.BPS_ADS,
-                  ),
                   BoostCard(
                     title: WalletStatsUtils.getButtonDescription(
                         BoostType.WPS_PREMIUM),
@@ -262,71 +218,6 @@ class _BoostState extends State<Boost> with SingleTickerProviderStateMixin {
   bool busy = false;
   void onBoost(BoostType boostType) {
     switch (boostType) {
-      case BoostType.WPS_ADS:
-        if (busy) return;
-        busy = true;
-        GoogleAdMob.showInterstitial();
-
-        timer = Timer.periodic(
-          const Duration(seconds: 1),
-          (Timer timer) {
-            if (GoogleAdMob.adResponse == false) {
-              GoogleAdMob.adResponse = null;
-              timer.cancel();
-              busy = false;
-            } else if (GoogleAdMob.adResponse == true) {
-              setState(() {
-                WalletStats.activateBoost(boostType);
-                if (WalletStats.walletsPerSecond + WalletStatsUtils.getValue(boostType) > MAX_WPS) 
-                {
-                  WalletStats.walletsPerSecond = MAX_WPS;
-                } else 
-                {
-                  WalletStats.walletsPerSecond += WalletStatsUtils.getValue(boostType);
-                }
-
-                WalletStats.setData();
-              });
-
-              GoogleAdMob.adResponse = null;
-              timer.cancel();
-              busy = false;
-            }
-          },
-        );
-        return;
-      case BoostType.BPS_ADS:
-        if (busy) return;
-        busy = true;
-        GoogleAdMob.showInterstitial();
-
-        timer2 = Timer.periodic(
-          const Duration(seconds: 1),
-          (Timer timer) {
-            if (GoogleAdMob.adResponse == false) {
-              GoogleAdMob.adResponse = null;
-              timer.cancel();
-              busy = false;
-            } else if (GoogleAdMob.adResponse == true) {
-              setState(() {
-                WalletStats.activateBoost(boostType);
-                if (WalletStats.brainwalletsPerSeconds + WalletStatsUtils.getValue(boostType) > MAX_BPS) {
-                  WalletStats.brainwalletsPerSeconds = MAX_BPS;
-                } else {
-                  WalletStats.brainwalletsPerSeconds += WalletStatsUtils.getValue(boostType);
-                }
-
-                WalletStats.checkMaxValues();
-                WalletStats.setData();
-              });
-
-              GoogleAdMob.adResponse = null;
-              timer.cancel();
-              busy = false;
-            }
-          },
-        );
-        return;
       case BoostType.WPS_PREMIUM:
         _buyProduct(_products.firstWhere((element) => element.id == wpsID));
         return;
