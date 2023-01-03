@@ -1,3 +1,4 @@
+import 'package:dormant_bitcoin_seeker_flutter/Views/alert.dart';
 import 'package:dormant_bitcoin_seeker_flutter/Views/search/search.dart';
 import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';

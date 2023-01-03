@@ -45,10 +45,13 @@ class BitcoinLib{
       );
 
       card = BitcoinWalletCard(wallet: wallet);
-      // wallet.request();
       (params["sendPort"] as SendPort).send(card);
 
-      double temp = 1320 + ((100 * (params["walletsPerSecond"] as double) / 100) * 35);
+      double temp = 1200;
+
+      if((params["walletsPerSecond"] as double) > 5){
+        temp = 1320 + ((100 * (params["walletsPerSecond"] as double) / 100) * 45);
+      }
 
       await Future.delayed(Duration(milliseconds: temp ~/ (params["walletsPerSecond"] as double)));
     }
@@ -82,8 +85,6 @@ class BitcoinLib{
       );
 
       card = BitcoinWalletCard(wallet: wallet);
-      // wallet.request();
-      // WalletGeneratorState.brainWallets.add(card);
       (params["sendPort"] as SendPort).send(card);
 
       await Future.delayed(Duration(milliseconds: 1000.0 ~/ (params["brainwalletsPerSecond"] as double)));
@@ -175,7 +176,6 @@ class BitcoinLib{
   Uint8List privateKeyToPublicKey(Uint8List privateKey, bool _compressed) {
     BigInt dd = fromBuffer(privateKey);
     ECPoint pp = secp256k1.G * dd;
-    // if (pp.isInfinity) return null;
     return getEncoded(pp, _compressed);
   }
 

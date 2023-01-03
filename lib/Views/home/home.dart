@@ -10,6 +10,8 @@ import 'package:dormant_bitcoin_seeker_flutter/global.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../alert.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -56,6 +58,8 @@ class _HomeState extends State<Home> {
     ];
 
     WalletStats.getData();
+
+    Future.delayed(Duration.zero, () => _showAlert(context));
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -278,5 +282,11 @@ class _HomeState extends State<Home> {
         );
       },
     );
+  }
+
+  void _showAlert(BuildContext context){
+    showGeneralDialog(context: context, pageBuilder: (_, __, ___){
+      return const Alert();
+    });
   }
 }

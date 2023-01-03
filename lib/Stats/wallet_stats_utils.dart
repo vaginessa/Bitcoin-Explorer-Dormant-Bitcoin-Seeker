@@ -11,10 +11,10 @@ const String BPS_PREMIUM_BUTTON_DESCRIPTION = "Increase BPS by 2.5 for ever";
 const String WPS_PREMIUM_2_BUTTON_DESCRIPTION = "Increase WPS by 10 for ever";
 const String WPS_PREMIUM_3_BUTTON_DESCRIPTION = "Increase WPS by 17 for ever";
 
-const String WPS_PREMIUM_BUTTON_TITLE = "2.99\$";
-const String BPS_PREMIUM_BUTTON_TITLE = "2.99\$";
-const String WPS_2_PREMIUM_BUTTON_TITLE = "5.99\$";
-const String WPS_3_PREMIUM_BUTTON_TITLE = "9.99\$";
+const String WPS_PREMIUM_BUTTON_TITLE = "5.99\$";
+const String BPS_PREMIUM_BUTTON_TITLE = "5.99\$";
+const String WPS_2_PREMIUM_BUTTON_TITLE = "10.99\$";
+const String WPS_3_PREMIUM_BUTTON_TITLE = "15.99\$";
 
 const String WPS_CHART_TITLE = "Wallets per second\n(WPS)";
 const String BPS_CHART_TITLE = "Wallets per second\n(WPS)";
